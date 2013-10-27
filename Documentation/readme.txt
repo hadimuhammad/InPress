@@ -1,1 +1,1 @@
-All Documentation will be available at inpress.mcmaster.ca.
+All Documentation will be available at http://inpress.mcmaster.ca/mediawiki
