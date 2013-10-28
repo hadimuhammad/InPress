@@ -1,0 +1,34 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>{% block pagetitle %}Page Title{%endblock%}</title> 
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/jqm-django.css" />
+{% block sitestyle %}
+{% endblock %}
+{# whole-page scripts could be at the bottom for speedier loading, but that causes a flash-of-unstyled content #}
+    {% if DEBUG %}
+    <script src="http://code.jquery.com/jquery-1.6.1.js"></script>
+    <script src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.js"></script>
+    {% else %}
+    <script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js"></script>
+    {% endif %}
+    <script src="{{ STATIC_URL }}js/jqm-django.js"></script>
+</head> 
+<body> 
+
+<div data-role="page" class="django-jqm-page" {% if request %} data-url="{{request.path}}" {% endif %}>
+    {% block jqmheader %}{% endblock %}
+    {% block jqmcontent %}{% endblock %}
+    {% block jqmfooter %}{% endblock %}
+    
+    {% block jqmscripts %}
+        {# block for scripts which are specific to a given "page", note: they will still be loaded in the same page as everything else, they'll just get loaded later #}
+    {% endblock %}
+</div><!-- /page -->
+{% block sitescripts %}
+{# block for scripts to be used for all pages on the site #}
+{% endblock %}
+</body>
+</html>

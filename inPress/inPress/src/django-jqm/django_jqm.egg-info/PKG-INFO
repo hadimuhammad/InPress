@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: django-jqm
+Version: 1.0.0a1
+Summary: Pluggable JQuery Mobile templates for Django
+Home-page: https://launchpad.net/django-jqm
+Author: Mike C. Fletcher
+Author-email: mcfletch@vrplumber.com
+License: MIT
+Description: UNKNOWN
+Platform: UNKNOWN

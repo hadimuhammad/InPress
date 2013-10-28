@@ -1,0 +1,10 @@
+django_jqm.egg-info/PKG-INFO
+django_jqm.egg-info/SOURCES.txt
+django_jqm.egg-info/dependency_links.txt
+django_jqm.egg-info/not-zip-safe
+django_jqm.egg-info/requires.txt
+django_jqm.egg-info/top_level.txt
+jqm/__init__.py
+jqm/models.py
+jqm/tests.py
+jqm/views.py
