@@ -1,21 +1,18 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import * 
+
+# Uncomment the next two lines to enable the admin:
+from django.contrib import admin
+admin.autodiscover()
+
 urlpatterns = patterns('',
     # Examples:
-    url(r'^/?$', 'accounts.views.home', name='home'),
+    # url(r'^$', 'inPress.views.home', name='home'),
+    # url(r'^inPress/', include('inPress.foo.urls')),
 
-    url(
-        r'^accounts/login/$','django.contrib.auth.views.login',
-        dict(
-            template_name = 'jqm/login.html',
-        ),
-        name='login',
-    ),
-    url(
-        r'^accounts/logout/$','django.contrib.auth.views.logout',
-        dict(
-            template_name = 'jqm/logout.html',
-        ),
-        name='logout',
-    ),
-
+    # Uncomment the admin/doc line below to enable admin documentation:
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^$', 'module.views.index'),
+    url(r'addassessment', 'module.views.addassessment'),
+    # Uncomment the next line to enable the admin:
+    url(r'^admin/', include(admin.site.urls)),
 )

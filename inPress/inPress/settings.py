@@ -2,13 +2,6 @@
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-LOGIN_REDIRECT_URL = '/'
-TEMPLATE_CONTEXT_PROCESSORS = [
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.static",
-    "django.core.context_processors.request",
-]
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -90,7 +83,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '+e03z9sx)r+l75qxz^-%%qug83h0@(h5gfjr*q%twr5%o-6v_*'
+SECRET_KEY = 'q^2pmpej_$d_5*qo$alt0j_f!$o+1u$h-izgp_54t(6c8g_krm'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -115,7 +108,10 @@ ROOT_URLCONF = 'inPress.urls'
 WSGI_APPLICATION = 'inPress.wsgi.application'
 
 TEMPLATE_DIRS = (
-	'/home/inPress/accounts/templates'	
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    '/home/muhammah/inPress/module/templates'	
 )
 
 INSTALLED_APPS = (
@@ -125,13 +121,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
-    'django.contrib.admin',
-    'jqm',
+    'module', 
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
