@@ -3,16 +3,15 @@
     <head>
         <title>InPress - Adding Assessment</title>
     </head>
+    
     <body>
         <h1> Instructor's Module</h1>
-    </head>
-    <body>
-<form> 
-Name of Assessment: <input type="text" name="assessmentname"><br><br>
-</form>
-<input type="submit"" value="Submit" /><br><br>
-
-
+        <div id="content">
+    	{% block content %}
+		<form action="/addassessment" method="post">{% csrf_token %} Name of Assessment: <input type="text" name="assessmentname"><br><br>
+		<input type="submit" name="submitbutton" value="Submit" /><br><br>
+		</form>
+    	{% endblock %}
+	</div>
+    </body>
 </html>
-
-

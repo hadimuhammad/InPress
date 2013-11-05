@@ -48,20 +48,17 @@ def index(request):
     return HttpResponse(t.render(c))
 
 def addassessment (request):
-	isMobile = False
-        if (mobileBrowser (request)):
-                isMobile = True
-        else:
-                isMobile = False
+    if mobileBrowser(request):
+        t = loader.get_template('m_addassessment.html')
+    else:
+        t = loader.get_template('addassessment.html')
 
-	if (request.method == 'POST'):
-		b = Assessment(name=request.POST['assessmentname'])
-		b.save()
-	
-	if (isMobile):
-		return render_to_response('m_addassessment.html', RequestContext(request, {}))
-	else:
-		return render_to_response('addassessment.html', RequestContext(request, {}))
+    c = Context( { }) # normally your page data would go here
+    if (request.method == 'POST'):
+        b = Assessment(name=request.POST['assessmentname'])
+	b.save()
+    return render_to_response('addassessment.html', RequestContext(request, {}))
+
 def addquestion (request):
 	
     if mobileBrowser(request):
@@ -74,15 +71,5 @@ def addquestion (request):
     return HttpResponse(t.render(c))
 
 def viewassessments (request):
-	isMobile = False
-	if (mobileBrowser (request)):
-		isMobile = True
-	else:
-		isMobile = False
-	
-	assessments = Assessment.objects.all()
-	
-	if (isMobile):
-		return render_to_response('m_viewassessments.html', locals())
-	else:
-		return render_to_response('viewassessments.html', locals()) 
+   assessments = Assessment.objects.all()
+   return render_to_response('viewassessments.html', locals()) 

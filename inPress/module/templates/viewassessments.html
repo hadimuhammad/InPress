@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <title>InPress - Desktop Version</title>
+    </head>
+
+<body>
+<h1>
+	Course Lists: &nbsp; &nbsp;</h1>
+<p>
+	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<input name="Logout" type="button" value="Logout" /></p>
+<hr />
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+
+    <div id="content">
+    {% block content %}
+                {% for i in assessments %}
+                        <h1> {{i.name}} </h1> <br/>
+                {% endfor %}
+    {% endblock %}
+    </div>
+<p>
+<a href="/">
+<button type="button">Back</button>
+</a>
+</p>
+	
+</body>
+
+</html>
