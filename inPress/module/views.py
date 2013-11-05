@@ -47,6 +47,11 @@ def index(request):
     return HttpResponse(t.render(c))
 
 def addassessment (request):
-    t = loader.get_template('addassessment.html')
+    if mobileBrowser(request):
+        t = loader.get_template('m_addassessment.html')
+    else:
+        t = loader.get_template('addassessment.html')
+
     c = Context( { }) # normally your page data would go here
+
     return HttpResponse(t.render(c))
