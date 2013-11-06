@@ -47,6 +47,19 @@ def index(request):
  
     return HttpResponse(t.render(c))
 
+def questions(request):
+       	print request
+	if (request.method == 'POST'):
+                assessment= Assessment.objects.get(name = request.POST['assessment'])
+		if (mobileBrowser (request)):
+			return render_to_response('m_questions.html',locals())
+		else:
+			return render_to_response('questions.html',locals())
+	if (mobileBrowser (request)):
+                return render_to_response('m_questions.html', RequestContext(request, {}))
+        else:
+                return render_to_response('questions.html', RequestContext(request, {}))
+
 # Student Index page
 # stuIndex.html // m_stuIndex.html
 def stuIndex(request):
@@ -99,6 +112,7 @@ def removeassessment (request):
                 return render_to_response('removeassessment.html',locals())
 
 def addquestion (request):
+	assessment = Assessment.objects.all()
 	isMobile = False
 	if (mobileBrowser (request)):
 		isMobile = True
@@ -106,13 +120,16 @@ def addquestion (request):
 		isMobile = False
 
 	if (request.method == 'POST'):
-  		b = AssessmentData(Question_Number=request.POST['Question_Number'], Question_Type=request.POST['Question_Type'], Question_Data=request.POST['Question_Data'], Question_Answer=request.POST['Question_Answer'])
+		a = Assessment.objects.get(name = request.POST['assessment'])
+  		numQuestions = AssessmentData.objects.filter(Assessment =a).count()+1
+		b = AssessmentData(Assessment = a,  Question_Number=numQuestions, Question_Type=request.POST['Question_Type'], Question_Data=request.POST['Question_Data'], Question_Answer=request.POST['Question_Answer'])
                 b.save()
+		return HttpResponseRedirect('/')
 
  	if (isMobile):
-		return render_to_response('m_addquestion.html', RequestContext(request, {}))
+		return render_to_response('m_addquestion.html', locals())
 	else:
-		return render_to_response('addquestion.html', RequestContext(request, {}))
+		return render_to_response('addquestion.html', locals())
 
 def viewassessments (request):
 	isMobile = False

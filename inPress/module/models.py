@@ -6,13 +6,13 @@ class Assessment (models.Model):
 		return self.name
 
 class AssessmentData (models.Model):
-	#Assessment = models.ForeignKey (Assessment)
+	Assessment = models.ForeignKey (Assessment)
 	Question_Number = models.CharField(max_length = 10)
 	Question_Type = models.CharField(max_length=10)
 	Question_Data = models.CharField(max_length=200)
 	Question_Answer = models.CharField(max_length=200)
 	def __unicode__(self):
-		return self.Question_Number
+		return self.Question_Data
 
 class MCQuestionData (models.Model):
 	#Assessment = models.ForeignKey (Assessment)

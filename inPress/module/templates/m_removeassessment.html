@@ -1,6 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <style type="text/css">
+.selectClass {
+   font-size: 75px;
+   font-family: 'Impact', cursive;
+}
 .styled-button-3 {
     text-align: right;
     font-family:'sans-serif';
@@ -19,6 +23,10 @@ h1 {
     font-family:'sans-serif';
     font-size:90px;
 }
+h2 {
+    font-family:'sans-serif';
+    font-size:60px;
+}
 form {
     font-family:'sans-serif';
     font-size:75px;
@@ -28,13 +36,12 @@ input {
          font-size: 70px;
 }
 </style>
-
-    <head>
-        <title>InPress - Removing Assessment</title>
-    </head>
-
-    <body>
+<body>
+        <hr>
         <h1> Instructor's Module</h1>
+        <h2> Remove Assessment </h2>
+        <hr>
+        <div id="content"> <br/><br/>
         <div id="content">
         {% block content %}
                 <form action="/removeassessment" method="post">{% csrf_token %} Name of Assessment: <br/>

@@ -1,26 +1,17 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
     <head>
-        <title>InPress - Desktop Version</title>
+        <title>InPress - View Assessments</title>
     </head>
 
-<body>
-<h1>
-	Course Lists: &nbsp; &nbsp;</h1>
-<p>
-	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<input name="Logout" type="button" value="Logout" /></p>
-<hr />
-<p>
-	&nbsp;</p>
-<p>
-	&nbsp;</p>
-
-    <div id="content">
-    {% block content %}
+    <body>
+        <h1> Instructor's Module</h1>
+        <div id="content">
+        {% block content %}
                 {% for i in assessments %}
-                        <h1> {{i.name}} </h1> <br/>
+                         {{i.name}}  <br/>
                 {% endfor %}
-    {% endblock %}
+    	{% endblock %}
     </div>
 <p>
 <a href="/">

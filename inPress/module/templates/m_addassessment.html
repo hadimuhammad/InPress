@@ -22,6 +22,10 @@ h1 {
     font-family:'sans-serif';
     font-size:90px;
 }
+h2 {
+    font-family:'sans-serif';
+    font-size:60px;
+}
 form {
     font-family:'sans-serif';
     font-size:75px;
@@ -32,10 +36,13 @@ input {
 }
 </style>
     <body>
-        <h1> Instructor's Module</h1>
-        <div id="content">
+	<hr>
+	<h1> Instructor's Module</h1>
+        <h2> Add Assessment </h2>
+	<hr>
+	<div id="content"> <br/><br/>
         {% block content %}
-                <form action="/addassessment" method="post">{% csrf_token %} Name of Assessment: </br>
+	        <form action="/addassessment" method="post">{% csrf_token %} Name of Assessment: </br>
                 <input type="text" name="assessmentname"><br><br>
                 <input type="submit" class="styled-button-3" name="submitbutton" value="Submit" /><br><br>
                 </form>
