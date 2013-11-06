@@ -6,19 +6,25 @@ class Assessment (models.Model):
 		return self.name
 
 class AssessmentData (models.Model):
-	Assessment = models.ForeignKey (Assessment)
+	#Assessment = models.ForeignKey (Assessment)
+	Question_Number = models.CharField(max_length = 10)
 	Question_Type = models.CharField(max_length=10)
-	Question_Number = models.IntegerField(max_length = 10)
 	Question_Data = models.CharField(max_length=200)
 	Question_Answer = models.CharField(max_length=200)
 	def __unicode__(self):
-		return self.Question_Data
+		return self.Question_Number
 
 class MCQuestionData (models.Model):
-	Assessment = models.ForeignKey (Assessment)
-	AssessmentData = models.ForeignKey (AssessmentData)
+	#Assessment = models.ForeignKey (Assessment)
+	#AssessmentData = models.ForeignKey (AssessmentData)
 	Question_Number = models.IntegerField(max_length = 10)
 	Choice_Type = models.CharField(max_length=10)
 	Choice_Content = models.CharField(max_length=200)
 	def __unicode__(self):	
 		return self.Question_Number
+
+class Courses (models.Model):
+        CourseName = models.CharField(max_length=200)
+        CourseCode = models.CharField(max_length=200)
+        def __unicode__(self):
+                return self.CourseName

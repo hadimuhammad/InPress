@@ -1,36 +1,32 @@
-d>
-		<title>Assessment-add question</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+		<title>Add Questions - Desktop</title>
 	</head>
 	<body>
 		<p>
 			&nbsp;</p>
 		<h1>
-			Assessment 1 -&nbsp;<strong>Add Questions</strong></h1>
+			Assessment 1 -&nbsp;<strong>AddQuestion</strong></h1>
 		<hr />
+
 		<p>
-			<span style="font-size: 16px;">Question number:</span></p>
-		<p>
-			<input maxlength="100" name="QuestionNumber" type="text" /></p>
-		<p>
-			&nbsp;</p>
-		<p>
-			Question type:</p>
-		<p>
-			<select name="QuestionType" size="4"><option value="MC">Multiple Choice</option><option value="SA">Short Answer</option><option value="Num">Number</option></select></p>
-		<p>
-			&nbsp;</p>
-		<p>
-			Question content:</p>
-		<p>
-			<textarea cols="40" name="QuestionContent" rows="5" style="margin: 2px; width: 296px; height: 97px;"></textarea></p>
-		<p>
-			&nbsp;</p>
-		<p>
-			Question answer:</p>
-		<p>
-			<textarea cols="40" name="QuestionAnswer" rows="5" style="margin-left: 2px; margin-right: 2px; width: 298px;"></textarea></p>
-		<p>
-			<input name="Submit" type="button" value="Submit" /></p>
+		<div id="content">
+    	{% block content %}
+		<form action="/addquestion" method="post">{% csrf_token %} 
+
+		Question number: <p><input type="text" name="Question_Number"></p><br><br>
+		Question type: <p><input type="text" name="Question_Type"></p><br><br>
+		Question Content: <p><textarea cols="40" name="Question_Data"></textarea></p><br><br>
+		Question Answer: <p><textarea cols="40" name="Question_Answer"></textarea></p><br><br>
+		<input type="submit" name="submitbutton" value="Submit" /><br><br>
+
+
+		</form>
+    	{% endblock %}
+		</div></p>
+		
 	</body>
 </html>
+
 

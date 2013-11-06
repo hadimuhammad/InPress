@@ -1,4 +1,0 @@
-
-
-<p>
-<select name="QuestionType" size="4"><option value="MC">Multiple Choice</option><option value="SA">Short Answer</option><option value="Num">Number</option></select></p>
