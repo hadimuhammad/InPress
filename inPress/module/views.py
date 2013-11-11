@@ -94,7 +94,7 @@ def addassessment (request):
                 except Assessment.DoesNotExist:
                         b = Assessment(name=request.POST['assessmentname'])
                         b.save()
-                        return HttpResponseRedirect('/')
+                        return HttpResponseRedirect('/instructor')
                 
         if (isMobile):
                 return render_to_response('mobile/m_addassessment.html', RequestContext(request, {}))
@@ -115,6 +115,11 @@ def addnaquestion (request):
         else:
                 return render_to_response('addnaquestion.html',locals())
 
+def instructor (request):
+	if (mobileBrowser (request)):
+                return render_to_response('mobile/m_instructor.html', locals())
+        else:
+                return render_to_response('instructor.html',locals())
 
 def addsaquestion (request): 
 	assessment = Assessment.objects.get(name = request.GET['assessment'])
@@ -181,11 +186,11 @@ def addquestion (request):
                         f.save()
 			g = MCQuestionData(Assessment = a, AssessmentData = b, Choice_Type='e', Choice_Content=request.POST['QuestionAnswer5'])
                         g.save()
-			return HttpResponseRedirect('/')
+			return HttpResponseRedirect('/instructor')
 		else:
 			b = AssessmentData(Assessment = a,  Question_Number=numQuestions, Question_Type=request.POST['Question_Type'], Question_Data=request.POST['QuestionContent'], Question_Answer=request.POST['QuestionAnswer'])
                 	b.save()
-                	return HttpResponseRedirect('/')
+                	return HttpResponseRedirect('/instructor')
 
         if (mobileBrowser (request)):
                 return render_to_response('mobile/m_addquestion.html', locals())

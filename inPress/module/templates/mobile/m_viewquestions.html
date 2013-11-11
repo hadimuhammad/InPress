@@ -13,15 +13,12 @@
  <br><br><br><br><br>
         <div id="content">
         {% block content %}
-			<form action="/viewquestions" method="post"> 
                 	{% for i in assessmentData %}
                 	<label for="Question">{{i.Question_Number}}) {{i.Question_Data}}</label>
 			<br>
 			<input type="radio" class="big" name="assessment" value="{{i.name}}"> 
 			<br><br>
 			{% endfor %}
-                	<input type="submit"  class="styled-button-3" name="submit" value="View" /><br><br>
-                	</form>
         {% endblock %}
     </div>
 </body>
