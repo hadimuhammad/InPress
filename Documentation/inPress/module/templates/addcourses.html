@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <title>InPress - Adding Questions</title>
+    </head>
+
+    <body>
+        <h1> Instructor's Module</h1>
+        <div id="content">
+        {% block content %}
+                <form action="/addcourses" method="POST">{% csrf_token %} Course Name: <input type="text" name="coursename"><br><br>
+<!--                <form action="/addcourses" method="post">{% csrf_token %} Course Code: <input type="text" name="CourseCode"><br><br> -->
+                <input type="submit" name="submitbutton" value="Submit" /><br><br>
+                </form>
+        {% endblock %}
+        </div>
+    </body>
+</html>

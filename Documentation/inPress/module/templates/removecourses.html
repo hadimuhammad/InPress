@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <title>InPress - Removing Coursest</title>
+    </head>
+
+    <body>
+        <h1> Instructor's Module</h1>
+        <div id="content">
+        {% block content %}
+                <form action="/removecourses" method="post">{% csrf_token %} Name of Course <br/>
+                <select name="courses" size="4">
+                {% for i in courses %}
+                <option value={{i.CourseName}}>{{i.CourseName}}</option>
+		 {% endfor %}
+                </select></p><br><br>
+                <input type="submit" name="removebutton" value="Remove" /><br><br>
+                </form>
+        {% endblock %}
+        </div>
+    </body>
+</html>
+

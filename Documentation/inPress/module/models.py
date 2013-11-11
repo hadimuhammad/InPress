@@ -20,7 +20,7 @@ class MCQuestionData (models.Model):
 	Choice_Type = models.CharField(max_length=10)
 	Choice_Content = models.CharField(max_length=200)
 	def __unicode__(self):	
-		return self.Choice_Type
+		return self.Question_Number
 
 class Courses (models.Model):
         CourseName = models.CharField(max_length=200)

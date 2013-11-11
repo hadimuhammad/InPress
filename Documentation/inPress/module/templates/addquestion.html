@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <title>InPress - Adding Questions</title>
+    </head>
+
+    <body>
+        <h1> Instructor's Module</h1>
+        <div id="content">
+	<body> 
+    		{% block content %}
+                <form action="/addquestion" method="post">{% csrf_token %}
+		Assessment:<br/><br/> 
+		<select name="assessment" size="4">
+                {% for i in assessment %}
+                <option value="{{i.name}}">{{i.name}}</option>
+                 {% endfor %}
+                </select></p>
+		Question Type:<br/><br/> 
+		<select name="Question_Type" size="4"><option value="MC">Multiple Choice</option><option value="SA">Short Answer</option><option value="Num">Number</option></select></p>
+		Question Content: <p><textarea cols="40" name="Question_Data"></textarea></p>
+		Question Answer: <p><textarea cols="40" name="Question_Answer"></textarea></p><br><br>
+		<input type="submit" name="submitbutton" value="Submit" /><br><br>
+
+
+		</form>
+    	{% endblock %}
+		</div></p>
+		
+	</body>
+</html>
+
+

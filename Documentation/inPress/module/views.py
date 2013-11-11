@@ -168,24 +168,9 @@ def addquestion (request):
         if (request.method == 'POST'):
                 a = Assessment.objects.get(name = request.POST['assessment'])
                 numQuestions = AssessmentData.objects.filter(Assessment =a).count()+1
-                if (request.POST['Question_Type'] == "Multiple Choice"):
-			b = AssessmentData(Assessment = a,  Question_Number=numQuestions, Question_Type=request.POST['Question_Type'], Question_Data=request.POST['QuestionContent'], Question_Answer="Ignore Me")
-			b.save()
-			c = MCQuestionData(Assessment = a, AssessmentData = b, Choice_Type='a', Choice_Content=request.POST['QuestionAnswer1'])
-			c.save()
-			d = MCQuestionData(Assessment = a, AssessmentData = b, Choice_Type='b', Choice_Content=request.POST['QuestionAnswer2'])
-                        d.save()
-			e = MCQuestionData(Assessment = a, AssessmentData = b, Choice_Type='c', Choice_Content=request.POST['QuestionAnswer3'])
-                        e.save()
-			f = MCQuestionData(Assessment = a, AssessmentData = b, Choice_Type='d', Choice_Content=request.POST['QuestionAnswer4'])
-                        f.save()
-			g = MCQuestionData(Assessment = a, AssessmentData = b, Choice_Type='e', Choice_Content=request.POST['QuestionAnswer5'])
-                        g.save()
-			return HttpResponseRedirect('/')
-		else:
-			b = AssessmentData(Assessment = a,  Question_Number=numQuestions, Question_Type=request.POST['Question_Type'], Question_Data=request.POST['QuestionContent'], Question_Answer=request.POST['QuestionAnswer'])
-                	b.save()
-                	return HttpResponseRedirect('/')
+                b = AssessmentData(Assessment = a,  Question_Number=numQuestions, Question_Type=request.POST['Question_Type'], Question_Data=request.POST['QuestionContent'], Question_Answer=request.POST['QuestionAnswer'])
+                b.save()
+                return HttpResponseRedirect('/')
 
         if (mobileBrowser (request)):
                 return render_to_response('mobile/m_addquestion.html', locals())
