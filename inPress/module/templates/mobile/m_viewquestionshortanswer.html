@@ -1,0 +1,25 @@
+<html>
+<head>         
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+<title>InPress - Mobile Version</title>
+</head>
+<body>
+<hr>
+{% block content %}
+<h1> Instructor's Module</h1>
+<h2> Add Questions for {{assessment.name}}</h2>
+<hr>
+<div id="content">
+<br>
+<b><h4>Type</h4></b>
+
+<br>
+<div id="content">
+        {% block content %}
+        
+	<label for="Question">{{Assessmentdata.Question_Number}}) {{Assessmentdata.Question_Data}}{{Assessmentdata.Question_Answer}}</label>
+                        <br><br>
+</div>
+{% endblock  %}
+</body>
+</html>

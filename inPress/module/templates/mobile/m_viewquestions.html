@@ -6,18 +6,23 @@
     </head>
 
     <body>
+	{% block content %}
         <hr>
         <h1> Instructor's Module</h1>
-        <h2> View Questions </h2>
+        <h2> View Questions for {{assessment.name}}</h2>
         <hr>
  <br><br><br><br><br>
         <div id="content">
-        {% block content %}
-                	{% for i in assessmentData %}
-                	<label for="Question">{{i.Question_Number}}) {{i.Question_Data}}</label>
-			<br>
-			<input type="radio" class="big" name="assessment" value="{{i.name}}"> 
-			<br><br>
+			{% for i in assessmentData %}
+			<form action="/viewquestions" method="post">
+			<input type="hidden" name= "Question_Number" value="{{i.Question_Number}}">
+			<input type="hidden" name= "Question_Data" value="{{i.Question_Data}}">
+                      	<input type="hidden" name= "assessment" value="{{assessment.name}}">
+			<h4><label for="Question"> Question {{i.Question_Number}}</label></h4>
+			<label for="Question"> {{i.Question_Data}}</label> <br><br>
+			<input type="submit" class="styled-button-3" value="Show Answer" />
+			<br><br><br>
+			</form>
 			{% endfor %}
         {% endblock %}
     </div>

@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import RequestContext, Context, loader
 from module.models import *
 from django.shortcuts import render_to_response, render
+from array import *
 # list of mobile User Agents
 mobile_uas = [
         'w3c ','acs-','alav','alca','amoi','audi','avan','benq','bird','blac',
@@ -16,7 +17,7 @@ mobile_uas = [
         'wapr','webc','winw','winw','xda','xda-'
         ]
  
-mobile_ua_hints = [ 'SymbianOS', 'Opera Mini', 'iPhone', 'Android' ]
+mobile_ua_hints = [ 'SymbianOS', 'Opera Mini', 'iPhone', 'iPad', 'Android' ]
  
  
 def mobileBrowser(request):
@@ -37,7 +38,7 @@ def mobileBrowser(request):
  
 def index(request):
     '''Render the index page'''
- 
+    print request 
     if mobileBrowser(request):
         t = loader.get_template('mobile/m_index.html')
     else:
@@ -55,7 +56,26 @@ def questiontype (request):
         else:
                 return render_to_response('questiontype.html', locals())
 
+def viewstudentquestion(request):
+        if (request.method == 'GET'):
+		assessment = Assessment.objects.get(name = request.GET['assessment'])
+        	assessmentData = AssessmentData.objects.filter(Assessment = assessment)
+        if (request.method == 'POST'):
+		print request
+		assessmentdata = AssessmentData.objects.get (Question_Number = request.POST['question'])
+		mcs = MCQuestionData.objects.filter(AssessmentData = assessmentdata)
+		print assessmentdata
+		if (assessmentdata.Question_Type == 'Multiple Choice'):
+			return render_to_response('mobile/m_mc.html', locals())
+		else:
+			return render_to_response('mobile/m_sa.html', locals())		
+	if (mobileBrowser (request)):
+                return render_to_response('mobile/m_viewstudentquestion.html', locals())
+        else:
+                return render_to_response('viewstudentquestion.html', locals())
+
 def questions(request):
+	print request
         if (request.method == 'POST'):
                 assessment= Assessment.objects.get(name = request.POST['assessment'])
                 if (mobileBrowser (request)):
@@ -100,6 +120,13 @@ def addassessment (request):
                 return render_to_response('mobile/m_addassessment.html', RequestContext(request, {}))
         else:
                 return render_to_response('addassessment.html', RequestContext(request, {}))
+
+def stuquestions(request):
+	assessment= Assessment.objects.get(name = request.GET['assessmentname'])	
+	if (mobileBrowser (request)):
+                return render_to_response('mobile/m_stuquestions.html', locals())
+        else:
+                return render_to_response('stuquestions.html',locals())
 
 def addmcquestion (request):
         assessment = Assessment.objects.get(name = request.GET['assessment'])
@@ -160,12 +187,30 @@ def removeassessment (request):
                 return render_to_response('removeassessment.html',locals())
 
 def viewquestions(request):
-	assessment = Assessment.objects.get(name = request.GET['assessment'])
-	assessmentData = AssessmentData.objects.filter(Assessment = assessment)
+	if (request.method =='GET'):
+		assessment = Assessment.objects.get(name = request.GET['assessment'])
+		assessmentData = AssessmentData.objects.filter(Assessment = assessment)
+	if (request.method =='POST'):
+		assessment = Assessment.objects.get(name = request.POST['assessment'])
+		assessmentData = AssessmentData.objects.get (Question_Number=request.POST['Question_Number'], Question_Data=request.POST['Question_Data'])
+		mcs = MCQuestionData.objects.filter(AssessmentData = assessmentData)
+		print mcs
+		if (assessmentData.Question_Type == 'Multiple Choice'):
+			return render_to_response('mobile/m_showmcanswer.html', locals())
+		else:
+			return render_to_response('mobile/m_showsaanswer.html', locals())
 	if (mobileBrowser (request)):
                 return render_to_response('mobile/m_viewquestions.html', locals())
         else:
                 return render_to_response('viewquestions.html', locals())
+
+
+def viewstudentassessments (request):
+        assessments = Assessment.objects.all()
+	if (mobileBrowser (request)):
+                return render_to_response('mobile/m_viewstudentassessments.html', locals())
+        else:
+                return render_to_response('viewstudentassessments.html', locals())
 	
 def addquestion (request):
         if (request.method == 'GET'):
@@ -249,3 +294,16 @@ def removecourses (request):
                 return render_to_response('mobile/m_removecourses.html', locals())
         else:
                 return render_to_response('removecourses.html',locals())
+
+
+def sa (request):
+        if (mobileBrowser (request)):
+                return render_to_response('mobile/m_sa.html', locals())
+        else:
+                return render_to_response('sa.html', locals())	
+
+def mc (request):
+	if (mobileBrowser (request)):
+                return render_to_response('mobile/m_mc.html', locals())
+        else:
+                return render_to_response('mc.html', locals())

@@ -2,34 +2,26 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="/static/style.css">
-    <title>InPress - Mobile Version</title>
+    <title>InPress - Desktop Version</title>
     </head>
 
     <body>
         <hr>
-        <h1> Instructor's Module</h1>
-        <h2> View Assessments </h2>
+        <h1> Student's Module</h1>
+        <h2> View Questions </h2>
         <hr>
  <br><br><br><br><br>
         <div id="content">
         {% block content %}
-                        <form action="/questions" method="post">
-                        {% for i in assessments %}
-                        <label for="assessment">{{i.name}}</label>
+                        {% for i in assessmentData %}
+                        <label for="Question">{{i.Question_Number}}) {{i.Question_Data}}</label>
                         <br>
                         <input type="radio" class="big" name="assessment" value="{{i.name}}">
                         <br><br>
                         {% endfor %}
-                        <input type="submit"  class="styled-button-3" name="submit" value="View" /><br><br>
-                        </form>
         {% endblock %}
     </div>
-<p align="left">
-<a href="/instructor" align="left">
-<input type="Button" class='styled-button-2' value="Back">
-</a>
-</p>
-
 </body>
 
 </html>
+
