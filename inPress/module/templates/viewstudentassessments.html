@@ -1,20 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="/static/style.css">
-
     <title>InPress - Desktop Version</title>
     </head>
 
     <body>
         <hr>
-        <h1> Instructor's Module</h1>
+        <h1> Student's Module</h1>
         <h2> View Assessments </h2>
         <hr>
  <br><br><br><br><br>
         <div id="content">
         {% block content %}
-                        <form action="/questions" method="post">
+			<form action="/viewstudentquestion" method="GET">
                         {% for i in assessments %}
                         <label for="assessment">{{i.name}}</label>
                         <br>
@@ -22,15 +20,9 @@
                         <br><br>
                         {% endfor %}
                         <input type="submit"  class="styled-button-3" name="submit" value="View" /><br><br>
-                        </form>
-        {% endblock %}
+			</form>        
+{% endblock %}
     </div>
-<p align="left">
-<a href="/instructor" align="left">
-<input type="Button" class='styled-button-2' value="Back">
-</a>
-</p>
-
 </body>
 
 </html>

@@ -7,21 +7,18 @@
 <hr>
 {% block content %}
 <h1> Instructor's Module</h1>
-<h2> Add Questions for {{assessment.name}}</h2>
+<h2> Answer for Question {{assessmentData.Question_Number}} in {{assessment.name}}</h2>
 <hr>
 <div id="content">
-<br>
-<b><h4>Type</h4></b>
-
-<br>
-<form action="/addquestion" method="post">{% csrf_token %}
 	<input type="hidden" name="assessment" value="{{assessment.name}}" />
+	<input type="hidden" name="Question_Type" value="Multiple Choice" />
 	<b><h4>Question</h4></b>
 	<br>
-	<input type="text" name="QuestionContent"><br><br>
+	<label for="Question"> {{assessmentData.Question_Data}}</label> <br><br>
 	<br>
-	<input type="submit"  class="styled-button-3" name="submit" value="Proceed" /><br><br>
-</form>
+	<b><h4>Answer</h4></b>
+<br>
+	<label for="Question"> {{assessmentData.Question_Answer}}</label> <br><br>	
 {% endblock  %}
 </body>
 </html>

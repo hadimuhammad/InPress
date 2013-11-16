@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+	<body>
+	<title>InPress - Desktop Version</title>
+{% block content %}
+	 <hr>
+        <h1> Instructor's Module</h1>
+        <h2> {{assessment.name}} </h2>
+        <hr>
+        <div id="content"> <br/><br/>
+ 
+ <br><br><br><br><br>
+<form action="/questiontype" method="get">
+<input type="hidden" name="assessment" value="{{assessment.name}}" />
+<input type="submit" class="styled-button-3" value="Add Questions" />
+</form>
+<br><br><br><br><br><br><br><br><br><br>
+
+<form action="/removequestions" method="get">
+<input type="hidden" name="assessment" value="{{assessment.name}}" />
+<input type="submit" class="styled-button-3" value="Remove Questions" />
+</form>
+<br><br><br><br><br><br><br><br><br><br>
+
+
+<form action="/viewquestions" method="get">
+<input type="hidden" name="assessment" value="{{assessment.name}}" />
+<input type="submit" class="styled-button-3" value="View Questions" />
+</form>
+<br><br><br><br><br><br><br><br><br><br>
+{% endblock  %}
+
+
+</body>
+</html>

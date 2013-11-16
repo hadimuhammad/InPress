@@ -40,9 +40,9 @@ def index(request):
     '''Render the index page'''
     print request 
     if mobileBrowser(request):
-        t = loader.get_template('mobile/m_index.html')
-    else:
         t = loader.get_template('index.html')
+    else:
+        t = loader.get_template('mobile/m_index.html')
  
     c = Context( { }) # normally your page data would go here
  

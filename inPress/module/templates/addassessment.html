@@ -1,18 +1,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
-        <title>InPress - Adding Assessment</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>InPress - Desktop Version</title>
     </head>
-    
     <body>
-        <h1> Instructor's Module</h1>
-        <div id="content">
-    	{% block content %}
-		<form action="/addassessment" method="post">{% csrf_token %} Name of Assessment: 
-		<input type="text" name="assessmentname"><br><br>
-		<input type="submit" name="submitbutton" value="Submit" /><br><br>
-		</form>
-    	{% endblock %}
-	</div>
+	<hr>
+	<h1> Instructor's Module</h1>
+        <h2> Add Assessment </h2>
+	<hr>
+	<div id="content"> <br/><br/>
+        {% block content %}
+	        <form action="/addassessment" method="post">{% csrf_token %} Name of Assessment: </br>
+                <input type="text" name="assessmentname"><br><br>
+                <input type="submit" class="styled-button-3" name="submitbutton" value="Submit" /><br><br>
+                </form>
+        {% endblock %}
+        </div>
+<br><br><br>
+<p align="left">
+<a href="/instructor" align="left">
+<input type="Button" class='styled-button-2' value="Back">
+</a>
+</p>
     </body>
 </html>
+
