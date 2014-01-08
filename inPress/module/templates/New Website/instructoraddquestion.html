@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+    <title>Instructor's Module - Add a Class</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+
+      <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="instructorindex.html">InPress - Instructor's Module</a>
+          </div>
+	<div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li> <a href="instructorindex.html">Home</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Classes <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Class A</a></li>
+                  <li><a href="#">Class B</a></li>
+                  <li><a href="#">Class C</a></li>
+                  <li class="divider"></li>
+                  <li class="dropdown-header">Actions</li>
+                  <li><a href="instructoraddclass.html">Add a Class</a></li>
+                  <li><a href="#">Remove a Class</a></li>
+                </ul>
+              </li>
+            </ul>
+		<ul class="nav navbar-nav navbar-right">
+            <li><a href="instructorsignin.html">Logout</a></li>
+          </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      <!-- Begin page content -->
+      <div class="container">
+        <div class="page-header">
+          <h1>Add a Question</h1>
+          <label for="question">Question</label>
+          <input type="text" class="form-control" id="question" placeholder="Type Question...">
+          </div>
+    <div class="page-header">
+	  <form role="form">
+        <div class="bs-example">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#sectionA">Multiple Choice</a></li>
+        <li><a data-toggle="tab" href="#sectionB">Short Answer</a></li>
+    </ul>
+        <div class="tab-content">
+        <div id="sectionA" class="tab-pane fade in active">
+        <div class="row">
+        <div class="col-lg-11">
+        <div class="input-group">
+          <span class="input-group-addon"><input type="radio" name="op"></span>
+          <input type="text" class="form-control" id="MC1" placeholder="Type Multiple Choice #1">
+        </div><!-- /input-group -->
+        <div class="input-group">
+          <span class="input-group-addon"><input type="radio" name="op"></span>
+          <input type="text" class="form-control" id="MC2" placeholder="Type Multiple Choice #2">
+        </div><!-- /input-group -->
+        <div class="input-group">
+          <span class="input-group-addon"><input type="radio" name="op"></span>
+          <input type="text" class="form-control" id="MC3" placeholder="Type Multiple Choice #3">
+        </div><!-- /input-group -->
+        <div class="input-group">
+          <span class="input-group-addon"><input type="radio" name="op"></span>
+          <input type="text" class="form-control" id="MC4" placeholder="Type Multiple Choice #4">
+        </div><!-- /input-group -->
+        <div class="input-group">
+          <span class="input-group-addon"><input type="radio" name="op"></span>
+          <input type="text" class="form-control" id="MC5" placeholder="Type Multiple Choice #5">
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+      </div>
+            
+        </div>
+        <div id="sectionB" class="tab-pane fade">
+            <div class="row-lg-11">
+            <input type="text" class="form-control" id="SAText" textarea rows="3" placeholder="Type Short Answer Question">
+            </div>
+        </div>
+    </div>
+</div>
+
+	</div>
+	<button type="submit" class="btn btn-default">Submit</button>
+</form>
+    </div>
+	</div>
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted">InPress - Instructor's Module (Add a Question)</p>
+      </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
