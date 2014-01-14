@@ -12,10 +12,10 @@
     <title>Instructor's Module - Add a Class</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -25,7 +25,7 @@
   </head>
 
   <body>
-
+    {% block content %}
     <!-- Wrap all page content here -->
     <div id="wrap">
 
@@ -50,10 +50,6 @@
                   <li><a href="#">Class A</a></li>
                   <li><a href="#">Class B</a></li>
                   <li><a href="#">Class C</a></li>
-                  <li class="divider"></li>
-                  <li class="dropdown-header">Actions</li>
-                  <li><a href="instructoraddclass.html">Add a Class</a></li>
-                  <li><a href="#">Remove a Class</a></li>
                 </ul>
               </li>
             </ul>
@@ -67,16 +63,22 @@
       <!-- Begin page content -->
       <div class="container">
         <div class="page-header">
-          <h1>Add an Assessment</h1>
-	  <form role="form">
+          <h1>Add a Class</h1>
+	  <form role="form" action="/instructor/class" method="post">{% csrf_token %}
   <div class="form-group">
-    <label for="ClassName">Assessment Name</label>
-    <input type="text" class="form-control" id="AssessmentName" placeholder="Name of Assessment">
+    <label for="ClassName">Class Name</label>
+    <input type="text" class="form-control" name="className" id="ClassName" placeholder="Name of Class">
   </div>
 <div class="form-group">
-    <label for="ClassDescription">Assessment Description</label>
-    <input type="text" class="form-control" id="ClassName" placeholder="Class Description">
+    <label for="ClassCode">Class Code</label>
+    <input type="text" class="form-control" name="classCode" id="ClassCode" placeholder="Class Code">
   </div>
+
+<div class="form-group">
+    <label for="classList">Class List</label>
+    <input type="file" id="classList">
+    <p class="help-block"></p>
+  </div>  
 	</div>
 	<button type="submit" class="btn btn-default">Submit</button>
 </form>
@@ -84,7 +86,7 @@
 	</div>
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Instructor's Module (Add an Assessment)</p>
+        <p class="text-muted">InPress - Instructor's Module (Add a Class)</p>
       </div>
     </div>
 
@@ -93,7 +95,8 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  {% endblock %}
   </body>
 </html>
 

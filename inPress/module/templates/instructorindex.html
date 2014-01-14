@@ -9,13 +9,14 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Instructor's Module - Add a Class</title>
-
+    <title>Instructor's Module - My Classes</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <!-- Bootstrap core CSS -->
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -25,7 +26,7 @@
   </head>
 
   <body>
-
+    {% block content %}
     <!-- Wrap all page content here -->
     <div id="wrap">
 
@@ -43,50 +44,59 @@
           </div>
 	<div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li> <a href="instructorindex.html">Home</a></li>
+              <li> <a href="/instructor/index.html">Home</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Classes <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Class A</a></li>
-                  <li><a href="#">Class B</a></li>
-                  <li><a href="#">Class C</a></li>
-                </ul>
+		  {% for i in courses %}
+                  <li><a href="instructorassessment.html">{{i}}</a></li>
+                  {% endfor %}
+		</ul>
               </li>
             </ul>
 		<ul class="nav navbar-nav navbar-right">
-            <li><a href="instructorsignin.html">Logout</a></li>
+            <li><a href="/instructor/login">Logout</a></li>
           </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
 
       <!-- Begin page content -->
-      <div class="container">
-        <div class="page-header">
-          <h1>Add a Class</h1>
-	  <form role="form">
-  <div class="form-group">
-    <label for="ClassName">Class Name</label>
-    <input type="text" class="form-control" id="ClassName" placeholder="Name of Class">
-  </div>
-<div class="form-group">
-    <label for="ClassDescription">Class Description</label>
-    <input type="text" class="form-control" id="ClassName" placeholder="Class Description">
-  </div>
-
-<div class="form-group">
-    <label for="classList">Class List</label>
-    <input type="file" id="classList">
-    <p class="help-block"></p>
-  </div>  
-	</div>
-	<button type="submit" class="btn btn-default">Submit</button>
-</form>
+      	  <div class="container">
+	  <div class="page-header">
+          <h1>My Classes</h1>
+          {% for i in courses %}
+          <a href="instructorassessment.html" class="btn btn-default btn-lg btn-block" role="button">{{i}}</a>
+          {% endfor %} 
+        </div>
+        <a href="/instructor/class" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Class </a>
+	<a href="#" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Class </a>
+  	
+	<div class="container">  
+<h2>Example of creating Modals with Twitter Bootstrap</h2>  
+<div id="example" class="modal hide fade">  
+<div class="modal-header">  
+<a class="close" data-dismiss="modal">×</a>  
+<h3>This is a Modal Heading</h3>  
+</div>  
+<div class="modal-body">  
+<h4>Text in a modal</h4>  
+<p>You can add some text here.</p>                
+</div>  
+<div class="modal-footer">  
+<a href="#" class="btn btn-success">Call to action</a>  
+<a href="#" class="btn" data-dismiss="modal">Close</a>  
+</div>  
+</div>  
+<p><a data-toggle="modal" role="button" href="#example" class="btn btn-primary btn-    large">Launch demo modal</a></p>  
+</div>  
+ 
+	 </div>
     </div>
-	</div>
+   
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Instructor's Module (Add a Class)</p>
+        <p class="text-muted">InPress - Instructor's Module (My Classes)</p>
       </div>
     </div>
 
@@ -95,7 +105,8 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-  </body>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  {% endblock %}
+   </body>
 </html>
 

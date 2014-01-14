@@ -9,13 +9,13 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Instructor's Module - My Classes</title>
+    <title>Instructor's Module - Add a Class</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -47,9 +47,13 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Classes <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="instructorassessment.html">Class A</a></li>
-                  <li><a href="instructorassessment.html">Class B</a></li>
-                  <li><a href="instructorassessment.html">Class C</a></li>
+                  <li><a href="#">Class A</a></li>
+                  <li><a href="#">Class B</a></li>
+                  <li><a href="#">Class C</a></li>
+                  <li class="divider"></li>
+                  <li class="dropdown-header">Actions</li>
+                  <li><a href="instructoraddclass.html">Add a Class</a></li>
+                  <li><a href="#">Remove a Class</a></li>
                 </ul>
               </li>
             </ul>
@@ -63,19 +67,24 @@
       <!-- Begin page content -->
       <div class="container">
         <div class="page-header">
-          <h1>My Classes</h1>
-	  <a href="instructorassessment.html" class="btn btn-default btn-lg btn-block" role="button">Class A</a>
-	  <a href="instructorassessment.html" class="btn btn-default btn-lg btn-block" role="button">Class B</a>
-	  <a href="instructorassessment.html" class="btn btn-default btn-lg btn-block" role="button">Class C</a>	
+          <h1>Add an Assessment</h1>
+	  <form role="form">
+  <div class="form-group">
+    <label for="ClassName">Assessment Name</label>
+    <input type="text" class="form-control" id="AssessmentName" placeholder="Name of Assessment">
+  </div>
+<div class="form-group">
+    <label for="ClassDescription">Assessment Description</label>
+    <input type="text" class="form-control" id="ClassName" placeholder="Class Description">
+  </div>
 	</div>
-        <a href="instructoraddclass.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Class </a>
-	<a href="#" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Class </a>
-	</div>
+	<button type="submit" class="btn btn-default">Submit</button>
+</form>
     </div>
-
+	</div>
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Instructor's Module (My Classes)</p>
+        <p class="text-muted">InPress - Instructor's Module (Add an Assessment)</p>
       </div>
     </div>
 
@@ -84,7 +93,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>
 
