@@ -17,7 +17,18 @@ def instructorindex(request):
     print courses
     return render_to_response('instructorindex.html', locals()) 
 
-def instructoraddclass(request):
+def removeclass(request):
+    courses = Courses.objects.all()
+    print courses
+    if (request.method == 'POST'):
+        print request.POST['courseToDelete']
+        courseToDelete = Courses.objects.filter(CourseName=request.POST['courseToDelete'])
+        print courseToDelete
+        courseToDelete.delete()
+        return HttpResponseRedirect('index.html')
+    return render_to_response('removeclass.html', locals()) 
+
+def addclass(request):
     if (request.method == 'POST'):
         try:
             a = Courses.objects.get(CourseCode = request.POST['classCode'])
@@ -25,5 +36,10 @@ def instructoraddclass(request):
         except Courses.DoesNotExist:
             b = Courses(CourseName=request.POST['className'], CourseCode=request.POST['classCode'])
             b.save()
-            return HttpResponseRedirect('/instructor/index')
-    return render_to_response('instructoraddclass.html', RequestContext(request, {}))  
+            return HttpResponseRedirect('/instructor/index.html')
+    return render_to_response('addclass.html', RequestContext(request, {}))
+
+def course(request):
+    courses = Courses.objects.all()
+    print courses
+    return render_to_response('course.html', locals()) 

@@ -9,8 +9,9 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Instructor's Module - Add a Class</title>
-
+    <title>Instructor's Module - My Classes</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 
@@ -43,50 +44,40 @@
           </div>
 	<div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li> <a href="instructorindex.html">Home</a></li>
+              <li> <a href="/instructor/index.html">Home</a></li>
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Classes <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Courses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Class A</a></li>
-                  <li><a href="#">Class B</a></li>
-                  <li><a href="#">Class C</a></li>
-                </ul>
+		  {% for i in courses %}
+                  <li><a href="instructorassessment.html">{{i}}</a></li>
+                  {% endfor %}
+		</ul>
               </li>
             </ul>
 		<ul class="nav navbar-nav navbar-right">
-            <li><a href="instructorsignin.html">Logout</a></li>
+            <li><a href="/instructor/login">Logout</a></li>
           </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
 
       <!-- Begin page content -->
-      <div class="container">
-        <div class="page-header">
-          <h1>Add a Class</h1>
-	  <form role="form" action="/instructor/class" method="post">{% csrf_token %}
-  <div class="form-group">
-    <label for="ClassName">Class Name</label>
-    <input type="text" class="form-control" name="className" id="ClassName" placeholder="Name of Class">
-  </div>
-<div class="form-group">
-    <label for="ClassCode">Class Code</label>
-    <input type="text" class="form-control" name="classCode" id="ClassCode" placeholder="Class Code">
-  </div>
-
-<div class="form-group">
-    <label for="classList">Class List</label>
-    <input type="file" id="classList">
-    <p class="help-block"></p>
-  </div>  
-	</div>
-	<button type="submit" class="btn btn-default">Submit</button>
-</form>
-    </div>
-	</div>
+      	  <div class="container">
+	  <div class="page-header">
+          <h1>Remove a Course</h1>
+          <h4> Please select which course you would like to remove? </h4>
+          <form name= "MyForm" action="removeclass.html" method="post" id='MyForm'>
+          <input type='hidden' id= 'couseToDelete' name='courseToDelete' value=''/>
+          {% for i in courses %}
+          <a href="javascript:{}" class="btn btn-default btn-lg btn-block" role="button" onClick="DoSubmission('{{i}}');">{{i}}</a>
+          {% endfor %} 
+          </form>
+        </div>
+  </div>	
+  </div> 
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Instructor's Module (Add a Class)</p>
+        <p class="text-muted">InPress - Instructor's Module (Remove a Course)</p>
       </div>
     </div>
 
@@ -96,7 +87,12 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function DoSubmission(index) {
+          document.getElementById("couseToDelete").value = index;
+          document.getElementById("MyForm").submit();
+    }
+    //--></script>
   {% endblock %}
-  </body>
+   </body>
 </html>
-

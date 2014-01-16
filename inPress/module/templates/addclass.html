@@ -9,9 +9,8 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Instructor's Module - My Courses</title>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <title>Instructor's Module - Add a Course</title>
+
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 
@@ -48,34 +47,46 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Courses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-		  {% for i in courses %}
-                  <li><a href="/instructor/course.html">{{i}}</a></li>
-                  {% endfor %}
-		</ul>
+                  <li><a href="#">Class A</a></li>
+                  <li><a href="#">Class B</a></li>
+                  <li><a href="#">Class C</a></li>
+                </ul>
               </li>
             </ul>
 		<ul class="nav navbar-nav navbar-right">
-            <li><a href="/instructor/login">Logout</a></li>
+            <li><a href="instructorsignin.html">Logout</a></li>
           </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
 
       <!-- Begin page content -->
-      	  <div class="container">
-	  <div class="page-header">
-          <h1>My Classes</h1>
-          {% for i in courses %}
-          <a href="/instructor/course.html" class="btn btn-default btn-lg btn-block" role="button">{{i}}</a>
-          {% endfor %} 
-        </div>
-        <a href="/instructor/addclass.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Class </a>
-	<a href="/instructor/removeclass.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Class </a>
-  </div>	
-  </div> 
+      <div class="container">
+        <div class="page-header">
+          <h1>Add a Course</h1>
+	  <form role="form" action="addclass.html" method="post">{% csrf_token %}
+  <div class="form-group">
+    <label for="ClassName">Course Name</label>
+    <input type="text" class="form-control" name="className" id="ClassName" placeholder="Name of Class">
+  </div>
+<div class="form-group">
+    <label for="ClassCode">Course Code</label>
+    <input type="text" class="form-control" name="classCode" id="ClassCode" placeholder="Class Code">
+  </div>
+
+<div class="form-group">
+    <label for="classList">Class List</label>
+    <input type="file" id="classList">
+    <p class="help-block"></p>
+  </div>  
+	</div>
+	<button type="submit" class="btn btn-default">Submit</button>
+</form>
+    </div>
+	</div>
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Instructor's Module (My Classes)</p>
+        <p class="text-muted">InPress - Instructor's Module (Add a Course)</p>
       </div>
     </div>
 
@@ -86,6 +97,6 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
   {% endblock %}
-   </body>
+  </body>
 </html>
 

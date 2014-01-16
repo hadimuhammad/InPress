@@ -12,9 +12,11 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^$', 'module.views.studentsignin'),
-    url(r'^instructor/login', 'module.views.instructorsignin'),
-    url(r'^instructor/index/$', 'module.views.instructorindex'),
-    url(r'^instructor/class', 'module.views.instructoraddclass'),
+    url(r'^instructor/login.html', 'module.views.instructorsignin'),
+    url(r'^instructor/index.html$', 'module.views.instructorindex'),
+    url(r'^instructor/addclass.html', 'module.views.addclass'),
+    url(r'^instructor/removeclass.html', 'module.views.removeclass'),
+    url(r'^instructor/course.html', 'module.views.course'),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )
