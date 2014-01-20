@@ -31,8 +31,8 @@ def removeclass(request):
 def addclass(request):
     if (request.method == 'POST'):
         try:
-            a = Courses.objects.get(CourseCode = request.POST['classCode'])
-            return HttpResponseRedirect('/instructor/index')
+            a = Courses.objects.get(CourseName = request.POST['className'])
+            return HttpResponseRedirect('/instructor/index.html')
         except Courses.DoesNotExist:
             b = Courses(CourseName=request.POST['className'], CourseCode=request.POST['classCode'])
             b.save()
