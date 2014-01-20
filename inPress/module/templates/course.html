@@ -25,7 +25,7 @@
   </head>
 
   <body>
-
+    {% block content %}
     <!-- Wrap all page content here -->
     <div id="wrap">
       <!-- Fixed navbar -->
@@ -38,17 +38,17 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/instructor/index.html">InPress - Instructor's Module</a>
+            <a class="navbar-brand" href="../instructor/index.html">InPress - Instructor's Module</a>
           </div>
 	<div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li> <a href="instructorindex.html">Home</a></li>
+              <li> <a href="../instructor/index.html">Home</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Classes <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/instructor/class.html">Class A</a></li>
-                  <li><a href="/instructor/class.html">Class B</a></li>
-                  <li><a href="/instructor/class.html">Class C</a></li>
+                  {% for i in courses %}
+                  <li><a href="/instructor/course.html">{{i}}</a></li>
+                  {% endfor %}
                 </ul>
               </li>
             </ul>
@@ -62,7 +62,7 @@
       <!-- Begin page content -->
 	<div class="container">
 	<div class="page-header">
-	<h1> Class A </h1>
+	<h1> {{myCourse}} </h1>
 	<div class="panel-group" id="accordion">
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -94,7 +94,7 @@
 		<td>7</td>
 		</tr>
 		</table>
-        <a href="/instructor/addquestion.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Question </a>
+        <a href="instructoraddquestion.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Question </a>
 	<a href="#" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Question </a>
   </div>
   </div>
@@ -178,7 +178,7 @@
 
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Instructor's Module (Class A)</p>
+        <p class="text-muted">InPress - Instructor's Module ({{myCourse}})</p>
       </div>
     </div>
 
@@ -188,6 +188,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    {% endblock %}
   </body>
 </html>
 

@@ -41,5 +41,5 @@ def addclass(request):
 
 def course(request):
     courses = Courses.objects.all()
-    print courses
+    myCourse = request.GET['courseInfo']
     return render_to_response('course.html', locals()) 

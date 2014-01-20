@@ -49,7 +49,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Courses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
 		  {% for i in courses %}
-                  <li><a href="/instructor/course.html">{{i}}</a></li>
+                <li><a href="/instructor/course.html">{{i}}</a></li>
                   {% endfor %}
 		</ul>
               </li>
@@ -65,9 +65,12 @@
       	  <div class="container">
 	  <div class="page-header">
           <h1>My Classes</h1>
+          <form name= "MyForm2" action="course.html" method="get" id='MyForm2'>
+          <input type='hidden' id= 'courseToDelete' name='courseInfo' value=''/>
           {% for i in courses %}
-          <a href="/instructor/course.html" class="btn btn-default btn-lg btn-block" role="button">{{i}}</a>
+          <a href="javascript:{}" class="btn btn-default btn-lg btn-block" role="button" onClick="DoSubmission('{{i}}');">{{i}}</a>
           {% endfor %} 
+          </form>
         </div>
         <a href="/instructor/addclass.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Class </a>
 	<a href="/instructor/removeclass.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Class </a>
@@ -85,6 +88,12 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function DoSubmission(index) {
+          document.getElementById("courseToDelete").value = index;
+          document.getElementById("MyForm2").submit();
+    }
+    //--></script>
   {% endblock %}
    </body>
 </html>
