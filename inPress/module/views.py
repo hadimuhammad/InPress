@@ -57,7 +57,8 @@ def addassessment(request):
         print myCourse
         assessmentToAdd = request.POST ['AssessmentName']
         try:
-            a = Assessment.objects.get(name = assessmentToAdd)
+            course = Courses.objects.get(CourseName = myCourse)
+            a = Assessment.objects.get(name = assessmentToAdd, course=course)
             return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
         except Assessment.DoesNotExist:
             a = Courses.objects.get(CourseName = myCourse)

@@ -42,16 +42,19 @@
             </button>
             <a class="navbar-brand" href="/instructor/index.html">InPress - Instructor's Module</a>
           </div>
+          <form name= "courseForm" action="course.html" method="get" id='courseForm'>
+              <input type='hidden' id= 'courseInfo' name='courseInfo' value=''/>
 	<div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
               <li> <a href="/instructor/index.html">Home</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Courses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-		  {% for i in courses %}
-                <li><a href="/instructor/course.html">{{i}}</a></li>
-                  {% endfor %}
-		</ul>
+		          {% for i in courses %}
+              <li><a href="javascript:{}" onClick="SubmitCourse('{{i}}');">{{i}}</a></li>
+              {% endfor %}
+              </form>
+		          </ul>
               </li>
             </ul>
 		<ul class="nav navbar-nav navbar-right">
@@ -64,7 +67,7 @@
       <!-- Begin page content -->
       	  <div class="container">
 	  <div class="page-header">
-          <h1>My Classes</h1>
+          <h1>My Courses</h1>
           <form name= "MyForm2" action="course.html" method="get" id='MyForm2'>
           <input type='hidden' id= 'courseToDelete' name='courseInfo' value=''/>
           {% for i in courses %}
@@ -92,6 +95,12 @@
     function DoSubmission(index) {
           document.getElementById("courseToDelete").value = index;
           document.getElementById("MyForm2").submit();
+    }
+    //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function SubmitCourse(index) {
+          document.getElementById("courseInfo").value = index;
+          document.getElementById("courseForm").submit();
     }
     //--></script>
   {% endblock %}
