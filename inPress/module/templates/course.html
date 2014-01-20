@@ -63,119 +63,55 @@
 	<div class="container">
 	<div class="page-header">
 	<h1> {{myCourse}} </h1>
-	<div class="panel-group" id="accordion">
-  <div class="panel panel-default">
+  {% for i in assessments %}
+   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-          Quiz #1
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{forloop.counter0}}">
+          {{i}}
         </a>
       </h4>
     </div>
-    <div id="collapseOne" class="panel-collapse collapse in">
+    <div id="collapse{{forloop.counter0}}" class="panel-collapse collapse">
       <div class="panel-body">
-      	<table class="table">
-		<tr>
-		<th>#</th>
-		<th>Question</th>
-		<th>Type</th>
-		<th>Answer</th>
-		</tr>
-		<tr>
-		<td>1</td>
-		<td>What is 2+2?</td>
-		<td>Short Answer</td>
-		<td>4</td>
-		</tr>
-		<tr>
-		<td>2</td>
-		<td>What is 5+2?</td>
-		<td>Short Answer</td>
-		<td>7</td>
-		</tr>
-		</table>
+              <table class="table">
+    <tr>
+    <th>#</th>
+    <th>Question</th>
+    <th>Type</th>
+    <th>Answer</th>
+    </tr>
+    <tr>
+    <td>1</td>
+    <td>What is 2+2?</td>
+    <td>Short Answer</td>
+    <td>4</td>
+    </tr>
+    <tr>
+    <td>2</td>
+    <td>What is 5+2?</td>
+    <td>Short Answer</td>
+    <td>7</td>
+    </tr>
+    </table>
         <a href="instructoraddquestion.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Question </a>
-	<a href="#" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Question </a>
+  <a href="#" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Question </a>
   </div>
   </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-          Quiz #2
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse">
-      <div class="panel-body">
-            	<table class="table">
-		<tr>
-		<th>#</th>
-		<th>Question</th>
-		<th>Type</th>
-		<th>Answer</th>
-		</tr>
-		<tr>
-		<td>1</td>
-		<td>What is 2+2?</td>
-		<td>Short Answer</td>
-		<td>4</td>
-		</tr>
-		<tr>
-		<td>2</td>
-		<td>What is 5+2?</td>
-		<td>Short Answer</td>
-		<td>7</td>
-		</tr>
-		</table>
-        <a href="instructoraddquestion.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Question </a>
-	<a href="#" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Question </a>
-  </div>
-  </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-        Quiz #3
-	</a>
-      </h4>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse">
-      <div class="panel-body">
-            	<table class="table">
-		<tr>
-		<th>#</th>
-		<th>Question</th>
-		<th>Type</th>
-		<th>Answer</th>
-		</tr>
-		<tr>
-		<td>1</td>
-		<td>What is 2+2?</td>
-		<td>Short Answer</td>
-		<td>4</td>
-		</tr>
-		<tr>
-		<td>2</td>
-		<td>What is 5+2?</td>
-		<td>Short Answer</td>
-		<td>7</td>
-		</tr>
-		</table>
-        <a href="instructoraddquestion.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Question </a>
-	<a href="#" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Question </a>
-  </div>
-  </div>
-  </div>
-</div>
+  {% endfor %}
 	</div>
-        <a href="instructoraddassessment.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add an Assessment </a>
-	<a href="#" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove an Assessment </a>
-	</div>
-    </div>
+        <form name= "MyForm" action="addassessment.html" method="get" id='MyForm'>
+        <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+        <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="DoSubmission('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Add an Assessment </a>
+        </form> 
+        <form name= "MyForm2" action="removeassessment.html" method="get" id='MyForm2'>
+        <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+	       <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="DoSubmission2('{{i}}');"> <span class="glyphicon glyphicon-minus"></span> Remove an Assessment </a>
+         </form>
 
+    </div>
+    </div>
     <div id="footer">
       <div class="container">
         <p class="text-muted">InPress - Instructor's Module ({{myCourse}})</p>
@@ -188,6 +124,16 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function DoSubmission(index) {
+          document.getElementById("MyForm").submit();
+    }
+    //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function DoSubmission2(index) {
+          document.getElementById("MyForm2").submit();
+    }
+    //--></script>
     {% endblock %}
   </body>
 </html>

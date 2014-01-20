@@ -1,7 +1,14 @@
 from django.db import models
 
+class Courses (models.Model):
+	CourseName = models.CharField(max_length=200)
+	CourseCode = models.CharField(max_length=200)
+	def __unicode__(self):
+		return self.CourseName
+
 class Assessment (models.Model):
 	name = models.CharField(max_length=200)
+	course = models.ForeignKey(Courses)
 	def __unicode__(self):
 		return self.name
 
@@ -21,9 +28,3 @@ class MCQuestionData (models.Model):
 	Choice_Content = models.CharField(max_length=200)
 	def __unicode__(self):	
 		return self.Choice_Type
-
-class Courses (models.Model):
-        CourseName = models.CharField(max_length=200)
-        CourseCode = models.CharField(max_length=200)
-        def __unicode__(self):
-                return self.CourseName

@@ -41,9 +41,44 @@ def addclass(request):
 
 def course(request):
     courses = Courses.objects.all()
-
-    myCourse = request.GET['courseInfo']
+    if (request.method == 'GET'):
+        myCourse = request.GET['courseInfo']
+        courseName = Courses.objects.filter(CourseName=myCourse)
+        assessments = Assessment.objects.filter(course = courseName)
+        print assessments
     return render_to_response('course.html', locals()) 
+
+def addassessment(request):
+    courses = Courses.objects.all()
+    if (request.method == 'GET'):
+        myCourse = request.GET['course']
+    if (request.method == 'POST'):
+        myCourse = request.POST['course']
+        print myCourse
+        assessmentToAdd = request.POST ['AssessmentName']
+        try:
+            a = Assessment.objects.get(name = assessmentToAdd)
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
+        except Assessment.DoesNotExist:
+            a = Courses.objects.get(CourseName = myCourse)
+            b = Assessment(name = assessmentToAdd, course=a)
+            b.save()
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
+    return render_to_response('addassessment.html', locals()) 
+
+def removeassessment(request):
+    courses = Courses.objects.all()
+    if (request.method == 'GET'):
+        myCourse = request.GET['course']
+        courseName = Courses.objects.filter(CourseName=myCourse)
+        assessments = Assessment.objects.filter(course = courseName)
+    if (request.method == 'POST'):
+        myCourse = request.POST['course']
+        courseName = Courses.objects.filter(CourseName=request.POST['course'])
+        assessmentToDelete = Assessment.objects.filter(name=request.POST['assessmentToDelete'], course=courseName)
+        assessmentToDelete.delete()
+        return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
+    return render_to_response('removeassessment.html', locals()) 
 
 def studentchoosecourse(request):
     courses = Courses.objects.all()

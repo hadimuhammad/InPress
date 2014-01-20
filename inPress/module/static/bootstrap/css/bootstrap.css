@@ -1881,6 +1881,7 @@ input[type="search"] {
           box-sizing: border-box;
 }
 
+
 input[type="radio"],
 input[type="checkbox"] {
   margin: 4px 0 0;
@@ -1927,6 +1928,7 @@ output {
   vertical-align: middle;
 }
 
+form { display: inline; }
 .form-control {
   display: block;
   width: 100%;
