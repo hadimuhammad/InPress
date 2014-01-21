@@ -81,10 +81,10 @@ def removeassessment(request):
         return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
     return render_to_response('removeassessment.html', locals()) 
 
-def studentchoosecourse(request):
+def studentcourse(request):
     courses = Courses.objects.all()
     print courses
-    return render_to_response('studentchoosecourse.html', locals())
+    return render_to_response('studentcourse.html', locals())
 
 def studentindex(request):
     courses = Courses.objects.all()

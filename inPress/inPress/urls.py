@@ -19,7 +19,7 @@ urlpatterns = patterns('',
     url(r'^instructor/addassessment.html', 'module.views.addassessment'),
     url(r'^instructor/removeassessment.html', 'module.views.removeassessment'),
     url(r'^instructor/course.html', 'module.views.course'),
-    url(r'^student/choosecourse.html', 'module.views.studentchoosecourse'),
+    url(r'^student/course.html', 'module.views.studentcourse'),
     url(r'^student/index.html$','module.views.studentindex'),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
