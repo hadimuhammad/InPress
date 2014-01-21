@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+    <title>Student's Module - Course list</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    {% block content %}
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+
+      <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/Student/index.html">InPress - Student's Module</a>
+          </div>
+          <form name= "courseForm" action="course.html" method="get" id='courseForm'>
+              <input type='hidden' id= 'courseInfo' name='courseInfo' value=''/>
+	<div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li> <a href="/Student/index.html">Home</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Course list <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+		          {% for i in courses %}
+              <li><a href="javascript:{}" onClick="SubmitCourse('{{i}}');">{{i}}</a></li>
+              {% endfor %}
+              </form>
+		          </ul>
+              </li>
+            </ul>
+		<ul class="nav navbar-nav navbar-right">
+            <li><a href="/Student/login">Logout</a></li>
+          </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      <!-- Begin page content -->
+      	  <div class="container">
+	  <div class="page-header">
+          <h1>Course list</h1>
+          <form name= "MyForm2" action="course.html" method="get" id='MyForm2'>
+          <input type='hidden' id= 'courseToDelete' name='courseInfo' value=''/>
+          {% for i in courses %}
+          <a href="javascript:{}" class="btn btn-default btn-lg btn-block" role="button" onClick="DoSubmission('{{i}}');">{{i}}</a>
+          {% endfor %} 
+          </form>
+        </div>
+        <a href="/Student/addclass.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Class </a>
+	<a href="/Student/removeclass.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Class </a>
+  </div>	
+  </div> 
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted">InPress - Student's Module (My Classes)</p>
+      </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function DoSubmission(index) {
+          document.getElementById("courseToDelete").value = index;
+          document.getElementById("MyForm2").submit();
+    }
+    //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function SubmitCourse(index) {
+          document.getElementById("courseInfo").value = index;
+          document.getElementById("courseForm").submit();
+    }
+    //--></script>
+  {% endblock %}
+   </body>
+</html>
+

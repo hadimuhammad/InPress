@@ -85,3 +85,8 @@ def studentchoosecourse(request):
     courses = Courses.objects.all()
     print courses
     return render_to_response('studentchoosecourse.html', locals())
+
+def studentindex(request):
+    courses = Courses.objects.all()
+    print courses
+    return render_to_response('studentindex.html', locals()) 
