@@ -81,6 +81,17 @@ def removeassessment(request):
         return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
     return render_to_response('removeassessment.html', locals()) 
 
+def addquestion(request):
+    courses = Courses.objects.all()
+    if (request.method == 'GET'):
+        myCourse = request.GET['course']
+        myAssessment = request.GET['assessment']
+        courseName = Courses.objects.filter(CourseName=myCourse)
+        assessment = Assessment.objects.get(name=myAssessment, course = courseName)
+    if (request.method == 'POST'):
+        print request
+    return render_to_response('addquestion.html', locals()) 
+
 def studentchoosecourse(request):
     courses = Courses.objects.all()
     print courses

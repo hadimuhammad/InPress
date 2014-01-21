@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Instructor's Module - Add a Class</title>
+    <title>Instructor's Module - Add a Question</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -68,10 +68,10 @@
         <div class="page-header">
           <h1>Add a Question</h1>
           <label for="question">Question</label>
-          <input type="text" class="form-control" id="question" placeholder="Type Question...">
+          <form role="addquestionForm" action="addquestion.html" method="post" id='addquestionForm'>
+          <input type="text" class="form-control" id="question" name="questionText" placeholder="Type Question...">
           </div>
     <div class="page-header">
-	  <form role="form">
         <div class="bs-example">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#sectionA">Multiple Choice</a></li>
@@ -82,24 +82,24 @@
         <div class="row">
         <div class="col-lg-11">
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="op"></span>
-          <input type="text" class="form-control" id="MC1" placeholder="Type Multiple Choice #1">
+          <span class="input-group-addon"><input type="radio" name="MC1Radio"></span>
+          <input type="text" class="form-control" id="MC1" name="MC1Ans" placeholder="Type Multiple Choice #1">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="op"></span>
-          <input type="text" class="form-control" id="MC2" placeholder="Type Multiple Choice #2">
+          <span class="input-group-addon"><input type="radio" name="MC2Radio"></span>
+          <input type="text" class="form-control" id="MC2" name="MC2Ans" placeholder="Type Multiple Choice #2">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="op"></span>
-          <input type="text" class="form-control" id="MC3" placeholder="Type Multiple Choice #3">
+          <span class="input-group-addon"><input type="radio" name="MC3Radio"></span>
+          <input type="text" class="form-control" id="MC3" name="MC3Ans" placeholder="Type Multiple Choice #3">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="op"></span>
-          <input type="text" class="form-control" id="MC4" placeholder="Type Multiple Choice #4">
+          <span class="input-group-addon"><input type="radio" name="MC4Radio"></span>
+          <input type="text" class="form-control" id="MC4" name="MC4Ans" placeholder="Type Multiple Choice #4">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="op"></span>
-          <input type="text" class="form-control" id="MC5" placeholder="Type Multiple Choice #5">
+          <span class="input-group-addon"><input type="radio" name="MC5Radio"></span>
+          <input type="text" class="form-control" id="MC5" name="MC5Ans" placeholder="Type Multiple Choice #5">
         </div><!-- /input-group -->
       </div><!-- /.col-lg-6 -->
       </div>
@@ -107,7 +107,7 @@
         </div>
         <div id="sectionB" class="tab-pane fade">
             <div class="row-lg-11">
-            <input type="text" class="form-control" id="SAText" textarea rows="3" placeholder="Type Short Answer Question">
+            <input type="text" class="form-control" id="SAText" name="SAAns" textarea rows="3" placeholder="Type Short Answer">
             </div>
         </div>
     </div>
@@ -120,7 +120,7 @@
 	</div>
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Instructor's Module (Add a Question)</p>
+        <p class="text-muted">InPress - Instructor's Module ({{myCourse}})</p>
       </div>
     </div>
 

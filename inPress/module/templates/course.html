@@ -100,8 +100,18 @@
     <td>7</td>
     </tr>
     </table>
-        <a href="instructoraddquestion.html" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-plus"></span> Add a Question </a>
-  <a href="#" class="btn btn-default btn-sm" role="button"> <span class="glyphicon glyphicon-minus"></span> Remove a Question </a>
+    
+    <form name= "addQuestion" action="addquestion.html" method="get" id='addQuestion'>
+    <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+    <input type='hidden' id= 'assessment' name='assessment' value=''/>
+    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="AddQuestion('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Add a Question </a>
+    </form>
+
+    <form name= "removeQuestion" action="removequestion.html" method="get" id='removeQuestion'>
+    <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+    <input type='hidden' id= 'assessment' name='assessment' value=''/>
+    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="RemoveQuestion('{{i}}');"> <span class="glyphicon glyphicon-minus"></span> Remove a Question </a>
+    </form>
   </div>
   </div>
   </div>
@@ -143,6 +153,18 @@
     function SubmitCourse(index) {
           document.getElementById("courseInfo").value = index;
           document.getElementById("courseForm").submit();
+    }
+    //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function AddQuestion(index) {
+          document.getElementById("assessment").value = index;
+          document.getElementById("addQuestion").submit();
+    }
+    //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function RemoveQuestion(index) {
+          document.getElementById("assessment").value = index;
+          document.getElementById("RemoveQuestion").submit();
     }
     //--></script>
     {% endblock %}
