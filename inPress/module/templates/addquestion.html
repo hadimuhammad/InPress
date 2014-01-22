@@ -69,6 +69,8 @@
           <h1>Add a Question</h1>
           <label for="question">Question</label>
           <form role="addquestionForm" action="addquestion.html" method="post" id='addquestionForm'>
+           <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+            <input type='hidden' id= 'assessment' name='assessment' value='{{myAssessment}}'/>
           <input type="text" class="form-control" id="question" name="questionText" placeholder="Type Question...">
           </div>
     <div class="page-header">
@@ -82,23 +84,23 @@
         <div class="row">
         <div class="col-lg-11">
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="MC1Radio"></span>
+          <span class="input-group-addon"><input type="radio" name="MCRadio" value="a"></span>
           <input type="text" class="form-control" id="MC1" name="MC1Ans" placeholder="Type Multiple Choice #1">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="MC2Radio"></span>
+          <span class="input-group-addon"><input type="radio" name="MCRadio" value="b"></span>
           <input type="text" class="form-control" id="MC2" name="MC2Ans" placeholder="Type Multiple Choice #2">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="MC3Radio"></span>
+          <span class="input-group-addon"><input type="radio" name="MCRadio" value="c"></span>
           <input type="text" class="form-control" id="MC3" name="MC3Ans" placeholder="Type Multiple Choice #3">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="MC4Radio"></span>
+          <span class="input-group-addon"><input type="radio" name="MCRadio" value="d"></span>
           <input type="text" class="form-control" id="MC4" name="MC4Ans" placeholder="Type Multiple Choice #4">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="MC5Radio"></span>
+          <span class="input-group-addon"><input type="radio" name="MCRadio" value="e"></span>
           <input type="text" class="form-control" id="MC5" name="MC5Ans" placeholder="Type Multiple Choice #5">
         </div><!-- /input-group -->
       </div><!-- /.col-lg-6 -->

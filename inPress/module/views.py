@@ -4,6 +4,7 @@ from django.template import RequestContext, Context, loader
 from module.models import *
 from django.shortcuts import render_to_response, render
 from array import *
+from django.core import serializers
  
  
 def studentsignin(request):
@@ -45,7 +46,13 @@ def course(request):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessments = Assessment.objects.filter(course = courseName)
-        print assessments
+        QuestionData = [0] * (assessments.count())
+        i = 0
+        for assessment in assessments:
+            QuestionData[i] = serializers.serialize("json", AssessmentData.objects.filter(Assessment=assessment))
+            i = i+1
+            break
+        print QuestionData
     return render_to_response('course.html', locals()) 
 
 def addassessment(request):
@@ -89,7 +96,20 @@ def addquestion(request):
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessment = Assessment.objects.get(name=myAssessment, course = courseName)
     if (request.method == 'POST'):
-        print request
+        courseName = Courses.objects.filter(CourseName=request.POST['course'])
+        assessment = Assessment.objects.get(name = request.POST['assessment'], course=courseName)
+        print request.POST
+        if (request.POST['SAAns'] != ''):
+            questionSA = AssessmentData(Assessment = assessment, Question_Type="SA", Question_Data=request.POST['questionText'], Question_Answer=request.POST['SAAns'])
+            questionSA.save()
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course'])
+        else:
+            question = AssessmentData(Assessment = assessment, Question_Type="MC", Question_Data=request.POST['questionText'], 
+                Question_Answer=request.POST['MCRadio'], ChoiceA = request.POST['MC1Ans'], ChoiceB = request.POST['MC2Ans'], 
+                ChoiceC = request.POST['MC3Ans'], ChoiceD = request.POST['MC4Ans'], ChoiceE=request.POST['MC5Ans'])
+            question.save()
+
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course'])
     return render_to_response('addquestion.html', locals()) 
 
 def studentchoosecourse(request):

@@ -6,11 +6,20 @@ class Courses (models.Model):
 	def __unicode__(self):
 		return self.CourseName
 
+class AssessmentManager(models.Manager):
+    def get_by_natural_key(self, name, course):
+        return self.get(name=name, course=course)
+
 class Assessment (models.Model):
+	objects = AssessmentManager()
 	name = models.CharField(max_length=200)
 	course = models.ForeignKey(Courses)
+	def natural_key(self):
+		return (self.name, self.course)
 	def __unicode__(self):
 		return self.name
+	class Meta:
+		unique_together = (('name', 'course'),)
 
 class AssessmentData (models.Model):
 	Assessment = models.ForeignKey (Assessment)
@@ -18,13 +27,10 @@ class AssessmentData (models.Model):
 	Question_Type = models.CharField(max_length=10)
 	Question_Data = models.CharField(max_length=200)
 	Question_Answer = models.CharField(max_length=200)
+	ChoiceA = models.CharField(max_length=200)
+	ChoiceB = models.CharField(max_length=200)
+	ChoiceC = models.CharField(max_length=200)
+	ChoiceD = models.CharField(max_length=200)
+	ChoiceE = models.CharField(max_length=200)
 	def __unicode__(self):
 		return self.Question_Data
-
-class MCQuestionData (models.Model):
-	Assessment = models.ForeignKey (Assessment)
-	AssessmentData = models.ForeignKey (AssessmentData)
-	Choice_Type = models.CharField(max_length=10)
-	Choice_Content = models.CharField(max_length=200)
-	def __unicode__(self):	
-		return self.Choice_Type
