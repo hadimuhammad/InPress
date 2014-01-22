@@ -3,3 +3,7 @@ Server Maintenance (http://inpress.mcmaster.ca)
 October 14/2013 - Installed Django
 October 25/2013 - Installed MediaWiki
 November 11/2013 - Installed Sqlite3
+
+
+
+NEED to install https://code.google.com/p/wadofstuff/wiki/DjangoFullSerializers
