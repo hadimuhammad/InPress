@@ -2,6 +2,49 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  <script type="text/javascript">
+        function ParseData(valueNeeded, questionNum, assessmentName)
+        {
+          console.log(assessmentName);
+          var numberOfQuestions = 0;
+          var ListOfAssessments = document.getElementById("ListOfAssessments").value;
+          var QuestionData = document.getElementById("QuestionData").value;
+          var jsonData = JSON.parse(ListOfAssessments);
+          var jsonData2 = JSON.parse(QuestionData);
+          for (var i in jsonData) {
+              if (jsonData[i].fields.name == assessmentName){
+                var assessmentPK = jsonData[i].pk;
+                console.log(assessmentPK);
+              }
+          }
+          for (var j in jsonData2){
+              if (jsonData2[j].fields.Assessment == assessmentPK){
+                numberOfQuestions = numberOfQuestions + 1;
+                if (valueNeeded == "id" && numberOfQuestions==questionNum){
+                  //console.log ("Returning id");
+                  return jsonData2[j].pk;
+                }
+                if (valueNeeded == "Question" && numberOfQuestions==questionNum){
+                  //console.log ("Returning Question");
+                  return jsonData2[j].fields.Question_Data;
+                }
+                if (valueNeeded == "Type" && numberOfQuestions==questionNum){
+                  //console.log ("Returning type");
+                  if (jsonData2[j].fields.Question_Type == "SA")
+                    return "Short Answer";
+                  else
+                    return "Multiple Choice";
+                }
+                if (valueNeeded == "Answer" && numberOfQuestions==questionNum){
+                  //console.log ("Returning Answer");
+                  return jsonData2[j].fields.Question_Answer;
+                }
+                
+              }
+          }
+          return numberOfQuestions;
+        }
+  </script>
   <style type="text/css">
         form{display: inline;}
   </style>
@@ -75,26 +118,30 @@
     </div>
     <div id="collapse{{forloop.counter0}}" class="panel-collapse collapse">
       <div class="panel-body">
-              <table class="table">
-    <tr>
-    <th>#</th>
-    <th>Question</th>
-    <th>Type</th>
-    <th>Answer</th>
-    </tr>
-    <tr>
-    <td>1</td>
-    <td>Question Data
-    </td>
-    <td>Short Answer</td>
-    <td>4</td>
-    </tr>
-    <tr>
-    <td>2</td>
-    <td>What is 5+2?</td>
-    <td>Short Answer</td>
-    <td>7</td>
-    </tr>
+      <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
+      <input type='hidden' id= 'ListOfAssessments' name='ListOfAssessments' value='{{ListOfAssessments}}'/>
+      <input type='hidden' id= 'NameOfAssessment' name='NameOfAssessment' value='{{i}}'/>
+      <table class="table">
+      <script type="text/javascript">
+      document.write('<tr>');
+      document.write('<th>id</th>');
+      document.write('<th>Question</th>');
+      document.write('<th>Type</th>');
+      document.write('<th>Answer</th>');
+      document.write('</tr>');
+      var assessmentName = "{{i}}"
+      var numberOfQs = ParseData("",0,assessmentName);
+      console.log("numberOfQs"+numberOfQs);
+      for (i=1; i<=numberOfQs; i++){
+        document.write('<tr>');
+        document.write('<td>'+ParseData("id", i, assessmentName)+'</td>');
+        document.write('<td>'+ParseData("Question", i, assessmentName)+'</td>');
+        document.write('<td>'+ParseData("Type", i, assessmentName)+'</td>');
+        document.write('<td>'+ParseData("Answer", i, assessmentName)+'</td>');
+        document.write('</tr>');
+      }
+
+      </script>
     </table>
     
     <form name= "addQuestion" action="addquestion.html" method="get" id='addQuestion'>
@@ -162,7 +209,7 @@
           document.getElementById("assessment").value = index;
           document.getElementById("RemoveQuestion").submit();
     }
-
+    //--></script>
     {% endblock %}
   </body>
 </html>

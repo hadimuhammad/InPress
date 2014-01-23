@@ -46,13 +46,10 @@ def course(request):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessments = Assessment.objects.filter(course = courseName)
-        QuestionData = [0] * (assessments.count())
-        i = 0
-        for assessment in assessments:
-            QuestionData[i] = serializers.serialize("json", AssessmentData.objects.filter(Assessment=assessment))
-            i = i+1
-            break
+        ListOfAssessments = serializers.serialize("json", assessments)
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment=assessments))
         print QuestionData
+        print ListOfAssessments
     return render_to_response('course.html', locals()) 
 
 def addassessment(request):
