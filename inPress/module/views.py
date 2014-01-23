@@ -116,6 +116,7 @@ def studentcourse(request):
     print courses
     return render_to_response('studentcourse.html', locals())
 
+
 def studentindex(request):
     courses = Courses.objects.all()
     print courses
