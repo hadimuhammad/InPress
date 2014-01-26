@@ -47,7 +47,7 @@ def course(request):
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessments = Assessment.objects.filter(course = courseName)
         ListOfAssessments = serializers.serialize("json", assessments)
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment=assessments))
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
         print QuestionData
         print ListOfAssessments
     return render_to_response('course.html', locals()) 
