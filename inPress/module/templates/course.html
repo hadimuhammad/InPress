@@ -3,6 +3,21 @@
 <html lang="en">
   <head>
   <script type="text/javascript">
+        function checkEmpty (value, letter, answer){
+          if (value == ""){
+              return "";
+          }
+          else{
+            if (letter == answer){
+              var string = '<b>'+letter + ") "+ value + '</b>';
+              return string;
+            }
+            else{
+              var string = letter + ") "+ value;
+              return string;
+            }
+          }
+        } 
         function ParseData(valueNeeded, questionNum, assessmentName)
         {
           console.log(assessmentName);
@@ -37,7 +52,14 @@
                 }
                 if (valueNeeded == "Answer" && numberOfQuestions==questionNum){
                   //console.log ("Returning Answer");
-                  return jsonData2[j].fields.Question_Answer;
+                  if (jsonData2[j].fields.Question_Type == "SA"){
+                    return jsonData2[j].fields.Question_Answer;
+                  }
+                  else{
+                    var answer = checkEmpty(jsonData2[j].fields.ChoiceA, "a", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceB, "b", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceC, "c", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceD, "d", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceE, "e", jsonData2[j].fields.Question_Answer);
+                    return answer;
+                  }
+                
                 }
                 
               }
@@ -45,6 +67,7 @@
           return numberOfQuestions;
         }
   </script>
+
   <style type="text/css">
         form{display: inline;}
   </style>
