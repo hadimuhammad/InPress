@@ -112,9 +112,26 @@ def addquestion(request):
 
 def studentcourse(request):
     courses = Courses.objects.all()
-    print courses
-    return render_to_response('studentcourse.html', locals())
+    print request
+    if (request.method == 'GET'):
+        myCourse = request.GET['courseInfo']
+        courseName = Courses.objects.filter(CourseName=myCourse)
+        assessments = Assessment.objects.filter(course = courseName)
+        ListOfAssessments = serializers.serialize("json", assessments)
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+ 
+    return render_to_response('studentcourse.html', locals()) 
 
+def studentcoursehistory(request):
+    courses = Courses.objects.all()
+    print request
+    if (request.method == 'GET'):
+        myCourse = request.GET['courseInfo']
+        courseName = Courses.objects.filter(CourseName=myCourse)
+        assessments = Assessment.objects.filter(course = courseName)
+        ListOfAssessments = serializers.serialize("json", assessments)
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+    return render_to_response('studentCourseHistory.html', locals())
 
 def studentindex(request):
     courses = Courses.objects.all()
