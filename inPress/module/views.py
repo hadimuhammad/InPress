@@ -126,7 +126,7 @@ def studentcoursehistory(request):
     courses = Courses.objects.all()
     print request
     if (request.method == 'GET'):
-        myCourse = request.GET['courseInfo']
+        myCourse = request.GET['course']
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessments = Assessment.objects.filter(course = courseName)
         ListOfAssessments = serializers.serialize("json", assessments)

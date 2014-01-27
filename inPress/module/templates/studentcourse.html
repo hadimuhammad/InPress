@@ -182,9 +182,10 @@
   </div>
   {% endfor %}
   </div>
- 
-
-        <a href="javascript:{}" onClick="SubmitCourse('{{myCourses}}');" class="btn btn-default btn-sm" role="button"> Go to all the exisiting test(s) and quizz(es). </a></form>
+        <form name= "existingTests" action="studentCourseHistory.html" method="get" id='existingTests'>
+        <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+        <a href="javascript:{}" onClick="ExistingTests('{{myCourses}}');" class="btn btn-default btn-sm" role="button"> Go to all the exisiting test(s) and quizz(es). </a>
+        </form>
  
     </div>
     </div>
@@ -214,6 +215,12 @@
     function SubmitCourse(index) {
           document.getElementById("courseInfo").value = index;
           document.getElementById("courseForm").submit();
+    }
+    //--></script>
+     <script type="text/javascript" language="JavaScript"><!--
+    function ExistingTests(index) {
+          document.getElementById("course").value = index;
+          document.getElementById("existingTests").submit();
     }
     //--></script>
     <script type="text/javascript" language="JavaScript"><!--
