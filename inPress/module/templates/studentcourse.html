@@ -2,52 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <script type="text/javascript">
-        function ParseData(valueNeeded, questionNum, assessmentName)
-        {
-          console.log(assessmentName);
-          var numberOfQuestions = 0;
-          var ListOfAssessments = document.getElementById("ListOfAssessments").value;
-          var QuestionData = document.getElementById("QuestionData").value;
-          var jsonData = JSON.parse(ListOfAssessments);
-          var jsonData2 = JSON.parse(QuestionData);
-          for (var i in jsonData) {
-              if (jsonData[i].fields.name == assessmentName){
-                var assessmentPK = jsonData[i].pk;
-                console.log(assessmentPK);
-              }
-          }
-          for (var j in jsonData2){
-              if (jsonData2[j].fields.Assessment == assessmentPK){
-                numberOfQuestions = numberOfQuestions + 1;
-                if (valueNeeded == "id" && numberOfQuestions==questionNum){
-                  //console.log ("Returning id");
-                  return jsonData2[j].pk;
-                }
-                if (valueNeeded == "Question" && numberOfQuestions==questionNum){
-                  //console.log ("Returning Question");
-                  return jsonData2[j].fields.Question_Data;
-                }
-                if (valueNeeded == "Type" && numberOfQuestions==questionNum){
-                  //console.log ("Returning type");
-                  if (jsonData2[j].fields.Question_Type == "SA")
-                    return "Short Answer";
-                  else
-                    return "Multiple Choice";
-                }
-                if (valueNeeded == "Answer" && numberOfQuestions==questionNum){
-                  //console.log ("Returning Answer");
-                  return jsonData2[j].fields.Question_Answer;
-                }
-                
-              }
-          }
-          return numberOfQuestions;
-        }
-  </script>
-  <style type="text/css">
-        form{display: inline;}
-  </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +9,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Student's Module - My Courses</title>
+    <title>Student's Module - Courses information</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -63,10 +17,15 @@
     <!-- Custom styles for this template -->
     <link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
 
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
   </head>
 
   <body>
-    {% block content %}
+
     <!-- Wrap all page content here -->
     <div id="wrap">
       <!-- Fixed navbar -->
@@ -79,13 +38,13 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/Student/index.html">InPress - Student's Module</a>
+            <a class="navbar-brand" href="/student/index.html">InPress - Student's Module</a>
           </div>
           <form name= "courseForm" action="course.html" method="get" id='courseForm'>
               <input type='hidden' id= 'courseInfo' name='courseInfo' value=''/>
   <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li> <a href="/Student/index.html">Home</a></li>
+              <li> <a href="/student/index.html">Home</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Courses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -97,71 +56,128 @@
               </li>
             </ul>
     <ul class="nav navbar-nav navbar-right">
-            <li><a href="/Student/login.html">Logout</a></li>
+            <li><a href="/">Logout</a></li>
           </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
 
       <!-- Begin page content -->
-  <div class="container">
-  <div class="page-header">
-  <h1> {{myCourse}} </h1>
-  {% for i in assessments %}
-   <div class="panel panel-default">
+	<div class="container">
+	<div class="page-header">
+	<h1> Class A </h1>
+	<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{forloop.counter0}}">
-          {{i}}
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          Quiz #1
         </a>
       </h4>
     </div>
-    <div id="collapse{{forloop.counter0}}" class="panel-collapse collapse">
+    <div id="collapseOne" class="panel-collapse collapse in">
       <div class="panel-body">
-      <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
-      <input type='hidden' id= 'ListOfAssessments' name='ListOfAssessments' value='{{ListOfAssessments}}'/>
-      <input type='hidden' id= 'NameOfAssessment' name='NameOfAssessment' value='{{i}}'/>
-      <table class="table">
-      <script type="text/javascript">
-      document.write('<tr>');
-      document.write('<th>id</th>');
-      document.write('<th>Question</th>');
-      document.write('<th>Type</th>');
-      document.write('<th>Answer</th>');
-      document.write('</tr>');
-      var assessmentName = "{{i}}"
-      var numberOfQs = ParseData("",0,assessmentName);
-      console.log("numberOfQs"+numberOfQs);
-      for (i=1; i<=numberOfQs; i++){
-        document.write('<tr>');
-        document.write('<td>'+ParseData("id", i, assessmentName)+'</td>');
-        document.write('<td>'+ParseData("Question", i, assessmentName)+'</td>');
-        document.write('<td>'+ParseData("Type", i, assessmentName)+'</td>');
-        document.write('<td>'+ParseData("Answer", i, assessmentName)+'</td>');
-        document.write('</tr>');
-      }
-
-      </script>
-    </table>
-    
-    <form name= "addQuestion" action="addquestion.html" method="get" id='addQuestion'>
-    <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
-    <input type='hidden' id= 'assessment' name='assessment' value=''/>
-    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="AddQuestion('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Answer this question </a>
-    </form>
-
-
+      	<table class="table">
+		<tr>
+		<th>#</th>
+		<th>Question</th>
+		<th>Type</th>
+		<th>Answer</th>
+		</tr>
+		<tr>
+		<td>1</td>
+		<td>What is 2+2?</td>
+		<td>Short Answer</td>
+		<td>4</td>
+		</tr>
+		<tr>
+		<td>2</td>
+		<td>What is 5+2?</td>
+		<td>Short Answer</td>
+		<td>7</td>
+		</tr>
+		</table>
+       
   </div>
   </div>
   </div>
-  {% endfor %}
-  </div>
-
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+          Quiz #2
+        </a>
+      </h4>
     </div>
+    <div id="collapseTwo" class="panel-collapse collapse">
+      <div class="panel-body">
+            	<table class="table">
+		<tr>
+		<th>#</th>
+		<th>Question</th>
+		<th>Type</th>
+		<th>Answer</th>
+		</tr>
+		<tr>
+		<td>1</td>
+		<td>What is 2+2?</td>
+		<td>Short Answer</td>
+		<td>4</td>
+		</tr>
+		<tr>
+		<td>2</td>
+		<td>What is 5+2?</td>
+		<td>Short Answer</td>
+		<td>7</td>
+		</tr>
+		</table>
+       
+  </div>
+  </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+        Quiz #3
+	</a>
+      </h4>
     </div>
+    <div id="collapseThree" class="panel-collapse collapse">
+      <div class="panel-body">
+            	<table class="table">
+		<tr>
+		<th>#</th>
+		<th>Question</th>
+		<th>Type</th>
+		<th>Answer</th>
+		</tr>
+		<tr>
+		<td>1</td>
+		<td>What is 2+2?</td>
+		<td>Short Answer</td>
+		<td>4</td>
+		</tr>
+		<tr>
+		<td>2</td>
+		<td>What is 5+2?</td>
+		<td>Short Answer</td>
+		<td>7</td>
+		</tr>
+		</table>
+       
+  </div>
+  </div>
+  </div>
+</div>
+	</div>
+       
+	</div>
+    </div>
+
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Student's Module ({{myCourse}})</p>
+        <p class="text-muted">InPress - Student's Module (Class A)</p>
       </div>
     </div>
 
@@ -172,34 +188,10 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" language="JavaScript"><!--
-    function DoSubmission(index) {
-          document.getElementById("MyForm").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function DoSubmission2(index) {
-          document.getElementById("MyForm2").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
     function SubmitCourse(index) {
           document.getElementById("courseInfo").value = index;
           document.getElementById("courseForm").submit();
     }
     //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function AddQuestion(index) {
-          document.getElementById("assessment").value = index;
-          document.getElementById("addQuestion").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function RemoveQuestion(index) {
-          document.getElementById("assessment").value = index;
-          document.getElementById("RemoveQuestion").submit();
-    }
-    //--></script>
-    {% endblock %}
   </body>
 </html>
-
