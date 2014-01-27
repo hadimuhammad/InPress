@@ -42,14 +42,17 @@ def addclass(request):
 
 def course(request):
     courses = Courses.objects.all()
+    print request
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessments = Assessment.objects.filter(course = courseName)
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
-        print QuestionData
-        print ListOfAssessments
+    if (request.method == 'POST'):
+        assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
+        assessmentToDelete.delete()
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
     return render_to_response('course.html', locals()) 
 
 def addassessment(request):
@@ -85,10 +88,7 @@ def removeassessment(request):
         return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
     return render_to_response('removeassessment.html', locals()) 
 
-
-
 def addquestion(request):
-    courses = Courses.objects.all()
     if (request.method == 'GET'):
         myCourse = request.GET['course']
         myAssessment = request.GET['assessment']
@@ -107,7 +107,6 @@ def addquestion(request):
                 Question_Answer=request.POST['MCRadio'], ChoiceA = request.POST['MC1Ans'], ChoiceB = request.POST['MC2Ans'], 
                 ChoiceC = request.POST['MC3Ans'], ChoiceD = request.POST['MC4Ans'], ChoiceE=request.POST['MC5Ans'])
             question.save()
-
             return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course'])
     return render_to_response('addquestion.html', locals()) 
 

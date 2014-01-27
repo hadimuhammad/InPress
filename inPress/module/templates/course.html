@@ -156,12 +156,17 @@
       var numberOfQs = ParseData("",0,assessmentName);
       console.log("numberOfQs"+numberOfQs);
       for (i=1; i<=numberOfQs; i++){
+        var questionId = ParseData("id", i, assessmentName);
+        document.write ('<form name= "removeQuestion" action="course.html" method="POST" id=\'removeQuestion\'>');
+        document.write('<input type='+'hidden'+' id='+'QuestionToRemove'+' name='+'QuestionToRemove'+' value='+''+'/>')
         document.write('<tr>');
-        document.write('<td>'+ParseData("id", i, assessmentName)+'</td>');
+        document.write('<td>'+i+'</td>');
         document.write('<td>'+ParseData("Question", i, assessmentName)+'</td>');
         document.write('<td>'+ParseData("Type", i, assessmentName)+'</td>');
         document.write('<td>'+ParseData("Answer", i, assessmentName)+'</td>');
+        document.write('<td> <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="RemoveQuestion('+questionId+');"> <span class="glyphicon glyphicon-remove"></span></a></td>');
         document.write('</tr>');
+        document.write('</form>');
       }
 
       </script>
@@ -171,12 +176,6 @@
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
     <input type='hidden' id= 'assessment' name='assessment' value=''/>
     <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="AddQuestion('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Add a Question </a>
-    </form>
-
-    <form name= "removeQuestion" action="removequestion.html" method="get" id='removeQuestion'>
-    <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
-    <input type='hidden' id= 'assessment' name='assessment' value=''/>
-    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="RemoveQuestion('{{i}}');"> <span class="glyphicon glyphicon-minus"></span> Remove a Question </a>
     </form>
   </div>
   </div>
@@ -229,8 +228,8 @@
     //--></script>
     <script type="text/javascript" language="JavaScript"><!--
     function RemoveQuestion(index) {
-          document.getElementById("assessment").value = index;
-          document.getElementById("RemoveQuestion").submit();
+          document.getElementById("QuestionToRemove").value = index;
+          document.getElementById("removeQuestion").submit();
     }
     //--></script>
     {% endblock %}
