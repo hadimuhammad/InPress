@@ -57,6 +57,7 @@ def course(request):
 
 def addassessment(request):
     courses = Courses.objects.all()
+    print request
     if (request.method == 'GET'):
         myCourse = request.GET['course']
     if (request.method == 'POST'):
