@@ -102,13 +102,13 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/Student/index.html">InPress - Student's Module</a>
+            <a class="navbar-brand" href="/student/index.html">InPress - Student's Module</a>
           </div>
           <form name= "courseForm" action="course.html" method="get" id='courseForm'>
               <input type='hidden' id= 'courseInfo' name='courseInfo' value=''/>
   <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li> <a href="/Student/index.html">Home</a></li>
+              <li> <a href="/student/index.html">Home</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Courses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -120,7 +120,7 @@
               </li>
             </ul>
     <ul class="nav navbar-nav navbar-right">
-            <li><a href="/Student/login.html">Logout</a></li>
+            <li><a href="/student/login.html">Logout</a></li>
           </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -164,7 +164,6 @@
         document.write('<td>'+ParseData("Question", i, assessmentName)+'</td>');
         document.write('<td>'+ParseData("Type", i, assessmentName)+'</td>');
         document.write('<td>'+ParseData("Answer", i, assessmentName)+'</td>');
-        document.write('<td> <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="RemoveQuestion('+questionId+');"> <span class="glyphicon glyphicon-remove"></span></a></td>');
         document.write('</tr>');
         document.write('</form>');
       }
@@ -172,17 +171,13 @@
       </script>
     </table>
     
-    <form name= "addQuestion" action="addquestion.html" method="get" id='addQuestion'>
-    <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
-    <input type='hidden' id= 'assessment' name='assessment' value=''/>
-    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="AddQuestion('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Answer this </a>
-    </form>
+
   </div>
   </div>
   </div>
   {% endfor %}
   </div>
-       
+       </div>
     </div>
     </div>
     <div id="footer">

@@ -120,7 +120,6 @@ def studentcourse(request):
         assessments = Assessment.objects.filter(course = courseName)
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
- 
     return render_to_response('studentcourse.html', locals()) 
 
 def studentcoursehistory(request):
@@ -136,5 +135,20 @@ def studentcoursehistory(request):
 
 def studentindex(request):
     courses = Courses.objects.all()
-    print courses
     return render_to_response('studentindex.html', locals()) 
+
+def viewassessment(request):
+    if (request.method == 'GET'):
+        myCourse = request.GET['course']
+        assessmentPK = request.GET ['AssessmentPK']
+        assessmentName = Assessment.objects.get(pk =assessmentPK)
+        QuestionNum = request.GET['QuestionNum']
+        assessments = Assessment.objects.filter(pk =assessmentPK)
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+        my_param = request.GET.get('isEnd')
+        print my_param
+        if (my_param ):
+            if (my_param == "true"):
+                return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course'])
+    courses = Courses.objects.all()
+    return render_to_response('viewassessment.html', locals())     
