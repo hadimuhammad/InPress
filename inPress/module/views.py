@@ -37,6 +37,13 @@ def addclass(request):
         except Courses.DoesNotExist:
             b = Courses(CourseName=request.POST['className'], CourseCode=request.POST['classCode'])
             b.save()
+            dataFile = open(request.POST['classList'], 'r')
+            course = Courses.objects.get(CourseName = request.POST['className'])
+            for eachLine in dataFile:
+                print eachLine
+                addMe = Users(StudentNumber = eachLine, CourseName = course)
+                addMe.save()
+            dataFile.close()
             return HttpResponseRedirect('/instructor/index.html')
     return render_to_response('addclass.html', RequestContext(request, {}))
 

@@ -5,6 +5,12 @@ class Courses (models.Model):
 	CourseCode = models.CharField(max_length=200)
 	def __unicode__(self):
 		return self.CourseName
+		
+class Users (models.Model):
+	StudentNumber = models.CharField(max_length=200)
+	CourseName = models.ForeignKey (Courses)
+	def __unicode__(self):
+		return self.StudentNumber
 
 class AssessmentManager(models.Manager):
     def get_by_natural_key(self, name, course):
@@ -35,3 +41,4 @@ class AssessmentData (models.Model):
 	ChoiceE = models.CharField(max_length=200)
 	def __unicode__(self):
 		return self.Question_Data
+
