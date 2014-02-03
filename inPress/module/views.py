@@ -67,6 +67,7 @@ def addassessment(request):
         try:
             course = Courses.objects.get(CourseName = myCourse)
             a = Assessment.objects.get(name = assessmentToAdd, course=course)
+            Assessment.objects.filter (name = assessmentToAdd, course=course).update(post_date=request.POST ['effectivedate'])
             return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
         except Assessment.DoesNotExist:
             a = Courses.objects.get(CourseName = myCourse)

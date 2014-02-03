@@ -78,7 +78,8 @@
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
     <title>Instructor's Module - My Course</title>
-
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 
@@ -155,7 +156,8 @@
       var forloop = document.getElementById("forloopcounter"+assessmentName).value
       document.write('<div class="input-group date" id="dp"'+forloop+'"+ data-date="12-02-2012" data-date-format="yyyy-mm-dd">')
         document.write ('<form name= "modifyAssessment" action="addassessment.html" method="POST" id=\'modifyAssessment\'>');
-        
+        document.write('<input type=\'hidden\' id= \'course\' name=\'course\' value=\'{{myCourse}}\'/>')
+        document.write('<input type=\'hidden\' id= \'AssessmentName\' name=\'AssessmentName\' value=\'{{i}}\'/>')
         var postdate = ParseData("postdate",0,assessmentName);
        document.write('Effective Date: <b><label class="control-label" id="date'+forloop+'">'+postdate+'</label></b>');
        document.write(' <input type="text" style="display:none" class="span-2" value="" id="dp'+forloop+'" name="effectivedate">');
@@ -219,8 +221,6 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" language="JavaScript"><!--
     function DoSubmission(index) {
           document.getElementById("MyForm").submit();
@@ -252,6 +252,7 @@
     <script type="text/javascript" language="JavaScript"><!--
     function ModifyAssessment(index) {
       if (document.getElementById("date"+index).style.display == "none"){
+          document.getElementById("modifyAssessment").submit();
           var date = document.getElementById("dp"+index);
           date.style.display = "none";
           document.getElementById("date"+index).style.display = "inline"
