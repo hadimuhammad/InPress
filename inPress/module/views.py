@@ -9,7 +9,8 @@ from django.core import serializers
  
 def studentsignin(request):
     if (request.method == 'POST'):
-        Courses = Users.objects.filter (StudentNumber = request.POST['studentnumber']).values("CourseName")
+        print request.POST['studentnumber']
+        Courses = Students.objects.filter (StudentNumber = request.POST['studentnumber']).values("CourseName")
         print Courses
         if (Courses.count() < 1):
             return HttpResponseRedirect('/')
@@ -47,9 +48,10 @@ def addclass(request):
             dataFile = open(request.POST['classList'], 'r')
             course = Courses.objects.get(CourseName = request.POST['className'])
             for eachLine in dataFile:
-                print eachLine
-                addMe = Users(StudentNumber = eachLine, CourseName = course)
-                addMe.save()
+                eachLine = eachLine.replace('\n', '')
+                a = Students(StudentNumber=eachLine, CourseName=course)
+                a.save()
+                break;
             dataFile.close()
             return HttpResponseRedirect('/instructor/index.html')
     return render_to_response('addclass.html', RequestContext(request, {}))
@@ -128,7 +130,7 @@ def addquestion(request):
 
 def studentcourse(request):
     studentnumber = request.GET['studentnumber']
-    mycourses = Users.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
     print request
     if (request.method == 'GET'):
@@ -141,7 +143,7 @@ def studentcourse(request):
 
 def studentcoursehistory(request):
     studentnumber = request.GET['studentnumber']
-    mycourses = Users.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
     print request
     if (request.method == 'GET'):
@@ -154,7 +156,7 @@ def studentcoursehistory(request):
 
 def studentindex(request):
     studentnumber = request.GET['studentnumber']
-    mycourses = Users.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
     return render_to_response('studentindex.html', locals()) 
 
@@ -172,6 +174,6 @@ def viewassessment(request):
             if (my_param == "true"):
                 return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course']+'&studentnumber='+request.GET['studentnumber'])
     studentnumber = request.GET['studentnumber']
-    mycourses = Users.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
     return render_to_response('viewassessment.html', locals())     
