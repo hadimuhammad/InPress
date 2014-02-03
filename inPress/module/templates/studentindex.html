@@ -40,13 +40,14 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/student/index.html">InPress - Student's Module</a>
+            <a class="navbar-brand" href="/student/index.html?studentnumber={{studentnumber}}">InPress - Student's Module</a>
           </div>
           <form name= "courseForm" action="course.html" method="get" id='courseForm'>
               <input type='hidden' id= 'courseInfo' name='courseInfo' value=''/>
+              <input type='hidden' id= 'studentnumber1' name='studentnumber' value='{{studentnumber}}'/>
 	<div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li> <a href="/student/index.html">Home</a></li>
+              <li> <a href="/student/index.html?studentnumber={{studentnumber}}">Home</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Courses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -70,6 +71,7 @@
           <h1>My Courses</h1>
           <form name= "MyForm2" action="course.html" method="get" id='MyForm2'>
           <input type='hidden' id= 'courseToDelete' name='courseInfo' value=''/>
+          <input type='hidden' id= 'studentnumber2' name='studentnumber' value='{{studentnumber}}'/>
           {% for i in courses %}
           <a href="javascript:{}" class="btn btn-default btn-lg btn-block" role="button" onClick="DoSubmission('{{i}}');">{{i}}</a>
           {% endfor %} 

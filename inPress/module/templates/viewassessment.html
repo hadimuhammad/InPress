@@ -103,15 +103,16 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/student/index.html">InPress - Student's Module</a>
+            <a class="navbar-brand" href="/student/index.html?studentnumber={{studentnumber}}">InPress - Student's Module</a>
           </div>
           <form name= "courseForm" action="course.html" method="get" id='courseForm'>
               <input type='hidden' id= 'courseInfo' name='courseInfo' value=''/>
+              <input type='hidden' id= 'studentnumber5' name='studentnumber' value='{{studentnumber}}'/>
               <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
               <input type='hidden' id= 'questionNum' name='questionNum' value='{{QuestionNum}}'/>
   <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li> <a href="/student/index.html">Home</a></li>
+              <li> <a href="/student/index.html?studentnumber={{studentnumber}}">Home</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Courses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -164,6 +165,7 @@
   <div class="col-xs-12 col-md-8">
     <form name= "previousQuestion" action="viewassessment.html" method="get" id='previousQuestion'>
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+    <input type='hidden' id= 'studentnumber0' name='studentnumber' value='{{studentnumber}}'/>
     <input type='hidden' id= 'assessmentPK' name='AssessmentPK' value='{{assessmentPK}}'/>
     <input type='hidden' id= 'QuestionNum' name='QuestionNum' value='{{QuestionNum}}'/>
     <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="PreviousQuestion('{{QuestionNum}}');"> Previous Question </a>
@@ -172,6 +174,7 @@
   <div class="col-xs-6 col-md-4">
   <form name= "nextQuestion" action="viewassessment.html" method="get" id='nextQuestion'>
     <input type='hidden' id= 'course2' name='course' value='{{myCourse}}'/>
+    <input type='hidden' id= 'studentnumber1' name='studentnumber' value='{{studentnumber}}'/>
     <input type='hidden' id= 'assessmentPK2' name='AssessmentPK' value='{{assessmentPK}}'/>
     <input type='hidden' id= 'QuestionNum2' name='QuestionNum' value='{{QuestionNum}}'/>
     <input type='hidden' id= 'isEnd' name='isEnd' value=""/>

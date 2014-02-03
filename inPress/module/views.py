@@ -8,6 +8,13 @@ from django.core import serializers
  
  
 def studentsignin(request):
+    if (request.method == 'POST'):
+        Courses = Users.objects.filter (StudentNumber = request.POST['studentnumber']).values("CourseName")
+        print Courses
+        if (Courses.count() < 1):
+            return HttpResponseRedirect('/')
+        else:
+            return HttpResponseRedirect('/student/index.html?studentnumber='+request.POST['studentnumber'])
     return render_to_response('studentsignin.html', RequestContext(request, {}))
 
 def instructorsignin(request):
@@ -120,7 +127,9 @@ def addquestion(request):
     return render_to_response('addquestion.html', locals()) 
 
 def studentcourse(request):
-    courses = Courses.objects.all()
+    studentnumber = request.GET['studentnumber']
+    mycourses = Users.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    courses = Courses.objects.filter (pk__in=mycourses)
     print request
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
@@ -131,7 +140,9 @@ def studentcourse(request):
     return render_to_response('studentcourse.html', locals()) 
 
 def studentcoursehistory(request):
-    courses = Courses.objects.all()
+    studentnumber = request.GET['studentnumber']
+    mycourses = Users.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    courses = Courses.objects.filter (pk__in=mycourses)
     print request
     if (request.method == 'GET'):
         myCourse = request.GET['course']
@@ -142,7 +153,9 @@ def studentcoursehistory(request):
     return render_to_response('studentCourseHistory.html', locals())
 
 def studentindex(request):
-    courses = Courses.objects.all()
+    studentnumber = request.GET['studentnumber']
+    mycourses = Users.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    courses = Courses.objects.filter (pk__in=mycourses)
     return render_to_response('studentindex.html', locals()) 
 
 def viewassessment(request):
@@ -157,6 +170,8 @@ def viewassessment(request):
         print my_param
         if (my_param ):
             if (my_param == "true"):
-                return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course'])
-    courses = Courses.objects.all()
+                return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course']+'&studentnumber='+request.GET['studentnumber'])
+    studentnumber = request.GET['studentnumber']
+    mycourses = Users.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    courses = Courses.objects.filter (pk__in=mycourses)
     return render_to_response('viewassessment.html', locals())     
