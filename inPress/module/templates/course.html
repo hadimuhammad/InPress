@@ -160,7 +160,7 @@
         document.write('<input type=\'hidden\' id= \'AssessmentName\' name=\'AssessmentName\' value=\'{{i}}\'/>')
         var postdate = ParseData("postdate",0,assessmentName);
        document.write('Effective Date: <b><label class="control-label" id="date'+forloop+'">'+postdate+'</label></b>');
-       document.write(' <input type="text" style="display:none" class="span-2" value="" id="dp'+forloop+'" name="effectivedate">');
+       document.write(' <input type="text" style="display:none" class="span-2" value="'+postdate+'" id="dp'+forloop+'" name="effectivedate">');
        document.write ('&nbsp; &nbsp;<a href="javascript:{}" class="glyphicon glyphicon-pencil" role="button" onClick="ModifyAssessment('+forloop+');"></a>');
        document.write ("</form>");
        document.write ("</div>");
