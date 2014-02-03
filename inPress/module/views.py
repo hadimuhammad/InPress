@@ -70,7 +70,7 @@ def addassessment(request):
             return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
         except Assessment.DoesNotExist:
             a = Courses.objects.get(CourseName = myCourse)
-            b = Assessment(name = assessmentToAdd, course=a)
+            b = Assessment(name = assessmentToAdd, course=a, post_date=request.POST ['effectivedate'])
             b.save()
             return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
     return render_to_response('addassessment.html', locals()) 

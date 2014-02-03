@@ -29,6 +29,10 @@
           for (var i in jsonData) {
               if (jsonData[i].fields.name == assessmentName){
                 var assessmentPK = jsonData[i].pk;
+                if (valueNeeded == "postdate"){
+                  console.log("date: "+jsonData[i].fields.post_date);
+                  return jsonData[i].fields.post_date;
+                }
                 console.log(assessmentPK);
               }
           }
@@ -71,20 +75,20 @@
   <style type="text/css">
         form{display: inline;}
   </style>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Instructor's Module - My Courses</title>
+    <title>Instructor's Module - My Course</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="/static/css/datepicker.css" rel="stylesheet">
+    <link href="/static/css/prettify.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <!--<script src="/static/bootstrap/js/prettify.js"></script> -->
+    <script src="/static/bootstrap/js/bootstrap-datepicker.js"></script>
 
   </head>
 
@@ -112,17 +116,17 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Courses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-              {% for i in courses %}
-              <li><a href="javascript:{}" onClick="SubmitCourse('{{i}}');">{{i}}</a></li>
-              {% endfor %}
-              </form>
-              </ul>
+                  {% for i in courses %}
+                  <li><a href="javascript:{}" onClick="SubmitCourse('{{i}}');">{{i}}</a></li>
+                  {% endfor %}
+                  </ul>
               </li>
             </ul>
     <ul class="nav navbar-nav navbar-right">
             <li><a href="/instructor/login.html">Logout</a></li>
           </ul>
           </div><!--/.nav-collapse -->
+          </form>
         </div>
       </div>
 
@@ -135,7 +139,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{forloop.counter0}}">
-          {{i}}
+          {{i}} 
         </a>
       </h4>
     </div>
@@ -143,9 +147,22 @@
       <div class="panel-body">
       <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
       <input type='hidden' id= 'ListOfAssessments' name='ListOfAssessments' value='{{ListOfAssessments}}'/>
+      <input type='hidden' id= 'forloopcounter{{i}}' name='forloopcounter' value='{{forloop.counter0}}'/>
       <input type='hidden' id= 'NameOfAssessment' name='NameOfAssessment' value='{{i}}'/>
       <table class="table">
       <script type="text/javascript">
+      var assessmentName = "{{i}}";
+      var forloop = document.getElementById("forloopcounter"+assessmentName).value
+      document.write('<div class="input-group date" id="dp"'+forloop+'"+ data-date="12-02-2012" data-date-format="yyyy-mm-dd">')
+        document.write ('<form name= "modifyAssessment" action="addassessment.html" method="POST" id=\'modifyAssessment\'>');
+        
+        var postdate = ParseData("postdate",0,assessmentName);
+       document.write('Effective Date: <b><label class="control-label" id="date'+forloop+'">'+postdate+'</label></b>');
+       document.write(' <input type="text" style="display:none" class="span-2" value="" id="dp'+forloop+'" name="effectivedate">');
+       document.write ('&nbsp; &nbsp;<a href="javascript:{}" class="glyphicon glyphicon-pencil" role="button" onClick="ModifyAssessment('+forloop+');"></a>');
+       document.write ("</form>");
+       document.write ("</div>");
+      var assessmentName = "{{i}}"
       document.write('<tr>');
       document.write('<th>id</th>');
       document.write('<th>Question</th>');
@@ -183,11 +200,11 @@
   {% endfor %}
 	</div>
         <form name= "MyForm" action="addassessment.html" method="get" id='MyForm'>
-        <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+        <input type='hidden' id= 'course1' name='course' value='{{myCourse}}'/>
         <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="DoSubmission('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Add an Assessment </a>
         </form> 
         <form name= "MyForm2" action="removeassessment.html" method="get" id='MyForm2'>
-        <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+        <input type='hidden' id= 'course2' name='course' value='{{myCourse}}'/>
 	       <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="DoSubmission2('{{i}}');"> <span class="glyphicon glyphicon-minus"></span> Remove an Assessment </a>
          </form>
     </div>
@@ -232,7 +249,28 @@
           document.getElementById("removeQuestion").submit();
     }
     //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function ModifyAssessment(index) {
+      if (document.getElementById("date"+index).style.display == "none"){
+          var date = document.getElementById("dp"+index);
+          date.style.display = "none";
+          document.getElementById("date"+index).style.display = "inline"
+      }
+      else{
+          var date = document.getElementById("dp"+index);
+          date.style.display = "inline";
+          document.getElementById("date"+index).style.display = "none"
+        }
+    }
+    $('.span-2').datepicker();
+    function Today(){
+      var d = new Date();
+      var curr_date = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      document.write(curr_year + "-" + curr_month + "-" +curr_date);
+    }
+    //--></script>
     {% endblock %}
   </body>
 </html>
-

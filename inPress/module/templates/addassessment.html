@@ -1,15 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
-
-    <title>Instructor's Module - Add a Class</title>
+   <title>Instructor's Module - Add an Assessment</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -19,15 +11,8 @@
     <link href="/static/css/datepicker.css" rel="stylesheet">
     <link href="/static/css/prettify.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <!--<script src="/static/bootstrap/js/prettify.js"></script> -->
     <script src="/static/bootstrap/js/bootstrap-datepicker.js"></script>
-
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
+    
   </head>
 
   <body>
@@ -79,14 +64,14 @@
     <div class="form-group row">
   <div class="col-xs-8">
     <label class="control-label">Effective Date</label>
-    <div class="input-group date" id="dp3" data-date="12-02-2012" data-date-format="mm-dd-yyyy">
+    <div class="input-group date" id="dp3" data-date="12-02-2012" data-date-format="yyyy-mm-dd">
        <input type="text" class="span-2" value="" id="dp1" name="effectivedate">
        <script type="text/javascript"> 
         var d = new Date();
         var curr_date = ("0" + d.getDate()).slice(-2)
         var curr_month = ("0" + (d.getMonth() + 1)).slice(-2)
         var curr_year = d.getFullYear();
-        var date = curr_month + "/" + curr_date + "/" + curr_year;
+        var date = curr_year+ "-"+ curr_month + "-" + curr_date;
        document.getElementById("dp1").value = date;</script>
     </div>
   </div>
@@ -114,7 +99,7 @@
       var curr_date = d.getDate();
       var curr_month = d.getMonth() + 1;
       var curr_year = d.getFullYear();
-      document.write(curr_date + "-" + curr_month + "-" + curr_year);
+      document.write(curr_year + "-" + curr_month + "-" +curr_date);
     }
     </script>
     <script type="text/javascript" language="JavaScript"><!--

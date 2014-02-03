@@ -2726,6 +2726,7 @@ input[type="button"].btn-block {
 }
 
 .glyphicon-pencil:before {
+  color: black;
   content: "\270f";
 }
 
