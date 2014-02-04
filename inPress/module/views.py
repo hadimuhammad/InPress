@@ -179,20 +179,23 @@ def viewassessment(request):
     return render_to_response('viewassessment.html', locals()) 
 
 def viewassessmentanswers(request):
+    studentnumber = request.GET['studentnumber']
+    courses = Courses.objects.all()
+    print request
     if (request.method == 'GET'):
         myCourse = request.GET['course']
+        courseName = Courses.objects.filter(CourseName=myCourse)
         assessmentPK = request.GET ['AssessmentPK']
+        assessments = Assessment.objects.filter(pk = assessmentPK)
         assessmentName = Assessment.objects.get(pk =assessmentPK)
         QuestionNum = request.GET['QuestionNum']
-        assessments = Assessment.objects.filter(pk =assessmentPK)
+        ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
-        my_param = request.GET.get('isEnd')
-        print my_param
-        if (my_param ):
-            if (my_param == "true"):
-                return HttpResponseRedirect('/student/studentCourseHistory.html?course='+request.GET['course']+'&studentnumber='+request.GET['studentnumber'])
-    studentnumber = request.GET['studentnumber']
-    mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
-    courses = Courses.objects.filter (pk__in=mycourses)
+    if (request.method == 'POST'):
+        assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
+        assessmentToDelete.delete()
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
     return render_to_response('viewassessmentanswers.html', locals()) 
 
