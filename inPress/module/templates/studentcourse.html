@@ -143,7 +143,7 @@
   var course = "{{myCourse}}"
   document.write ('');
   document.write ('');
-  document.write ('<th>Name of Assessment</th>');
+  document.write ('<th>Assessment(s) for today</th>');
   document.write ('<th>Number of Questions</th>');
   document.write ('<th>Start the Assessment</th>');
   </script>
@@ -170,11 +170,12 @@
   {% endfor %}
     </table>
   </div>
-        <form name= "existingTests" action="studentCourseHistory.html" method="get" id='existingTests'>
-        <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
-        <input type='hidden' id= 'studentnumber3' name='studentnumber' value='{{studentnumber}}'/>
-        <a href="javascript:{}" onClick="ExistingTests('{{myCourses}}');" class="btn btn-default btn-sm" role="button"> Go to all the exisiting test(s) and quizz(es). </a>
-        </form>
+      <br><br>
+      <form name= "existingTests" action="studentCourseHistory.html" method="get" id='existingTests'>
+      <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+      <input type='hidden' id= 'studentnumber3' name='studentnumber' value='{{studentnumber}}'/>
+      <a href="javascript:{}" onClick="ExistingTests('{{myCourses}}');" class="btn btn-default btn-sm" role="button"> Go to all the exisiting test(s) and quizz(es). </a>
+      </form>
  
     </div>
     </div>

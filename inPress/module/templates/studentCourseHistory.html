@@ -145,7 +145,7 @@
   document.write ('');
   document.write ('<th>Name of Assessment</th>');
   document.write ('<th>Number of Questions</th>');
-  document.write ('<th>Start the Assessment</th>');
+  document.write ('<th>Check the Answer</th>');
   </script>
   {% for i in assessments %}
   <script type='text/javascript'>
@@ -157,10 +157,10 @@
   document.write('<tr>');
   document.write('<td>{{i}}</td>');
   document.write('<td>'+ParseData("",0,assessmentName)+'</td>');
-  document.write('<td><form name= "takeAssessment" action="viewassessment.html" method="get" id=\'takeAssessment\'>');
+  document.write('<td><form name= "takeAssessment" action="viewassessmentanswers.html" method="get" id=\'takeAssessment\'>');
   document.write('<input type=\'hidden\' id= \'course\' name=\'course\' value='+course+'/>');
   document.write("<input type='hidden' id= 'studentnumber5' name='studentnumber' value='{{studentnumber}}'/>")
-  document.write('<a href="javascript:{}" onClick="TakeAssessment('+assessmentPK+');" class="btn btn-default btn-sm" role="button"> Start! </a>') ;
+  document.write('<a href="javascript:{}" onClick="TakeAssessment('+assessmentPK+');" class="btn btn-default btn-sm" role="button"> Answer </a>') ;
   document.write ('<input type=\'hidden\' id= \'AssessmentPK\' name=\'AssessmentPK\' value=\'\'/>');
   document.write ('<input type=\'hidden\' id= \'questionNum\' name=\'QuestionNum\' value=\'\'/>');
   document.write('</form></td></tr>')
@@ -171,10 +171,10 @@
     </table>
   </div>
         <br><br>
-        <form name= "existingTests" action="studentcourse.html" method="get" id='existingTests'>
-        <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+        <form name= "existingTests" action="course.html" method="get" id='existingTests'>
+        <input type='hidden' id= 'course98' name='courseInfo' value='{{myCourse}}'/>
         <input type='hidden' id= 'studentnumber3' name='studentnumber' value='{{studentnumber}}'/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" >Back to course page</button>
+        <button class="btn btn-default btn-sm" role="button" type="submit" >Back to course page</button>
         </form>
  
     </div>

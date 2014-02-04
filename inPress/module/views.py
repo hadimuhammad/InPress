@@ -5,6 +5,7 @@ from module.models import *
 from django.shortcuts import render_to_response, render
 from array import *
 from django.core import serializers
+import datetime
  
  
 def studentsignin(request):
@@ -132,11 +133,14 @@ def addquestion(request):
             return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course'])
     return render_to_response('addquestion.html', locals()) 
 
+
+
 def studentcourse(request):
     studentnumber = request.GET['studentnumber']
     mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
-    print request
+    checkdate = Assessment.objects.filter(post_date= '2014-2-4')
+    print checkdate
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
@@ -149,7 +153,6 @@ def studentcoursehistory(request):
     studentnumber = request.GET['studentnumber']
     mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
-    print request
     if (request.method == 'GET'):
         myCourse = request.GET['course']
         courseName = Courses.objects.filter(CourseName=myCourse)
@@ -180,4 +183,26 @@ def viewassessment(request):
     studentnumber = request.GET['studentnumber']
     mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
-    return render_to_response('viewassessment.html', locals())     
+    return render_to_response('viewassessment.html', locals()) 
+
+def viewassessmentanswers(request):
+    studentnumber = request.GET['studentnumber']
+    courses = Courses.objects.all()
+    print request
+    if (request.method == 'GET'):
+        myCourse = request.GET['course']
+        courseName = Courses.objects.filter(CourseName=myCourse)
+        assessmentPK = request.GET ['AssessmentPK']
+        assessments = Assessment.objects.filter(pk = assessmentPK)
+        assessmentName = Assessment.objects.get(pk =assessmentPK)
+        QuestionNum = request.GET['QuestionNum']
+        ListOfAssessments = serializers.serialize("json", assessments)
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+    if (request.method == 'POST'):
+        assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
+        assessmentToDelete.delete()
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+    return render_to_response('viewassessmentanswers.html', locals()) 
+
