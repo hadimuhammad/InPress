@@ -6,7 +6,7 @@ class Courses (models.Model):
 	def __unicode__(self):
 		return self.CourseName
 		
-class Users (models.Model):
+class Students (models.Model):
 	StudentNumber = models.CharField(max_length=200)
 	CourseName = models.ForeignKey (Courses)
 	def __unicode__(self):
