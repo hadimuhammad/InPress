@@ -170,10 +170,11 @@
   {% endfor %}
     </table>
   </div>
+        <br><br>
         <form name= "existingTests" action="studentcourse.html" method="get" id='existingTests'>
         <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
-        <input type='hidden' id= 'studentnumber30' name='studentnumber' value='{{studentnumber}}'/>
-        <a href="javascript:{}" onClick="ExistingTests('{{myCourses}}');" class="btn btn-default btn-sm" role="button"> Back to the course page. </a>
+        <input type='hidden' id= 'studentnumber3' name='studentnumber' value='{{studentnumber}}'/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" >Back to course page</button>
         </form>
  
     </div>
