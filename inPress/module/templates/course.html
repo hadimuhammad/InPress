@@ -211,7 +211,9 @@
 
      <!-- Post Unpost (pi1) -->
    <form name= "posting" method="post" id="posting" > 
-   <input type='hidden' id = 'postIT' name = 'postIT' value='{{myCourse}}'/>
+    <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+    <input type='hidden' id= 'assessment' name='assessment' value=''/>
+   <input type='hidden' id = 'postIT' name = 'postIT' value='True'/>
    <<a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="posting('{{i}}');"> <span class="glyphicon glyphicon-plus"></span>Post Assessment</a> 
    </form>
 
