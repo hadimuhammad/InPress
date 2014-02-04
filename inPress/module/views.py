@@ -58,16 +58,20 @@ def addclass(request):
 
 def course(request):
     courses = Courses.objects.all()
-    print request
+    #print request
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessments = Assessment.objects.filter(course = courseName)
+        posting = Assessment.objects.filter(course=courseName).values("post")
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+        print assessments
+        print posting
     if (request.method == 'POST'):
         assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
         assessmentToDelete.delete()
+        a = Assessment(post=request.POST['postIT'])
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     return render_to_response('course.html', locals()) 
 

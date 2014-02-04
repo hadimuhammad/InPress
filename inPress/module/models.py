@@ -21,6 +21,8 @@ class Assessment (models.Model):
 	name = models.CharField(max_length=200)
 	course = models.ForeignKey(Courses)
 	post_date = models.DateField()
+	post = models.BooleanField(default=False)
+
 	def natural_key(self):
 		return (self.name, self.course)
 	def __unicode__(self):
