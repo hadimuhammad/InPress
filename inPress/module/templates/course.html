@@ -35,13 +35,15 @@
                 }
                 if (valueNeeded == "isPosted"){
                   if (jsonData[i].fields.post == true){
-                    //return "True"
-                    return "posted"
+                    var labelFlag = assessmentName + " is posted";
+                    var postFlag = "True";
+                    return [labelFlag,postFlag]
                   }
                   else{
-                    //return "False"
-                    return "not posted"
-                  }
+                        var labelFlag = assessmentName + " is not posted"
+                        var postFlag = "False";
+                        return [labelFlag,postFlag]
+                      }
                 }
                 console.log(assessmentPK);
               }
@@ -181,7 +183,7 @@
        
         var isPosted= ParseData("isPosted",0, assessmentName);
         document.write ('<form name= "postStat" method"GET" id="postStat">' );
-       document.write(' This assessment is <b><label class="control-label" id="isPosted'+forloop+'">'+isPosted+'</label></b>');
+       document.write('<b><label class="control-label" id="isPosted'+forloop+'">'+isPosted[0]+'</label></b>');
        document.write ("</form>");
       
 
@@ -309,7 +311,7 @@
     function Posting(index) {
           document.getElementById("aToMod").value = index;
           var post = ParseData("isPosted", 0, index)
-          if (post == "True"){
+          if (post[1] == "True"){
             document.getElementById("postIT").value = "false"
             console.log ("change to false")
           }
