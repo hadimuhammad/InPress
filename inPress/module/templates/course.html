@@ -35,10 +35,12 @@
                 }
                 if (valueNeeded == "isPosted"){
                   if (jsonData[i].fields.post == true){
-                    return "True"
+                    //return "True"
+                    return "posted"
                   }
                   else{
-                    return "False"
+                    //return "False"
+                    return "not posted"
                   }
                 }
                 console.log(assessmentPK);
@@ -168,6 +170,8 @@
         document.write('<input type=\'hidden\' id= \'course\' name=\'course\' value=\'{{myCourse}}\'/>')
         document.write('<input type=\'hidden\' id= \'AssessmentName\' name=\'AssessmentName\' value=\'{{i}}\'/>')
 
+
+
         var postdate = ParseData("postdate",0,assessmentName);
        document.write('Effective Date: <b><label class="control-label" id="date'+forloop+'">'+postdate+'</label></b>');
        document.write(' <input type="text" style="display:none" class="span-2" value="'+postdate+'" id="dp'+forloop+'" name="effectivedate">');
@@ -175,13 +179,10 @@
        document.write ("</form>");
        document.write ("</div>");
        
-       //  var poststat= ParseData("poststat",5, assessmentName);
-       //  //document.write('<div class="input-group date" id="dp"'+forloop+'"+ data-date="12-02-2012" data-date-format="yyyy-mm-dd">');
-       //  document.write ('<form name= "postAsse" action="addassessment.html" method="POST" id=\'modifyAssessment\'>');
-       // document.write(' Posting Status : <b><label class="control-label" id="poststat'+forloop+'">'+poststat+'</label></b>');
-       // document.write(' <input type="text" style="display:none" class="span-2" value="True" id="dp'+forloop+'" name="poststats">');
-       // document.write ("</form>");
-       // //document.write ("</div>");
+        var isPosted= ParseData("isPosted",0, assessmentName);
+        document.write ('<form name= "postStat" method"GET" id="postStat">' );
+       document.write(' This assessment is <b><label class="control-label" id="isPosted'+forloop+'">'+isPosted+'</label></b>');
+       document.write ("</form>");
       
 
       var assessmentName = "{{i}}"
