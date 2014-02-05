@@ -1,10 +1,22 @@
 from django.db import models
 
+# class admin(models.Model):
+# 	adminID = models.CharField(max_length=10)
+# 	adminPW = models.CharField(max_length=20)
+# 	def __unicode__(self):
+# 		return self.adminID
+
+# class instructor(models.Model):
+# 	instructorID = models.CharField(max_length=10)
+# 	instructorPW = models.CharField(max_length=20)
+# 	def __unicode__(self):
+# 		return self.instructorID
+
 class Courses (models.Model):
 	CourseName = models.CharField(max_length=200)
 	CourseCode = models.CharField(max_length=200)
 	def __unicode__(self):
-		return self.CourseName
+		return self.CourseName		
 		
 class Students (models.Model):
 	StudentNumber = models.CharField(max_length=200)
