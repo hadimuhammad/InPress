@@ -33,6 +33,14 @@
                   console.log("date: "+jsonData[i].fields.post_date);
                   return jsonData[i].fields.post_date;
                 }
+                if (valueNeeded == "isPosted"){
+                  if (jsonData[i].fields.post == true){
+                    return "True"
+                  }
+                  else{
+                    return "False"
+                  }
+                }
                 console.log(assessmentPK);
               }
           }
@@ -212,9 +220,9 @@
      <!-- Post Unpost (pi1) -->
     <form name= "posting" method="post" id="posting" > 
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
-    <input type='hidden' id= 'aToMod' name='aToMod' value=''/>       
-    <input type='hidden' id = 'postIT' name = 'postIT' value='True'/>
-    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="Posting('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Post Assessment </a> 
+    <input type='hidden' id= 'aToMod' name='aToMod' value=''/> 
+    <input type='hidden' id = 'postIT' name = 'postIT' value=""/> 
+    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="Posting('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Post/UnPost </a> 
     </form>
 
   </div>
@@ -299,6 +307,15 @@
     <script type="text/javascript" language="JavaScript"><!--
     function Posting(index) {
           document.getElementById("aToMod").value = index;
+          var post = ParseData("isPosted", 0, index)
+          if (post == "True"){
+            document.getElementById("postIT").value = "false"
+            console.log ("change to false")
+          }
+          else{
+            document.getElementById("postIT").value = "true"
+            console.log ("change to true")
+          }
           document.getElementById("posting").submit();
     }
     //--></script>

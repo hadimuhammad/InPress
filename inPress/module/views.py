@@ -59,29 +59,31 @@ def addclass(request):
 
 def course(request):
     courses = Courses.objects.all()
-    print request
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessments = Assessment.objects.filter(course = courseName)
         posting = Assessment.objects.filter(course=courseName).values("post")
         ListOfAssessments = serializers.serialize("json", assessments)
+        print ListOfAssessments
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
         print assessments
         print posting
     if (request.method == 'POST'):
-        myCourse = request.POST['course']
-        assessmentToPost= request.POST['aToMod']
-        course = Courses.objects.get(CourseName = myCourse)
-        assessments = Assessment.objects.filter(course = course)
-
-        a = Assessment.objects.filter(name = assessmentToPost, course=course).update(post=request.POST['postIT'])
-
-
-        assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
-        assessmentToDelete.delete()
-        #a = Assessment.objects.get(name = assessmentToPost, course=course)
-
+        if (request.POST['postIT'] != ''):
+            isPost  = False
+            if (request.POST['postIT'] == "false"):
+                isPost = False
+            else:
+                isPost = True
+            myCourse = request.POST['course']
+            assessmentToPost= request.POST['aToMod']
+            course = Courses.objects.get(CourseName = myCourse)
+            assessments = Assessment.objects.filter(course = course)
+            a = Assessment.objects.filter(name = assessmentToPost, course=course).update(post=isPost)
+        else:
+            assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
+            assessmentToDelete.delete()
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     return render_to_response('course.html', locals()) 
 
