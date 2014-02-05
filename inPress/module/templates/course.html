@@ -225,9 +225,18 @@
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
     <input type='hidden' id= 'aToMod' name='aToMod' value=''/> 
     <input type='hidden' id = 'postIT' name = 'postIT' value=""/> 
-    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="Posting('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Post/UnPost </a> 
+    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="Posting('{{i}}');"> 
+    <script type="text/javascript">
+    var assessmentName = "{{i}}"
+    var post = ParseData("isPosted", 0, assessmentName)
+    if (post[1] == "False"){
+      document.write ("<span class=\"glyphicon glyphicon-open\" id=\"postBar\"></span> Post </a>")
+    }
+    else{
+      document.write ("<span class=\"glyphicon glyphicon-save\" id=\"postBar\"></span> Unpost </a>")
+    }
+    </script>
     </form>
-
   </div>
   </div>
   </div>
