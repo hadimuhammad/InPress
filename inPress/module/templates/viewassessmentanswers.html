@@ -21,13 +21,11 @@
       {
         console.log(assessmentName);
         var numberOfQuestions = 0;
-        var numberOfAssessments =0;
         var ListOfAssessments = document.getElementById("ListOfAssessments").value;
         var QuestionData = document.getElementById("QuestionData").value;
         var jsonData = JSON.parse(ListOfAssessments);
         var jsonData2 = JSON.parse(QuestionData);
         for (var i in jsonData) {
-            numberOfAssessments = numberOfAssessments + 1;
             if (jsonData[i].fields.name == assessmentName){
               var assessmentPK = jsonData[i].pk;
               if (valueNeeded == "postdate"){
@@ -65,7 +63,7 @@
             }
           }
         }
-        return numberOfAssessments;
+        return numberOfQuestions;
       }
     </script>
     <style type="text/css">

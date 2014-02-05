@@ -52,7 +52,6 @@ def addclass(request):
                 eachLine = eachLine.replace('\n', '')
                 a = Students(StudentNumber=eachLine, CourseName=course)
                 a.save()
-                break;
             dataFile.close()
             return HttpResponseRedirect('/instructor/index.html')
     return render_to_response('addclass.html', RequestContext(request, {}))
@@ -150,12 +149,11 @@ def studentcourse(request):
     studentnumber = request.GET['studentnumber']
     mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
-    checkdate = Assessment.objects.filter(post_date= '2014-2-4')
-    print checkdate
+    
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName)
+        assessments = Assessment.objects.filter(course = courseName, post = "true")
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
     return render_to_response('studentcourse.html', locals()) 
@@ -167,7 +165,7 @@ def studentcoursehistory(request):
     if (request.method == 'GET'):
         myCourse = request.GET['course']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName)
+        assessments = Assessment.objects.filter(course = courseName, post = "true")
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
     return render_to_response('studentCourseHistory.html', locals())
