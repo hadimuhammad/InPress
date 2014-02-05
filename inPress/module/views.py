@@ -59,7 +59,7 @@ def addclass(request):
 
 def course(request):
     courses = Courses.objects.all()
-    #print request
+    print request
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
@@ -70,9 +70,18 @@ def course(request):
         print assessments
         print posting
     if (request.method == 'POST'):
+        myCourse = request.POST['course']
+        assessmentToPost= request.POST['aToMod']
+        course = Courses.objects.get(CourseName = myCourse)
+        assessments = Assessment.objects.filter(course = course)
+
+        a = Assessment.objects.filter(name = assessmentToPost, course=course).update(post=request.POST['postIT'])
+
+
         assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
         assessmentToDelete.delete()
-        a = Assessment(post=request.POST['postIT'])
+        #a = Assessment.objects.get(name = assessmentToPost, course=course)
+
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     return render_to_response('course.html', locals()) 
 

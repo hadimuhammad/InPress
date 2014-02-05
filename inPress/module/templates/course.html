@@ -167,13 +167,13 @@
        document.write ("</form>");
        document.write ("</div>");
        
-        var poststat= ParseData("poststat",5, assessmentName);
-        //document.write('<div class="input-group date" id="dp"'+forloop+'"+ data-date="12-02-2012" data-date-format="yyyy-mm-dd">');
-        document.write ('<form name= "postAsse" action="addassessment.html" method="POST" id=\'modifyAssessment\'>');
-       document.write(' Posting Status : <b><label class="control-label" id="poststat'+forloop+'">'+poststat+'</label></b>');
-       document.write(' <input type="text" style="display:none" class="span-2" value="True" id="dp'+forloop+'" name="poststats">');
-       document.write ("</form>");
-       //document.write ("</div>");
+       //  var poststat= ParseData("poststat",5, assessmentName);
+       //  //document.write('<div class="input-group date" id="dp"'+forloop+'"+ data-date="12-02-2012" data-date-format="yyyy-mm-dd">');
+       //  document.write ('<form name= "postAsse" action="addassessment.html" method="POST" id=\'modifyAssessment\'>');
+       // document.write(' Posting Status : <b><label class="control-label" id="poststat'+forloop+'">'+poststat+'</label></b>');
+       // document.write(' <input type="text" style="display:none" class="span-2" value="True" id="dp'+forloop+'" name="poststats">');
+       // document.write ("</form>");
+       // //document.write ("</div>");
       
 
       var assessmentName = "{{i}}"
@@ -210,12 +210,12 @@
     </form>
 
      <!-- Post Unpost (pi1) -->
-   <form name= "posting" method="post" id="posting" > 
+    <form name= "posting" method="post" id="posting" > 
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
-    <input type='hidden' id= 'assessment' name='assessment' value=''/>
-   <input type='hidden' id = 'postIT' name = 'postIT' value='True'/>
-   <<a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="posting('{{i}}');"> <span class="glyphicon glyphicon-plus"></span>Post Assessment</a> 
-   </form>
+    <input type='hidden' id= 'aToMod' name='aToMod' value=''/>       
+    <input type='hidden' id = 'postIT' name = 'postIT' value='True'/>
+    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="Posting('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Post Assessment </a> 
+    </form>
 
   </div>
   </div>
@@ -264,12 +264,14 @@
           document.getElementById("addQuestion").submit();
     }
     //--></script>
+
     <script type="text/javascript" language="JavaScript"><!--
     function RemoveQuestion(index) {
           document.getElementById("QuestionToRemove").value = index;
           document.getElementById("removeQuestion").submit();
     }
     //--></script>
+
     <script type="text/javascript" language="JavaScript"><!--
     function ModifyAssessment(index) {
       if (document.getElementById("date"+index).style.display == "none"){
@@ -284,6 +286,7 @@
           document.getElementById("date"+index).style.display = "none"
         }
     }
+
     $('.span-2').datepicker();
     function Today(){
       var d = new Date();
@@ -294,11 +297,12 @@
     }
     //--></script>
     <script type="text/javascript" language="JavaScript"><!--
-    function posting(index) {
-          document.getElementById("assessment").value = True;
+    function Posting(index) {
+          document.getElementById("aToMod").value = index;
           document.getElementById("posting").submit();
     }
     //--></script>
+
 
     {% endblock %}
   </body>
