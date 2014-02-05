@@ -52,7 +52,6 @@ def addclass(request):
                 eachLine = eachLine.replace('\n', '')
                 a = Students(StudentNumber=eachLine, CourseName=course)
                 a.save()
-                break;
             dataFile.close()
             return HttpResponseRedirect('/instructor/index.html')
     return render_to_response('addclass.html', RequestContext(request, {}))
