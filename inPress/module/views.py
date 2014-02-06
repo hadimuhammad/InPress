@@ -39,6 +39,8 @@ def removeclass(request):
     return render_to_response('removeclass.html', locals()) 
 
 def addclass(request):
+    if (request.method == 'GET'):
+        courses = Courses.objects.all()
     if (request.method == 'POST'):
         try:
             a = Courses.objects.get(CourseName = request.POST['className'])
@@ -69,7 +71,8 @@ def course(request):
         print assessments
         print posting
     if (request.method == 'POST'):
-        if (request.POST['postIT'] != ''):
+        my_param = request.POST.get('postIT')
+        if (my_param):
             isPost  = False
             if (request.POST['postIT'] == "false"):
                 isPost = False
@@ -80,17 +83,18 @@ def course(request):
             course = Courses.objects.get(CourseName = myCourse)
             assessments = Assessment.objects.filter(course = course)
             a = Assessment.objects.filter(name = assessmentToPost, course=course).update(post=isPost)
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
         else:
             assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
             assessmentToDelete.delete()
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
     return render_to_response('course.html', locals()) 
 
 def addassessment(request):
-    courses = Courses.objects.all()
     print request
     if (request.method == 'GET'):
         myCourse = request.GET['course']
+        courses = Courses.objects.all()
     if (request.method == 'POST'):
         myCourse = request.POST['course']
         print myCourse
@@ -123,6 +127,7 @@ def removeassessment(request):
 
 def addquestion(request):
     if (request.method == 'GET'):
+        courses = Courses.objects.all()
         myCourse = request.GET['course']
         myAssessment = request.GET['assessment']
         courseName = Courses.objects.filter(CourseName=myCourse)
@@ -143,6 +148,15 @@ def addquestion(request):
             return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course'])
     return render_to_response('addquestion.html', locals()) 
 
+def data_analysis(request):
+    course = request.GET['course']
+    courses = Courses.objects.all()
+    courseName = Courses.objects.filter(CourseName=course)
+    assessment = request.GET['assessment']
+    assessmentName = Assessment.objects.filter(name = assessment, course=courseName)
+    numOfStudents = Students.objects.filter (CourseName=courseName).count()
+    numOfStudentsComplete = StudentAnswers.objects.filter(Assessment = assessmentName).count()
+    return render_to_response('data_analysis.html', locals()) 
 
 
 def studentcourse(request):
@@ -152,6 +166,7 @@ def studentcourse(request):
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
+        print date.today()
         assessments = Assessment.objects.filter(course = courseName, post = "true", post_date = date.today())
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
@@ -184,10 +199,19 @@ def viewassessment(request):
         assessments = Assessment.objects.filter(pk =assessmentPK)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
         my_param = request.GET.get('isEnd')
-        print my_param
         if (my_param ):
             if (my_param == "true"):
-                return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course']+'&studentnumber='+request.GET['studentnumber'])
+                courseName = Courses.objects.filter(CourseName=request.GET['course'])
+                studentno = request.GET['studentnumber']
+                student = Students.objects.get(StudentNumber = studentno, CourseName=courseName)
+                assessment = Assessment.objects.get(pk =assessmentPK)
+                try:
+                    myanswer = StudentAnswers.objects.get (Students = student, Assessment=assessment)
+                    return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course']+'&studentnumber='+request.GET['studentnumber'])
+                except StudentAnswers.DoesNotExist:
+                    b = StudentAnswers(Students = student, Assessment=assessment, isDone = True)
+                    b.save()
+                    return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course']+'&studentnumber='+request.GET['studentnumber'])
     studentnumber = request.GET['studentnumber']
     mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
@@ -195,7 +219,8 @@ def viewassessment(request):
 
 def viewassessmentanswers(request):
     studentnumber = request.GET['studentnumber']
-    courses = Courses.objects.all()
+    mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    courses = Courses.objects.filter (pk__in=mycourses)
     print request
     if (request.method == 'GET'):
         myCourse = request.GET['course']
@@ -210,7 +235,5 @@ def viewassessmentanswers(request):
         assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
         assessmentToDelete.delete()
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-
     return render_to_response('viewassessmentanswers.html', locals()) 
 

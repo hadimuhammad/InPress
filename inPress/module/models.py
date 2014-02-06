@@ -56,3 +56,7 @@ class AssessmentData (models.Model):
 	def __unicode__(self):
 		return self.Question_Data
 
+class StudentAnswers (models.Model):
+	Students = models.ForeignKey (Students)
+	Assessment = models.ForeignKey (Assessment)
+	isDone = models.BooleanField(default=False)

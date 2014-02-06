@@ -213,7 +213,8 @@
 
       </script>
     </table>
-    
+    <div class="row">
+    <div class="col-xs-12 col-md-8">
     <form name= "addQuestion" action="addquestion.html" method="get" id='addQuestion'>
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
     <input type='hidden' id= 'assessment' name='assessment' value=''/>
@@ -221,7 +222,7 @@
     </form>
 
      <!-- Post Unpost (pi1) -->
-    <form name= "posting" method="post" id="posting" > 
+    <form name= "posting" method="post" id="posting" action="course.html"> 
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
     <input type='hidden' id= 'aToMod' name='aToMod' value=''/> 
     <input type='hidden' id = 'postIT' name = 'postIT' value=""/> 
@@ -236,7 +237,17 @@
       document.write ("<span class=\"glyphicon glyphicon-save\" id=\"postBar\"></span> Unpost </a>")
     }
     </script>
-    </form>
+    </form>  
+    </div>
+    <div class="col-xs-6 col-md-4">
+    <form name= "dataAnalysis" action="data_analysis.html" method="get" id="dataAnalysis" > 
+    <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+    <input type='hidden' id= 'assessment31' name='assessment' value=''/> 
+    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="DataAnalysis('{{i}}');"> 
+    <span class="glyphicon glyphicon-stats" id="stats"></span> Data Analysis </a>
+    </form>  
+    </div>
+    </div>
   </div>
   </div>
   </div>
@@ -289,6 +300,13 @@
     function RemoveQuestion(index) {
           document.getElementById("QuestionToRemove").value = index;
           document.getElementById("removeQuestion").submit();
+    }
+    //--></script>
+
+    <script type="text/javascript" language="JavaScript"><!--
+    function DataAnalysis(index) {
+          document.getElementById("assessment31").value = index;
+          document.getElementById("dataAnalysis").submit();
     }
     //--></script>
 
