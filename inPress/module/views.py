@@ -5,8 +5,8 @@ from module.models import *
 from django.shortcuts import render_to_response, render
 from array import *
 from django.core import serializers
-import datetime
- 
+from datetime import date
+
  
 def studentsignin(request):
     if (request.method == 'POST'):
@@ -161,11 +161,11 @@ def studentcourse(request):
     studentnumber = request.GET['studentnumber']
     mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
-    
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName, post = "true")
+        assessments = Assessment.objects.filter(course = courseName, post = "true", post_date = date.today())
+        # more than 1, how I am send it back to HTML
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
     return render_to_response('studentcourse.html', locals()) 
