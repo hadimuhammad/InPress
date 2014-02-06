@@ -220,7 +220,8 @@ def viewassessment(request):
 
 def viewassessmentanswers(request):
     studentnumber = request.GET['studentnumber']
-    courses = Courses.objects.all()
+    mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    courses = Courses.objects.filter (pk__in=mycourses)
     print request
     if (request.method == 'GET'):
         myCourse = request.GET['course']
