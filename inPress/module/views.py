@@ -71,7 +71,8 @@ def course(request):
         print assessments
         print posting
     if (request.method == 'POST'):
-        if (request.POST['postIT'] != ''):
+        my_param = request.POST.get('postIT')
+        if (my_param):
             isPost  = False
             if (request.POST['postIT'] == "false"):
                 isPost = False
@@ -82,10 +83,11 @@ def course(request):
             course = Courses.objects.get(CourseName = myCourse)
             assessments = Assessment.objects.filter(course = course)
             a = Assessment.objects.filter(name = assessmentToPost, course=course).update(post=isPost)
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
         else:
             assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
             assessmentToDelete.delete()
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
     return render_to_response('course.html', locals()) 
 
 def addassessment(request):
