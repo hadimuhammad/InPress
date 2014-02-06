@@ -153,7 +153,6 @@ def studentcourse(request):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessments = Assessment.objects.filter(course = courseName, post = "true", post_date = date.today())
-        # more than 1, how I am send it back to HTML
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
     return render_to_response('studentcourse.html', locals()) 
@@ -164,7 +163,7 @@ def studentcoursehistory(request):
     courses = Courses.objects.filter (pk__in=mycourses)
     if (request.method == 'GET'):
         myCourse = request.GET['course']
-        courseName = Courses.objects.filter(CourseName=myCourse)
+        courseName = Courses.objects.filter(CourseName=myCourse) 
         assessments = Assessment.objects.filter(course = courseName, post = "true")
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))

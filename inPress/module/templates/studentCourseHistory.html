@@ -25,6 +25,7 @@
           var QuestionData = document.getElementById("QuestionData").value;
           var jsonData = JSON.parse(ListOfAssessments);
           var jsonData2 = JSON.parse(QuestionData);
+          //var mydate = document.getElementById("mydate").value;
           for (var i in jsonData) {
               if (jsonData[i].fields.name == assessmentName){
                 var assessmentPK = jsonData[i].pk;
