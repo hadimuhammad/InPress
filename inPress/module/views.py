@@ -154,8 +154,11 @@ def data_analysis(request):
     courseName = Courses.objects.filter(CourseName=course)
     assessment = request.GET['assessment']
     assessmentName = Assessment.objects.filter(name = assessment, course=courseName)
+    AssessmentDatas = AssessmentData.objects.filter(Assessment = assessmentName)
+    numOfQuestions = AssessmentDatas.count()
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
-    numOfStudentsComplete = StudentAnswers.objects.filter(Assessment = assessmentName).count()
+    numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData = AssessmentDatas).count()
+    numOfStudentsComplete = numOfQuestionsComplete // numOfQuestions
     return render_to_response('data_analysis.html', locals()) 
 
 
@@ -219,7 +222,7 @@ def postAssessmentData (request, isEnd):
         return HttpResponseRedirect('/student/course.html?courseInfo='+request.POST['course']+'&studentnumber='+request.POST['studentnumber'])
     else:
         return 0;
-        
+
 def viewassessment(request):
     if (request.method == 'POST'):
         isEnd = request.POST.get('isEnd')
