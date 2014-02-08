@@ -58,5 +58,5 @@ class AssessmentData (models.Model):
 
 class StudentAnswers (models.Model):
 	Students = models.ForeignKey (Students)
-	Assessment = models.ForeignKey (Assessment)
-	isDone = models.BooleanField(default=False)
+	AssessmentData = models.ForeignKey (AssessmentData)
+	Answer = models.CharField(max_length=200)

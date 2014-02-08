@@ -190,32 +190,47 @@ def studentindex(request):
     courses = Courses.objects.filter (pk__in=mycourses)
     return render_to_response('studentindex.html', locals()) 
 
-def viewassessment(request):
-    if (request.method == 'GET'):
-        myCourse = request.GET['course']
-        assessmentPK = request.GET ['AssessmentPK']
-        assessmentName = Assessment.objects.get(pk =assessmentPK)
-        QuestionNum = request.GET['QuestionNum']
-        assessments = Assessment.objects.filter(pk =assessmentPK)
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
-        my_param = request.GET.get('isEnd')
-        if (my_param ):
-            if (my_param == "true"):
-                courseName = Courses.objects.filter(CourseName=request.GET['course'])
-                studentno = request.GET['studentnumber']
-                student = Students.objects.get(StudentNumber = studentno, CourseName=courseName)
-                assessment = Assessment.objects.get(pk =assessmentPK)
-                try:
-                    myanswer = StudentAnswers.objects.get (Students = student, Assessment=assessment)
-                    return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course']+'&studentnumber='+request.GET['studentnumber'])
-                except StudentAnswers.DoesNotExist:
-                    b = StudentAnswers(Students = student, Assessment=assessment, isDone = True)
-                    b.save()
-                    return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course']+'&studentnumber='+request.GET['studentnumber'])
-    studentnumber = request.GET['studentnumber']
-    mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+def getViewAssessment (request):
+    myCourse = request.POST['course']
+    assessmentPK = request.POST ['AssessmentPK']
+    assessmentName = Assessment.objects.get(pk =assessmentPK)
+    QuestionNum = request.POST['QuestionNum']
+    assessments = Assessment.objects.filter(pk =assessmentPK)
+    QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+    studentnumber = request.POST['studentnumber']
+    mycourses = Students.objects.filter (StudentNumber = request.POST['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
     return render_to_response('viewassessment.html', locals()) 
+
+def postAssessmentData (request, isEnd):
+    assessmentData = AssessmentData.objects.filter (pk=request.POST ['assessmentDataPK'])
+    assessmentDataPK = AssessmentData.objects.get (pk=request.POST ['assessmentDataPK'])
+    myCourse = request.POST['course']
+    course = Courses.objects.filter(CourseName = myCourse)
+    students = Students.objects.get (StudentNumber = request.POST['studentnumber'], CourseName = course)
+    answer = request.POST ['FinalAnswer']
+    try:
+        entry = StudentAnswers.objects.get(Students = students, AssessmentData = assessmentDataPK)
+        StudentAnswers.objects.filter(Students = students, AssessmentData = assessmentDataPK).update (Answer = answer)
+    except StudentAnswers.DoesNotExist:
+        add = StudentAnswers(Students = students, AssessmentData = assessmentDataPK, Answer = answer)
+        add.save()
+    if (isEnd == True):
+        return HttpResponseRedirect('/student/course.html?courseInfo='+request.POST['course']+'&studentnumber='+request.POST['studentnumber'])
+    else:
+        return 0;
+        
+def viewassessment(request):
+    if (request.method == 'POST'):
+        isEnd = request.POST.get('isEnd')
+        if (isEnd):
+            if (isEnd == "true"):
+                return postAssessmentData(request, True);
+            else:
+                postAssessmentData (request, False);
+                return getViewAssessment(request);
+        else:
+            return getViewAssessment(request);
 
 def viewassessmentanswers(request):
     studentnumber = request.GET['studentnumber']

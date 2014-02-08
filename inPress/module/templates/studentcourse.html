@@ -157,7 +157,7 @@
   document.write('<tr>');
   document.write('<td>{{i}}</td>');
   document.write('<td>'+ParseData("",0,assessmentName)+'</td>');
-  document.write('<td><form name= "takeAssessment" action="viewassessment.html" method="get" id=\'takeAssessment\'>');
+  document.write('<td><form name= "takeAssessment" action="viewassessment.html" method="post" id=\'takeAssessment\'>');
   document.write('<input type=\'hidden\' id= \'course\' name=\'course\' value='+course+'/>');
   document.write("<input type='hidden' id= 'studentnumber5' name='studentnumber' value='{{studentnumber}}'/>")
   document.write('<a href="javascript:{}" onClick="TakeAssessment('+assessmentPK+');" class="btn btn-default btn-sm" role="button"> Start! </a>') ;

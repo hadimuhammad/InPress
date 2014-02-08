@@ -7,3 +7,8 @@ Finished functionality:
 
 Instructor: Modify Course, assessment, questions
 Student: View the Course, assessment, questions that are available to them. And answer the questions.
+
+
+Timeline of Features: 
+
+Feburary 12/2014 - Ability to Record Answers
