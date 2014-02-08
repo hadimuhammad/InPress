@@ -12,3 +12,9 @@ Student: View the Course, assessment, questions that are available to them. And 
 Timeline of Features: 
 
 Feburary 12/2014 - Ability to Record Answers
+
+Features Needed:
+
+- Using LaTex to store Questions and Answers
+- Short Answer Checking (Data Analysis)
+- Security (HTTPS, POST Data)
