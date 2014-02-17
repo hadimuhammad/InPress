@@ -2394,6 +2394,10 @@ fieldset[disabled] .btn-primary.active {
 }
 
 .btn-warning {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
   color: #ffffff;
   background-color: #f0ad4e;
   border-color: #eea236;
@@ -2440,6 +2444,10 @@ fieldset[disabled] .btn-warning.active {
 }
 
 .btn-danger {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
   color: #ffffff;
   background-color: #d9534f;
   border-color: #d43f3a;
@@ -2486,6 +2494,11 @@ fieldset[disabled] .btn-danger.active {
 }
 
 .btn-success {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  color: #ffffff;
   color: #ffffff;
   background-color: #5cb85c;
   border-color: #4cae4c;

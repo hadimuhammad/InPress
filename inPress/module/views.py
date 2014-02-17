@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response, render
 from array import *
 from django.core import serializers
 from datetime import date
+from urlparse import urlparse
 
  
 def studentsignin(request):
@@ -63,13 +64,10 @@ def course(request):
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName)
+        assessments = Assessment.objects.filter(course = courseName).order_by('-created_time')
         posting = Assessment.objects.filter(course=courseName).values("post")
         ListOfAssessments = serializers.serialize("json", assessments)
-        print ListOfAssessments
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
-        print assessments
-        print posting
     if (request.method == 'POST'):
         my_param = request.POST.get('postIT')
         if (my_param):
@@ -83,32 +81,36 @@ def course(request):
             course = Courses.objects.get(CourseName = myCourse)
             assessments = Assessment.objects.filter(course = course)
             a = Assessment.objects.filter(name = assessmentToPost, course=course).update(post=isPost)
-            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+            accordion = request.POST['accordionNumber']
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'#accordion'+accordion)
         else:
             assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
             assessmentToDelete.delete()
-            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+            accordion = request.POST['accordionNumber']
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'#accordion'+accordion)
     return render_to_response('course.html', locals()) 
 
 def addassessment(request):
-    print request
     if (request.method == 'GET'):
         myCourse = request.GET['course']
         courses = Courses.objects.all()
     if (request.method == 'POST'):
+        print request
         myCourse = request.POST['course']
-        print myCourse
+        accordion = request.POST.get('accordionNumber')
+        if (accordion is None):
+            accordion = "-1"
         assessmentToAdd = request.POST ['AssessmentName']
         try:
             course = Courses.objects.get(CourseName = myCourse)
             a = Assessment.objects.get(name = assessmentToAdd, course=course)
             Assessment.objects.filter (name = assessmentToAdd, course=course).update(post_date=request.POST ['effectivedate'])
-            return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse+'#accordion'+accordion)
         except Assessment.DoesNotExist:
             a = Courses.objects.get(CourseName = myCourse)
             b = Assessment(name = assessmentToAdd, course=a, post_date=request.POST ['effectivedate'])
             b.save()
-            return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse+'#accordion'+accordion)
     return render_to_response('addassessment.html', locals()) 
 
 def removeassessment(request):
@@ -116,7 +118,7 @@ def removeassessment(request):
     if (request.method == 'GET'):
         myCourse = request.GET['course']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName)
+        assessments = Assessment.objects.filter(course = courseName).order_by('-created_time')
     if (request.method == 'POST'):
         myCourse = request.POST['course']
         courseName = Courses.objects.filter(CourseName=request.POST['course'])
@@ -132,20 +134,23 @@ def addquestion(request):
         myAssessment = request.GET['assessment']
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessment = Assessment.objects.get(name=myAssessment, course = courseName)
+        accordion = request.GET['accordionNumber']
+        print accordion
     if (request.method == 'POST'):
         courseName = Courses.objects.filter(CourseName=request.POST['course'])
         assessment = Assessment.objects.get(name = request.POST['assessment'], course=courseName)
+        accordion = request.POST['accordionNumber']
         print request.POST
         if (request.POST['SAAns'] != ''):
             questionSA = AssessmentData(Assessment = assessment, Question_Type="SA", Question_Data=request.POST['questionText'], Question_Answer=request.POST['SAAns'])
             questionSA.save()
-            return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course'])
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course']+'#accordion'+accordion)
         else:
             question = AssessmentData(Assessment = assessment, Question_Type="MC", Question_Data=request.POST['questionText'], 
                 Question_Answer=request.POST['MCRadio'], ChoiceA = request.POST['MC1Ans'], ChoiceB = request.POST['MC2Ans'], 
                 ChoiceC = request.POST['MC3Ans'], ChoiceD = request.POST['MC4Ans'], ChoiceE=request.POST['MC5Ans'])
             question.save()
-            return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course'])
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course']+'#accordion'+accordion)
     return render_to_response('addquestion.html', locals()) 
 
 def data_analysis(request):
