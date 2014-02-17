@@ -1,36 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
   <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
-
-    <title>Instructor's Module - Add a Course</title>
-
+   <title>Instructor's Module - Add an Assessment</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="/static/css/datepicker.css" rel="stylesheet">
+    <link href="/static/css/prettify.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <!--<script src="/static/bootstrap/js/prettify.js"></script> -->
+    <script src="/static/bootstrap/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
     {% block content %}
     <!-- Wrap all page content here -->
     <div id="wrap">
-
-     <!-- Fixed navbar -->
+      <!-- Fixed navbar -->
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -44,69 +37,69 @@
           </div>
           <form name= "courseForm" action="course.html" method="get" id='courseForm'>
               <input type='hidden' id= 'courseInfo' name='courseInfo' value=''/>
-  <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
               <li> <a href="/instructor/index.html">Home</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Courses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-              {% for i in courses %}
-              <li><a href="javascript:{}" onClick="SubmitCourse('{{i}}');">{{i}}</a></li>
-              {% endfor %}
-              </form>
-              </ul>
+                  {% for i in courses %}
+                  <li><a href="javascript:{}" onClick="SubmitCourse('{{i}}');">{{i}}</a></li>
+                  {% endfor %}
+                  </ul>
               </li>
             </ul>
     <ul class="nav navbar-nav navbar-right">
             <li><a href="/instructor/login.html">Logout</a></li>
           </ul>
           </div><!--/.nav-collapse -->
+          </form>
         </div>
       </div>
 
       <!-- Begin page content -->
       <div class="container">
         <div class="page-header">
-          <h1>Add a Course</h1>
-	  <form role="form" action="addclass.html" method="post">{% csrf_token %}
-  <div class="form-group">
-    <label for="ClassName">Course Name</label>
-    <input type="text" class="form-control" name="className" id="ClassName" placeholder="Name of Class">
-  </div>
-<div class="form-group">
-    <label for="ClassCode">Course Code</label>
-    <input type="text" class="form-control" name="classCode" id="ClassCode" placeholder="Class Code">
-  </div>
+          <h1>Data Anaylsis for {{assessment}}</h1>
+          <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+         var data = google.visualization.arrayToDataTable([
+          ['Complete', 'Number of Students', { role: 'style' }],
+          ['Total', {{numOfStudents}}, 'silver'],
+          ['Incomplete', {{numOfStudents}} - {{numOfStudentsComplete}}, '#b87333'],            // RGB value
+          ['Complete', {{numOfStudentsComplete}}, 'gold'],            // English color name
+      ]);
 
-<div class="form-group">
-    <label for="classList">Class List</label>
-    <input type="file" id="classList" name="classList">
-    <p class="help-block"></p>
-  </div>  
-	</div>
-	<button type="submit" class="btn btn-default">Submit</button>
-</form>
+        var options = {
+          title: 'Who Completed {{assessment}}',
+          vAxis: {title: '',  titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+      <div id="chart_div" style="width: 900px; height: 500px;"></div>
+	 </div>
     </div>
 	</div>
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Instructor's Module (Add a Course)</p>
+        <p class="text-muted">InPress - Instructor's Module ({{course}})</p>
       </div>
     </div>
-
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" language="JavaScript"><!--
     function SubmitCourse(index) {
           document.getElementById("courseInfo").value = index;
           document.getElementById("courseForm").submit();
     }
     //--></script>
-  {% endblock %}
-  </body>
+    {% endblock %}
+      </body>
 </html>
 

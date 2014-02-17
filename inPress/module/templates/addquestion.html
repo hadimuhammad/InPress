@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
-
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
     <title>Instructor's Module - Add a Question</title>
 
     <!-- Bootstrap core CSS -->
@@ -65,11 +65,14 @@
       <!-- Begin page content -->
       <div class="container">
         <div class="page-header">
-          <h1>Add a Question</h1>
+          <h1>Add a Question</h1><h4> 
+          <div class ="tex2jax_ignore"><h6> Inline LaTex is supported, and can be used by having them enclosed between this two delimiters \( and \).</h6></div>
           <label for="question">Question</label>
+
           <form role="addquestionForm" action="addquestion.html" method="post" id='addquestionForm'>
            <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
             <input type='hidden' id= 'assessment' name='assessment' value='{{myAssessment}}'/>
+            <input type='hidden' id = 'accordionNumber3' name = 'accordionNumber' value='{{accordion}}'/>
           <input type="text" class="form-control" id="question" name="questionText" placeholder="Type Question...">
           </div>
     <div class="page-header">

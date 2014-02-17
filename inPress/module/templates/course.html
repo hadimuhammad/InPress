@@ -1,7 +1,10 @@
-
+  
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+
   <script type="text/javascript">
         function checkEmpty (value, letter, answer){
           if (value == ""){
@@ -151,92 +154,155 @@
    <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{forloop.counter0}}">
-          {{i}} 
-        </a>
+            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{forloop.counter0}}" href="#collapse{{forloop.counter0}}" >
+      <div class="row">
+      <div class="col-md-1" style="display:inline;">
+           <label for="assessment" style="color: black;">{{i}}</label> </div><p style="padding-right:5mm;"align="right">
+  <button type="button" class="btn btn-danger" id="status{{forloop.counter0}}"></button></p></div>
+  </a>
       </h4>
     </div>
+    <!-- Check to see if it should be collapse in or not -->
     <div id="collapse{{forloop.counter0}}" class="panel-collapse collapse">
       <div class="panel-body">
       <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
       <input type='hidden' id= 'ListOfAssessments' name='ListOfAssessments' value='{{ListOfAssessments}}'/>
-      <input type='hidden' id= 'forloopcounter{{i}}' name='forloopcounter' value='{{forloop.counter0}}'/>
       <input type='hidden' id= 'NameOfAssessment' name='NameOfAssessment' value='{{i}}'/>
       <table class="table">
+      <div class="input-group date" id="dp{{forloop.counter0}}" data-date="12-02-2012" data-date-format="yyyy-mm-dd">
+
+
+      <!-- Modification of Date -->
+      <form name= "modifyAssessment" action="addassessment.html" method="POST" id="modifyAssessment">
+      <input type="hidden" id= "course" name="course" value="{{myCourse}}"/>
+      <input type="hidden" id= "aName" name="AssessmentName" value="{{i}}"/>
+      <input type="hidden" id= "finalDate" name="effectivedate" value=""/>
+      <input type="hidden" id="accordionNumber9" name='accordionNumber' value="{{forloop.counter0}}"/>
+      Effective Date: <b> <label class="control-label" style="display:inline" id="date{{forloop.counter0}}"></label></b>
+      <input type="text" style="display:none" class="span-2" id="dpn{{forloop.counter0}}">
+      &nbsp; &nbsp;<a href="javascript:{}" class="glyphicon glyphicon-pencil" role="button" onClick="ModifyAssessment({{forloop.counter0}}, '{{i}}');"></a>
+      </form></div>
+
       <script type="text/javascript">
+      var postdate = ParseData("postdate",0,"{{i}}");
+      document.getElementById("date{{forloop.counter0}}").innerHTML = postdate
+      document.getElementById("dpn{{forloop.counter0}}").value = postdate
+       </script>
+       <!-- Modification of Date -->
 
-      var assessmentName = "{{i}}";
-      var forloop = document.getElementById("forloopcounter"+assessmentName).value
-      document.write('<div class="input-group date" id="dp"'+forloop+'"+ data-date="12-02-2012" data-date-format="yyyy-mm-dd">')
-        document.write ('<form name= "modifyAssessment" action="addassessment.html" method="POST" id=\'modifyAssessment\'>');
-        document.write('<input type=\'hidden\' id= \'course\' name=\'course\' value=\'{{myCourse}}\'/>')
-        document.write('<input type=\'hidden\' id= \'AssessmentName\' name=\'AssessmentName\' value=\'{{i}}\'/>')
-
-
-
-        var postdate = ParseData("postdate",0,assessmentName);
-       document.write('Effective Date: <b><label class="control-label" id="date'+forloop+'">'+postdate+'</label></b>');
-       document.write(' <input type="text" style="display:none" class="span-2" value="'+postdate+'" id="dp'+forloop+'" name="effectivedate">');
-        document.write ('&nbsp; &nbsp;<a href="javascript:{}" class="glyphicon glyphicon-pencil" role="button" onClick="ModifyAssessment('+forloop+');"></a>');
-       document.write ("</form>");
-       document.write ("</div>");
+       <!-- Posting and UnPosting -->
+       <form name= "postStat" method"GET" id="postStat">
+       <b><label class="control-label" id="isPosted{{forloop.counter0}}">'+isPosted[0]+'</label></b>
+       </form>
        
-        var isPosted= ParseData("isPosted",0, assessmentName);
-        document.write ('<form name= "postStat" method"GET" id="postStat">' );
-       document.write('<b><label class="control-label" id="isPosted'+forloop+'">'+isPosted[0]+'</label></b>');
-       document.write ("</form>");
-      
+       <script type="text/javascript">
+       var isPosted= ParseData("isPosted",0, "{{i}}");
+       document.getElementById("isPosted{{forloop.counter0}}").innerHTML = isPosted[0]
+       </script>
+       <!-- Posting and UnPosting -->
 
-      var assessmentName = "{{i}}"
-      document.write('<tr>');
-      document.write('<th>id</th>');
-      document.write('<th>Question</th>');
-      document.write('<th>Type</th>');
-      document.write('<th>Answer</th>');
-      document.write('</tr>');
-      var assessmentName = "{{i}}"
-      var numberOfQs = ParseData("",0,assessmentName);
-      console.log("numberOfQs"+numberOfQs);
+
+       <th>id</th>
+       <th>Question</th>
+       <th>Type</th>
+       <th>Answer</th>
+       </tr>
+       <script type="text/javascript">
+      var numberOfQs = ParseData("",0,"{{i}}");
       for (i=1; i<=numberOfQs; i++){
-        var questionId = ParseData("id", i, assessmentName);
+        var questionId = ParseData("id", i, "{{i}}");
         document.write ('<form name= "removeQuestion" action="course.html" method="POST" id=\'removeQuestion\'>');
         document.write('<input type='+'hidden'+' id='+'QuestionToRemove'+' name='+'QuestionToRemove'+' value='+''+'/>')
+        document.write("<input type='hidden' id= 'accordionNumber' name='accordionNumber' value=''/>")
         document.write('<tr>');
         document.write('<td>'+i+'</td>');
-        document.write('<td>'+ParseData("Question", i, assessmentName)+'</td>');
-        document.write('<td>'+ParseData("Type", i, assessmentName)+'</td>');
-        document.write('<td>'+ParseData("Answer", i, assessmentName)+'</td>');
-        document.write('<td> <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="RemoveQuestion('+questionId+');"> <span class="glyphicon glyphicon-remove"></span></a></td>');
+        document.write('<td>'+ParseData("Question", i, "{{i}}")+'</td>');
+        document.write('<td>'+ParseData("Type", i, "{{i}}")+'</td>');
+        document.write('<td>'+ParseData("Answer", i, "{{i}}")+'</td>');
+        document.write('<td> <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="RemoveQuestion('+questionId+','+"{{forloop.counter0}}"+');"> <span class="glyphicon glyphicon-remove"></span></a></td>');
         document.write('</tr>');
         document.write('</form>');
       }
 
       </script>
+
     </table>
-    
+    <div class="row">
+
+    <div class="col-xs-12 col-md-8">
     <form name= "addQuestion" action="addquestion.html" method="get" id='addQuestion'>
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
     <input type='hidden' id= 'assessment' name='assessment' value=''/>
-    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="AddQuestion('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Add a Question </a>
+    <input type='hidden' id = 'accordionNumber3' name = 'accordionNumber' value=""/> 
+    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="AddQuestion('{{i}}', '{{forloop.counter0}}');"> <span class="glyphicon glyphicon-plus"></span> Add a Question </a>
     </form>
 
      <!-- Post Unpost (pi1) -->
-    <form name= "posting" method="post" id="posting" > 
+    <form name= "posting" method="post" id="posting" action="course.html"> 
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
     <input type='hidden' id= 'aToMod' name='aToMod' value=''/> 
     <input type='hidden' id = 'postIT' name = 'postIT' value=""/> 
-    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="Posting('{{i}}');"> 
+    <input type='hidden' id = 'accordionNumber2' name = 'accordionNumber' value=""/> 
+    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="Posting('{{i}}', '{{forloop.counter0}}');"> 
     <script type="text/javascript">
     var assessmentName = "{{i}}"
     var post = ParseData("isPosted", 0, assessmentName)
+    var d = new Date();
+      var curr_date = d.getDate();
+      if(curr_date <= 9)
+        curr_date = "0"+curr_date;
+      var curr_month = d.getMonth() + 1;
+      if(curr_month <= 9)
+        curr_month = "0"+curr_month;
+      var curr_year = d.getFullYear();
+      var date = curr_year + "-" + curr_month + "-" +curr_date;
+      var date2 = curr_year + "-" + curr_month + "-" +curr_date;
+      var postdate = document.getElementById("dpn"+"{{forloop.counter0}}").value
+      date = new Date(curr_year, curr_month-1, curr_date)
     if (post[1] == "False"){
+      dateparms = postdate.split('-');
+      mypostdate = new Date (dateparms[0],dateparms[1]-1, dateparms[2])
+      if (mypostdate < date){
+        document.getElementById("status"+"{{forloop.counter0}}").innerHTML = "Post Date Passed"
+        document.getElementById("status"+"{{forloop.counter0}}").className = "btn btn-warning"
+      }
+      else{
+        document.getElementById("status"+"{{forloop.counter0}}").innerHTML = "Offline"
+        document.getElementById("status"+"{{forloop.counter0}}").className = "btn btn-danger"
+      }
       document.write ("<span class=\"glyphicon glyphicon-open\" id=\"postBar\"></span> Post </a>")
     }
     else{
+      if (postdate == date2){
+        document.getElementById("status"+"{{forloop.counter0}}").innerHTML = "Online"
+        document.getElementById("status"+"{{forloop.counter0}}").className = "btn btn-success"
+      }
+      else{
+        dateparms = postdate.split('-');
+        mypostdate = new Date (dateparms[0],dateparms[1]-1, dateparms[2])
+        if (mypostdate > date){
+          document.getElementById("status"+"{{forloop.counter0}}").innerHTML = "Offline Until "+postdate
+          document.getElementById("status"+"{{forloop.counter0}}").className = "btn btn-danger"
+        }
+        else{
+          document.getElementById("status"+"{{forloop.counter0}}").innerHTML = "Post Date Passed"
+          document.getElementById("status"+"{{forloop.counter0}}").className = "btn btn-warning"
+        }
+      }
       document.write ("<span class=\"glyphicon glyphicon-save\" id=\"postBar\"></span> Unpost </a>")
     }
     </script>
-    </form>
+    </form>  
+    </div>
+    <div class="col-xs-6 col-md-4">
+    <form name= "dataAnalysis" action="data_analysis.html" method="get" id="dataAnalysis" > 
+    <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+    <input type='hidden' id= 'assessment31' name='assessment' value=''/> 
+    <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="DataAnalysis('{{i}}');"> 
+    <span class="glyphicon glyphicon-stats" id="stats"></span> Data Analysis </a>
+    </form>  
+    </div>
+    </div>
   </div>
   </div>
   </div>
@@ -258,7 +324,15 @@
       </div>
     </div>
 
-
+<script>
+var parser = document.createElement('a');
+parser.href = location;
+var myHash = parser.hash;
+var myModifiedHash = myHash.replace ("#accordion", "collapse");
+var accordionId = myModifiedHash.toString();
+var open = document.getElementById(accordionId) 
+open.className="panel-collapse collapse in"
+</script>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -279,30 +353,41 @@
     }
     //--></script>
     <script type="text/javascript" language="JavaScript"><!--
-    function AddQuestion(index) {
+    function AddQuestion(index, forloopnumber) {
+          document.getElementById("accordionNumber3").value = forloopnumber;
           document.getElementById("assessment").value = index;
           document.getElementById("addQuestion").submit();
     }
     //--></script>
 
     <script type="text/javascript" language="JavaScript"><!--
-    function RemoveQuestion(index) {
+    function RemoveQuestion(index, forloopnumber) {
+          document.getElementById("accordionNumber").value = forloopnumber;
+          console.log ("accordionNumber: "+forloopnumber);
           document.getElementById("QuestionToRemove").value = index;
           document.getElementById("removeQuestion").submit();
     }
     //--></script>
 
     <script type="text/javascript" language="JavaScript"><!--
-    function ModifyAssessment(index) {
+    function DataAnalysis(index) {
+          document.getElementById("assessment31").value = index;
+          document.getElementById("dataAnalysis").submit();
+    }
+    //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function ModifyAssessment(index, assessment) {
       if (document.getElementById("date"+index).style.display == "none"){
-          document.getElementById("modifyAssessment").submit();
-          var date = document.getElementById("dp"+index);
+          var date = document.getElementById("dpn"+index);
           date.style.display = "none";
           document.getElementById("date"+index).style.display = "inline"
+          document.getElementById("accordionNumber9").value = index
+          document.getElementById("aName").value = assessment
+          document.getElementById("finalDate").value = document.getElementById("dpn"+index).value 
+          document.getElementById("modifyAssessment").submit();
       }
       else{
-          var date = document.getElementById("dp"+index);
-          date.style.display = "inline";
+          document.getElementById("dpn"+index).style.display = "inline";
           document.getElementById("date"+index).style.display = "none"
         }
     }
@@ -317,8 +402,9 @@
     }
     //--></script>
     <script type="text/javascript" language="JavaScript"><!--
-    function Posting(index) {
+    function Posting(index, forloopnumber) {
           document.getElementById("aToMod").value = index;
+          document.getElementById("accordionNumber2").value = forloopnumber
           var post = ParseData("isPosted", 0, index)
           if (post[1] == "True"){
             document.getElementById("postIT").value = "false"
@@ -331,8 +417,6 @@
           document.getElementById("posting").submit();
     }
     //--></script>
-
-
     {% endblock %}
   </body>
 </html>

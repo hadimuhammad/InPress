@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
   <script type="text/javascript">
         function checkEmpty (value, letter, answer){
           if (value == ""){
@@ -163,20 +164,23 @@
     <div class="col-sm-offset-2 col-sm-10">
         <div class="row">
   <div class="col-xs-12 col-md-8">
-    <form name= "previousQuestion" action="viewassessment.html" method="get" id='previousQuestion'>
+    <form name= "previousQuestion" action="viewassessment.html" method="post" id='previousQuestion'>
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
     <input type='hidden' id= 'studentnumber0' name='studentnumber' value='{{studentnumber}}'/>
     <input type='hidden' id= 'assessmentPK' name='AssessmentPK' value='{{assessmentPK}}'/>
+    <input type='hidden' id= 'assessmentDataPK' name='assessmentDataPK' value=''/>
     <input type='hidden' id= 'QuestionNum' name='QuestionNum' value='{{QuestionNum}}'/>
     <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="PreviousQuestion('{{QuestionNum}}');"> Previous Question </a>
     </form>
   </div>
   <div class="col-xs-6 col-md-4">
-  <form name= "nextQuestion" action="viewassessment.html" method="get" id='nextQuestion'>
+  <form name= "nextQuestion" action="viewassessment.html" method="post" id='nextQuestion'>
     <input type='hidden' id= 'course2' name='course' value='{{myCourse}}'/>
     <input type='hidden' id= 'studentnumber1' name='studentnumber' value='{{studentnumber}}'/>
     <input type='hidden' id= 'assessmentPK2' name='AssessmentPK' value='{{assessmentPK}}'/>
+    <input type='hidden' id= 'assessmentDataPK2' name='assessmentDataPK' value=''/>
     <input type='hidden' id= 'QuestionNum2' name='QuestionNum' value='{{QuestionNum}}'/>
+    <input type='hidden' id= 'FinalAnswer' name='FinalAnswer' value=''/>
     <input type='hidden' id= 'isEnd' name='isEnd' value=""/>
     <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="NextQuestion('{{QuestionNum}}');"> 
     <script> 
@@ -203,7 +207,7 @@
 	</div>
   </div>
        <div class="container">
-        <p class="text-muted">InPress - Student's Module ({{myCourse}})</p>
+        <p class="text-muted">InPress - Student's Module ({{myCourse}}) </p>
       </div>
     </div>
 
@@ -213,54 +217,43 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function DoSubmission(index) {
-          document.getElementById("MyForm").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function DoSubmission2(index) {
-          document.getElementById("MyForm2").submit();
-    }
-    //--></script>
+    
     <script type="text/javascript" language="JavaScript"><!--
     function SubmitCourse(index) {
           document.getElementById("courseInfo").value = index;
           document.getElementById("courseForm").submit();
     }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function AddQuestion(index) {
-          document.getElementById("assessment").value = index;
-          document.getElementById("addQuestion").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function RemoveQuestion(index) {
-          document.getElementById("QuestionToRemove").value = index;
-          document.getElementById("removeQuestion").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
     function NextQuestion(index) {
+        document.getElementById("assessmentDataPK2").value = ParseData("id", index);
+        var isShortAnswer = ParseData("Type", index);
+        if (isShortAnswer == "true"){
+          document.getElementById("FinalAnswer").value = document.getElementById ("answer").value
+        }
+        else{
+          for (var i=1; i<=5; i++){
+            if (document.getElementById("optionsRadios"+i).checked){
+              document.getElementById("FinalAnswer").value = "optionsRadios"+i;
+              break;
+            }
+          }
+        }
         var newNum = parseInt(index)+1
         var numberOfQuestions = parseInt(ParseData("",0));
         if (newNum > numberOfQuestions){
           newNum = numberOfQuestions;
 
         }
-          document.getElementById("QuestionNum2").value = newNum;
-          document.getElementById("nextQuestion").submit();
+        document.getElementById("QuestionNum2").value = newNum;
+        document.getElementById("nextQuestion").submit();
     }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
     function PreviousQuestion(index) {
-         var newNum = parseInt(index)-1
-         if (newNum <= 1){
-          newNum = 1;
-         }
-          document.getElementById("QuestionNum").value = newNum;
-          document.getElementById("previousQuestion").submit();
+      document.getElementById("assessmentDataPK").value = ParseData("id", index);
+      var newNum = parseInt(index)-1
+      if (newNum <= 1){
+        newNum = 1;
+      }
+      document.getElementById("QuestionNum").value = newNum;
+      document.getElementById("previousQuestion").submit();
     }
     //--></script>
     {% endblock %}
