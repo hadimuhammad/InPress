@@ -309,7 +309,7 @@
   {% endfor %}
 	</div>
         <form name= "MyForm" action="addassessment.html" method="get" id='MyForm'>
-        <input type='hidden' id= 'course1' name='course' value='{{myCourse}}'/>
+        <input type='hidden' id= 'course1' name='course' value="{{myCourse}}"/>
         <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="DoSubmission('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Add an Assessment </a>
         </form> 
         <form name= "MyForm2" action="removeassessment.html" method="get" id='MyForm2'>

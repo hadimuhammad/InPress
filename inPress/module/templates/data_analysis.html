@@ -1,6 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  <script type="text/javascript">
+        function checkEmpty (value, letter, answer){
+          if (value == ""){
+              return "";
+          }
+          else{
+            if (letter == answer){
+              var string = '<b>'+letter + ") "+ value + '</b>';
+              return string;
+            }
+            else{
+              var string = letter + ") "+ value;
+              return string;
+            }
+          }
+        } 
+        function ParseAnswers (AssessmentDataId){
+          var answers = document.getElementById("Answers").value
+          var jsonData = JSON.parse(answers)
+          var numA =0
+          var numB =0
+          var numC =0
+          var numD =0
+          var numD =0
+          var numE =0
+          for (var i in jsonData){
+            if (jsonData[i].fields.AssessmentData == AssessmentDataId){
+              if (jsonData[i].fields.Answer == "optionsRadios1"){
+                numA = numA + 1;
+              }
+              if (jsonData[i].fields.Answer == "optionsRadios2"){
+                numB = numB + 1;
+              }
+              if (jsonData[i].fields.Answer == "optionsRadios3"){
+                numC = numC + 1;
+              }
+              if (jsonData[i].fields.Answer == "optionsRadios4"){
+                numD = numD + 1;
+              }
+              if (jsonData[i].fields.Answer == "optionsRadios5"){
+                numE = numE + 1;
+              }
+            }
+          }
+          return [numA,numB,numC,numD,numE]
+        }
+        function ParseData(valueNeeded, questionNum, assessmentName)
+        {
+          console.log(assessmentName);
+          var numberOfQuestions = 0;
+          var ListOfAssessments = document.getElementById("ListOfAssessments").value;
+          var QuestionData = document.getElementById("QuestionData").value;
+          var jsonData = JSON.parse(ListOfAssessments);
+          var jsonData2 = JSON.parse(QuestionData);
+          for (var i in jsonData) {
+              if (jsonData[i].fields.name == assessmentName){
+                var assessmentPK = jsonData[i].pk;
+                if (valueNeeded == "postdate"){
+                  console.log("date: "+jsonData[i].fields.post_date);
+                  return jsonData[i].fields.post_date;
+                }
+                if (valueNeeded == "isPosted"){
+                  if (jsonData[i].fields.post == true){
+                    var labelFlag = assessmentName + " is posted";
+                    var postFlag = "True";
+                    return [labelFlag,postFlag]
+                  }
+                  else{
+                        var labelFlag = assessmentName + " is not posted"
+                        var postFlag = "False";
+                        return [labelFlag,postFlag]
+                      }
+                }
+                console.log(assessmentPK);
+              }
+          }
+          for (var j in jsonData2){
+              if (jsonData2[j].fields.Assessment == assessmentPK){
+                numberOfQuestions = numberOfQuestions + 1;
+                if (valueNeeded == "id" && numberOfQuestions==questionNum){
+                  //console.log ("Returning id");
+                  return jsonData2[j].pk;
+                }
+                if (valueNeeded == "Question" && numberOfQuestions==questionNum){
+                  //console.log ("Returning Question");
+                  return jsonData2[j].fields.Question_Data;
+                }
+                if (valueNeeded == "Type" && numberOfQuestions==questionNum){
+                  //console.log ("Returning type");
+                  if (jsonData2[j].fields.Question_Type == "SA")
+                    return "Short Answer";
+                  else
+                    return "Multiple Choice";
+                }
+                if (valueNeeded == "Answer" && numberOfQuestions==questionNum){
+                  //console.log ("Returning Answer");
+                  if (jsonData2[j].fields.Question_Type == "SA"){
+                    return jsonData2[j].fields.Question_Answer;
+                  }
+                  else{
+                    var answer = checkEmpty(jsonData2[j].fields.ChoiceA, "a", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceB, "b", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceC, "c", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceD, "d", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceE, "e", jsonData2[j].fields.Question_Answer);
+                    return answer;
+                  }
+                
+                }
+                
+              }
+          }
+          return numberOfQuestions;
+        }
+  </script>
+  <script type="text/javascript">
+      function drawIndividualMCGraph(id, MCAnswers) {
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        var data = google.visualization.arrayToDataTable([
+          ['Option', 'Students'],
+          ['A',  MCAnswers[0]],
+          ['B',  MCAnswers[1]],
+          ['C',  MCAnswers[2]],
+          ['D',  MCAnswers[3]],
+          ['E',  MCAnswers[4]]
+        ]);
+        var options = {
+          title: 'How did the Class respond?',
+          hAxis: {title: 'Option', titleTextStyle: {color: 'black'}}
+        };
+        var myName = 'chart_div'+id
+        var chart = new google.visualization.ColumnChart(document.getElementById(myName));
+        chart.draw(data, options);
+      }
+     //--></script>
   <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
    <title>Instructor's Module - Add an Assessment</title>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -61,12 +193,29 @@
       <div class="container">
         <div class="page-header">
           <h1>Data Anaylsis for {{assessment}}</h1>
-          <script type="text/javascript">
+          <input type='hidden' id= 'ListOfAssessments' name='ListOfAssessments' value='{{ListOfAssessments}}'/>
+          <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
+          <input type='hidden' id= 'Answers' name='Answers' value='{{Answers}}'/>
+    <div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          Summary
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse">
+      <div class="panel-body">
+       <div class="row">
+  <div class="col-md-4"></div>
+    <div class="col-md-4">
+       <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
          var data = google.visualization.arrayToDataTable([
-          ['Complete', 'Number of Students', { role: 'style' }],
+          ['Complete', 'Students', { role: 'style' }],
           ['Total', {{numOfStudents}}, 'silver'],
           ['Incomplete', {{numOfStudents}} - {{numOfStudentsComplete}}, '#b87333'],            // RGB value
           ['Complete', {{numOfStudentsComplete}}, 'gold'],            // English color name
@@ -81,7 +230,55 @@
         chart.draw(data, options);
       }
     </script>
-      <div id="chart_div" style="width: 900px; height: 500px;"></div>
+      <div id="chart_div"></div></div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+          Individual Result
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse">
+      <div class="panel-body">
+        <table class="table">
+          <th>id</th>
+       <th>Question</th>
+       <th>Answer</th>
+       <th>Response</th>
+       </tr>
+       <tr>
+       <script type="text/javascript">
+      var numberOfQs = ParseData("",0,"{{assessment}}");
+      for (i=1; i<=numberOfQs; i++){
+        var questionId = ParseData("id", i, "{{assessment}}");
+
+        //Figure out what are the answers associated with the question id
+        if (ParseData("Type", i, "{{assessment}}") == "Multiple Choice"){
+          var MCAnswers = ParseAnswers (questionId)
+        }
+        var myName = "chart_div"+i
+        document.write('<td>'+i+'</td>');
+        document.write('<td>'+ParseData("Question", i, "{{assessment}}")+'</td>');
+        document.write('<td>'+ParseData("Answer", i, "{{assessment}}")+'</td>');
+        document.write('<td><div id='+myName+'></div></td>');
+        document.write('<td></td>');
+        document.write('</tr>');
+        document.write('</form>');
+        drawIndividualMCGraph(i, MCAnswers)
+      }
+
+      </script>
+    </table>
+      </div>
+    </div>
+  </div>
+    
+</div>
 	 </div>
     </div>
 	</div>

@@ -67,7 +67,7 @@ def course(request):
         assessments = Assessment.objects.filter(course = courseName).order_by('created_time')
         posting = Assessment.objects.filter(course=courseName).values("post")
         ListOfAssessments = serializers.serialize("json", assessments)
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time'))
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
     if (request.method == 'POST'):
         my_param = request.POST.get('postIT')
         if (my_param):
@@ -159,11 +159,16 @@ def data_analysis(request):
     courseName = Courses.objects.filter(CourseName=course)
     assessment = request.GET['assessment']
     assessmentName = Assessment.objects.filter(name = assessment, course=courseName)
+    ListOfAssessments = serializers.serialize("json", assessmentName)
+    Assessmentdata = AssessmentData.objects.filter(Assessment__in=assessmentName)
+    QuestionData = serializers.serialize("json", Assessmentdata)
+    Answers = serializers.serialize("json", StudentAnswers.objects.filter(AssessmentData__in=Assessmentdata))
+    print QuestionData
     AssessmentDatas = AssessmentData.objects.filter(Assessment = assessmentName)
     numOfQuestions = AssessmentDatas.count()
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
     numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData = AssessmentDatas).count()
-    numOfStudentsComplete = numOfQuestionsComplete // numOfQuestions
+    numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
     return render_to_response('data_analysis.html', locals()) 
 
 def checkStudentInList (student, studentList):
