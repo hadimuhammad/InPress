@@ -64,10 +64,10 @@ def course(request):
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName).order_by('-created_time')
+        assessments = Assessment.objects.filter(course = courseName).order_by('created_time')
         posting = Assessment.objects.filter(course=courseName).values("post")
         ListOfAssessments = serializers.serialize("json", assessments)
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time'))
     if (request.method == 'POST'):
         my_param = request.POST.get('postIT')
         if (my_param):
@@ -118,7 +118,7 @@ def removeassessment(request):
     if (request.method == 'GET'):
         myCourse = request.GET['course']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName).order_by('-created_time')
+        assessments = Assessment.objects.filter(course = courseName).order_by('created_time')
     if (request.method == 'POST'):
         myCourse = request.POST['course']
         courseName = Courses.objects.filter(CourseName=request.POST['course'])
@@ -166,6 +166,43 @@ def data_analysis(request):
     numOfStudentsComplete = numOfQuestionsComplete // numOfQuestions
     return render_to_response('data_analysis.html', locals()) 
 
+def checkStudentInList (student, studentList):
+    for i in studentList:
+        if (str(student) == str(i)):
+            return True
+    return False;
+
+def viewclass (request):
+    if (request.method == 'GET'):
+        course = request.GET['course']
+        courses = Courses.objects.all()
+        courseName = Courses.objects.filter(CourseName=course)
+        allEnrolledStudents = Students.objects.filter (CourseName=courseName)
+        print allEnrolledStudents
+        return render_to_response('viewclass.html', locals()) 
+    if (request.method == 'POST'):
+        course = request.POST ['course']
+        studentlist = request.POST.getlist('students')
+        courseName = Courses.objects.get (CourseName=course)
+        AllEnrolledStudents = Students.objects.filter(CourseName=courseName)
+
+        # Delete all students not in the new list
+        for eachStudent in AllEnrolledStudents:
+            isStudentInClass = checkStudentInList (eachStudent, studentlist)
+            if (not (isStudentInClass)):
+                print "Deleting Student Number: "+str(eachStudent)
+                studentToDelete = Students.objects.filter(StudentNumber=eachStudent, CourseName=courseName)
+                studentToDelete.delete()
+
+        # Add all students not enrolled
+        for student in studentlist:
+            try:
+                entry = Students.objects.get(StudentNumber = student, CourseName=courseName)
+            except Students.DoesNotExist:
+                print "Adding Student Number: "+str(student)
+                add = Students(StudentNumber = student, CourseName=courseName)
+                add.save()
+        return HttpResponseRedirect('/instructor/course.html?courseInfo='+course)
 
 def studentcourse(request):
     studentnumber = request.GET['studentnumber']

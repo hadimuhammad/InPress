@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+    <title>Instructor's Module - Manage Course Enrollment</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    {% block content %}
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+
+     <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/instructor/index.html">InPress - Instructor's Module</a>
+          </div>
+          <form name= "courseForm" action="course.html" method="get" id='courseForm'>
+              <input type='hidden' id= 'courseInfo' name='courseInfo' value=''/>
+  <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li> <a href="/instructor/index.html">Home</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Courses <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+              {% for i in courses %}
+              <li><a href="javascript:{}" onClick="SubmitCourse('{{i}}');">{{i}}</a></li>
+              {% endfor %}
+              </form>
+              </ul>
+              </li>
+            </ul>
+    <ul class="nav navbar-nav navbar-right">
+            <li><a href="/instructor/login.html">Logout</a></li>
+          </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      <!-- Begin page content -->
+      <div class="container">
+        <div class="page-header">
+          <h1>Manage Course Enrollment</h1>
+  <div class="form-group">
+    <label for="ClassName">Course</label>
+<fieldset disabled>
+    <div class="form-group">
+      <input type="text" id="course" class="form-control" placeholder="{{course}}">
+    </div>
+    </fieldset>
+  </div>
+<form class="form-inline" role="form">
+<div class="form-group">
+<label class="sr-only" for="newStudent">Student Number</label>
+<input type="text" class="form-control" id="newStudent" placeholder="Student Number"> 
+</div>
+<div class="form-group">
+<label class="sr-only" for="studentadd">Add Student Number</label>
+<input name="addoption" class="btn btn-default" type="button" id="addoption" name='option' value="Add Student" onClick="javaScript:AddOption();" />
+</div>
+</form>
+
+<div class="form-group">
+</div>
+<div class="form-group">
+<form name= "classForm" action="viewclass.html" method="POST" id='classForm'>
+<input type='hidden' id= 'coursef' name='course' value='{{course}}'/>
+<select name="students" multiple size="8" id="selectMultipleStudents">
+{% for student in allEnrolledStudents %}
+<option value="{{student}}">{{student}}</option>
+{% endfor %}
+</select>
+</div>
+<div class="form-group">
+<input name="btnRemoveMultipleOptions" class="btn btn-default" type="button" id="btnRemoveMultipleOptions" value="Remove Student" onclick="javaScript:removeMultipleOptions();" />
+  </div>  
+	</div>
+	<button type="submit" class="btn btn-default" onClick="selectAll()">Save</button>
+</form>
+    </div>
+	</div>
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted">InPress - Instructor's Module ({{course}})</p>
+      </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function SubmitCourse(index) {
+          document.getElementById("courseInfo").value = index;
+          document.getElementById("courseForm").submit();
+    }
+    //--></script>
+    <script type="text/javaScript">
+    function removeMultipleOptions(){
+      var listBox=document.getElementById("selectMultipleStudents");
+      if(listBox.options.length==0){ 
+        return false; 
+      }
+      var removedOptionCount=0; 
+      var valuesToBeRemoved=Array();
+
+      for(var x=0;x<listBox.options.length;x++){
+        if(listBox.options[x].selected==true){ 
+          valuesToBeRemoved.push(listBox.options[x].value); 
+        }
+      }
+
+      for(var j=0;j<valuesToBeRemoved.length;j++){
+        removedOptionCount+=removeListItemOneByOne(listBox,valuesToBeRemoved[j]);
+      }
+
+      if(removedOptionCount==0){
+        listBox.focus();
+        return false;
+      }
+      else{
+          return true;
+        }
+      } 
+
+      function removeListItemOneByOne(listBox,valueToRemove){
+      var removed=0;
+      for(var i=0;i<listBox.options.length;i++){
+        if(listBox.options[i].value==valueToRemove){
+          listBox.remove(i);
+          removed=1;
+          break;
+        }
+      }
+      return removed; 
+      }
+
+      function AddOption(){
+          var optionValue=document.getElementById('newStudent');
+          if (optionValue.value.replace(/ +/g, "") != ""){
+            var x = document.getElementById("selectMultipleStudents");
+            var option = document.createElement("option");
+            option.text = optionValue.value;
+            x.add(option);
+          }
+          document.getElementById('newStudent').value = ""
+      }
+      function selectAll(){
+        selectBox = document.getElementById("selectMultipleStudents");
+        for (var i = 0; i < selectBox.options.length; i++) 
+        { 
+             selectBox.options[i].selected = true; 
+        } 
+      }
+
+</script>
+  {% endblock %}
+  </body>
+</html>
+
