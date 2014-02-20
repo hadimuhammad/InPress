@@ -166,7 +166,6 @@ def studentcourse(request):
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        print date.today()
         assessments = Assessment.objects.filter(course = courseName, post = "true", post_date = date.today())
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
