@@ -119,6 +119,7 @@
               <li><a href="javascript:{}" onClick="SubmitCourse('{{i}}');">{{i}}</a></li>
               {% endfor %}
               </form>
+
               </ul>
               </li>
             </ul>
@@ -168,6 +169,7 @@
   document.getElementById("course").value = course;
   document.getElementById("questionNum").value = 1;
   </script>
+
   {% endfor %}
     </table>
   </div>
@@ -175,7 +177,7 @@
       <form name= "existingTests" action="studentCourseHistory.html" method="get" id='existingTests'>
       <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
       <input type='hidden' id= 'studentnumber3' name='studentnumber' value='{{studentnumber}}'/>
-      <a href="javascript:{}" onClick="ExistingTests('{{myCourses}}');" class="btn btn-default btn-sm" role="button"> Go to all the exisiting test(s) and quizz(es). </a>
+      <a href="javascript:{}" onClick="ExistingTests('{{myCourse}}');" class="btn btn-default btn-sm" role="button"> Go to all the exisiting test(s) and quizz(es). </a>
       </form>
  
     </div>
