@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response, render
 from array import *
 from django.core import serializers
 from datetime import date
+from urlparse import urlparse
 
  
 def studentsignin(request):
@@ -63,13 +64,10 @@ def course(request):
     if (request.method == 'GET'):
         myCourse = request.GET['courseInfo']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName)
+        assessments = Assessment.objects.filter(course = courseName).order_by('created_time')
         posting = Assessment.objects.filter(course=courseName).values("post")
         ListOfAssessments = serializers.serialize("json", assessments)
-        print ListOfAssessments
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
-        print assessments
-        print posting
     if (request.method == 'POST'):
         my_param = request.POST.get('postIT')
         if (my_param):
@@ -83,32 +81,36 @@ def course(request):
             course = Courses.objects.get(CourseName = myCourse)
             assessments = Assessment.objects.filter(course = course)
             a = Assessment.objects.filter(name = assessmentToPost, course=course).update(post=isPost)
-            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+            accordion = request.POST['accordionNumber']
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'#accordion'+accordion)
         else:
             assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
             assessmentToDelete.delete()
-            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+            accordion = request.POST['accordionNumber']
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER')+'#accordion'+accordion)
     return render_to_response('course.html', locals()) 
 
 def addassessment(request):
-    print request
     if (request.method == 'GET'):
         myCourse = request.GET['course']
         courses = Courses.objects.all()
     if (request.method == 'POST'):
+        print request
         myCourse = request.POST['course']
-        print myCourse
+        accordion = request.POST.get('accordionNumber')
+        if (accordion is None):
+            accordion = "-1"
         assessmentToAdd = request.POST ['AssessmentName']
         try:
             course = Courses.objects.get(CourseName = myCourse)
             a = Assessment.objects.get(name = assessmentToAdd, course=course)
             Assessment.objects.filter (name = assessmentToAdd, course=course).update(post_date=request.POST ['effectivedate'])
-            return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse+'#accordion'+accordion)
         except Assessment.DoesNotExist:
             a = Courses.objects.get(CourseName = myCourse)
             b = Assessment(name = assessmentToAdd, course=a, post_date=request.POST ['effectivedate'])
             b.save()
-            return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse)
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+myCourse+'#accordion'+accordion)
     return render_to_response('addassessment.html', locals()) 
 
 def removeassessment(request):
@@ -116,7 +118,7 @@ def removeassessment(request):
     if (request.method == 'GET'):
         myCourse = request.GET['course']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName)
+        assessments = Assessment.objects.filter(course = courseName).order_by('created_time')
     if (request.method == 'POST'):
         myCourse = request.POST['course']
         courseName = Courses.objects.filter(CourseName=request.POST['course'])
@@ -132,20 +134,23 @@ def addquestion(request):
         myAssessment = request.GET['assessment']
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessment = Assessment.objects.get(name=myAssessment, course = courseName)
+        accordion = request.GET['accordionNumber']
+        print accordion
     if (request.method == 'POST'):
         courseName = Courses.objects.filter(CourseName=request.POST['course'])
         assessment = Assessment.objects.get(name = request.POST['assessment'], course=courseName)
+        accordion = request.POST['accordionNumber']
         print request.POST
         if (request.POST['SAAns'] != ''):
             questionSA = AssessmentData(Assessment = assessment, Question_Type="SA", Question_Data=request.POST['questionText'], Question_Answer=request.POST['SAAns'])
             questionSA.save()
-            return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course'])
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course']+'#accordion'+accordion)
         else:
             question = AssessmentData(Assessment = assessment, Question_Type="MC", Question_Data=request.POST['questionText'], 
                 Question_Answer=request.POST['MCRadio'], ChoiceA = request.POST['MC1Ans'], ChoiceB = request.POST['MC2Ans'], 
                 ChoiceC = request.POST['MC3Ans'], ChoiceD = request.POST['MC4Ans'], ChoiceE=request.POST['MC5Ans'])
             question.save()
-            return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course'])
+            return HttpResponseRedirect('/instructor/course.html?courseInfo='+request.POST['course']+'#accordion'+accordion)
     return render_to_response('addquestion.html', locals()) 
 
 def data_analysis(request):
@@ -154,10 +159,55 @@ def data_analysis(request):
     courseName = Courses.objects.filter(CourseName=course)
     assessment = request.GET['assessment']
     assessmentName = Assessment.objects.filter(name = assessment, course=courseName)
+    ListOfAssessments = serializers.serialize("json", assessmentName)
+    Assessmentdata = AssessmentData.objects.filter(Assessment__in=assessmentName)
+    QuestionData = serializers.serialize("json", Assessmentdata)
+    Answers = serializers.serialize("json", StudentAnswers.objects.filter(AssessmentData__in=Assessmentdata))
+    print QuestionData
+    AssessmentDatas = AssessmentData.objects.filter(Assessment = assessmentName)
+    numOfQuestions = AssessmentDatas.count()
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
-    numOfStudentsComplete = StudentAnswers.objects.filter(Assessment = assessmentName).count()
+    numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData = AssessmentDatas).count()
+    numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
     return render_to_response('data_analysis.html', locals()) 
 
+def checkStudentInList (student, studentList):
+    for i in studentList:
+        if (str(student) == str(i)):
+            return True
+    return False;
+
+def viewclass (request):
+    if (request.method == 'GET'):
+        course = request.GET['course']
+        courses = Courses.objects.all()
+        courseName = Courses.objects.filter(CourseName=course)
+        allEnrolledStudents = Students.objects.filter (CourseName=courseName)
+        print allEnrolledStudents
+        return render_to_response('viewclass.html', locals()) 
+    if (request.method == 'POST'):
+        course = request.POST ['course']
+        studentlist = request.POST.getlist('students')
+        courseName = Courses.objects.get (CourseName=course)
+        AllEnrolledStudents = Students.objects.filter(CourseName=courseName)
+
+        # Delete all students not in the new list
+        for eachStudent in AllEnrolledStudents:
+            isStudentInClass = checkStudentInList (eachStudent, studentlist)
+            if (not (isStudentInClass)):
+                print "Deleting Student Number: "+str(eachStudent)
+                studentToDelete = Students.objects.filter(StudentNumber=eachStudent, CourseName=courseName)
+                studentToDelete.delete()
+
+        # Add all students not enrolled
+        for student in studentlist:
+            try:
+                entry = Students.objects.get(StudentNumber = student, CourseName=courseName)
+            except Students.DoesNotExist:
+                print "Adding Student Number: "+str(student)
+                add = Students(StudentNumber = student, CourseName=courseName)
+                add.save()
+        return HttpResponseRedirect('/instructor/course.html?courseInfo='+course)
 
 def studentcourse(request):
     studentnumber = request.GET['studentnumber']
@@ -189,32 +239,47 @@ def studentindex(request):
     courses = Courses.objects.filter (pk__in=mycourses)
     return render_to_response('studentindex.html', locals()) 
 
-def viewassessment(request):
-    if (request.method == 'GET'):
-        myCourse = request.GET['course']
-        assessmentPK = request.GET ['AssessmentPK']
-        assessmentName = Assessment.objects.get(pk =assessmentPK)
-        QuestionNum = request.GET['QuestionNum']
-        assessments = Assessment.objects.filter(pk =assessmentPK)
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
-        my_param = request.GET.get('isEnd')
-        if (my_param ):
-            if (my_param == "true"):
-                courseName = Courses.objects.filter(CourseName=request.GET['course'])
-                studentno = request.GET['studentnumber']
-                student = Students.objects.get(StudentNumber = studentno, CourseName=courseName)
-                assessment = Assessment.objects.get(pk =assessmentPK)
-                try:
-                    myanswer = StudentAnswers.objects.get (Students = student, Assessment=assessment)
-                    return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course']+'&studentnumber='+request.GET['studentnumber'])
-                except StudentAnswers.DoesNotExist:
-                    b = StudentAnswers(Students = student, Assessment=assessment, isDone = True)
-                    b.save()
-                    return HttpResponseRedirect('/student/course.html?courseInfo='+request.GET['course']+'&studentnumber='+request.GET['studentnumber'])
-    studentnumber = request.GET['studentnumber']
-    mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+def getViewAssessment (request):
+    myCourse = request.POST['course']
+    assessmentPK = request.POST ['AssessmentPK']
+    assessmentName = Assessment.objects.get(pk =assessmentPK)
+    QuestionNum = request.POST['QuestionNum']
+    assessments = Assessment.objects.filter(pk =assessmentPK)
+    QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+    studentnumber = request.POST['studentnumber']
+    mycourses = Students.objects.filter (StudentNumber = request.POST['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
     return render_to_response('viewassessment.html', locals()) 
+
+def postAssessmentData (request, isEnd):
+    assessmentData = AssessmentData.objects.filter (pk=request.POST ['assessmentDataPK'])
+    assessmentDataPK = AssessmentData.objects.get (pk=request.POST ['assessmentDataPK'])
+    myCourse = request.POST['course']
+    course = Courses.objects.filter(CourseName = myCourse)
+    students = Students.objects.get (StudentNumber = request.POST['studentnumber'], CourseName = course)
+    answer = request.POST ['FinalAnswer']
+    try:
+        entry = StudentAnswers.objects.get(Students = students, AssessmentData = assessmentDataPK)
+        StudentAnswers.objects.filter(Students = students, AssessmentData = assessmentDataPK).update (Answer = answer)
+    except StudentAnswers.DoesNotExist:
+        add = StudentAnswers(Students = students, AssessmentData = assessmentDataPK, Answer = answer)
+        add.save()
+    if (isEnd == True):
+        return HttpResponseRedirect('/student/course.html?courseInfo='+request.POST['course']+'&studentnumber='+request.POST['studentnumber'])
+    else:
+        return 0;
+
+def viewassessment(request):
+    if (request.method == 'POST'):
+        isEnd = request.POST.get('isEnd')
+        if (isEnd):
+            if (isEnd == "true"):
+                return postAssessmentData(request, True);
+            else:
+                postAssessmentData (request, False);
+                return getViewAssessment(request);
+        else:
+            return getViewAssessment(request);
 
 def viewassessmentanswers(request):
     studentnumber = request.GET['studentnumber']

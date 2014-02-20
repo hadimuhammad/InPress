@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Instructor's Module - Add a Course</title>
+    <title>Instructor's Module - Manage Course Enrollment</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -67,30 +67,48 @@
       <!-- Begin page content -->
       <div class="container">
         <div class="page-header">
-          <h1>Add a Course</h1>
-	  <form role="form" action="addclass.html" method="post">{% csrf_token %}
+          <h1>Manage Course Enrollment</h1>
   <div class="form-group">
-    <label for="ClassName">Course Name</label>
-    <input type="text" class="form-control" name="className" id="ClassName" placeholder="Name of Class">
+    <label for="ClassName">Course</label>
+<fieldset disabled>
+    <div class="form-group">
+      <input type="text" id="course" class="form-control" placeholder="{{course}}">
+    </div>
+    </fieldset>
   </div>
+<form class="form-inline" role="form">
 <div class="form-group">
-    <label for="ClassCode">Course Code</label>
-    <input type="text" class="form-control" name="classCode" id="ClassCode" placeholder="Class Code">
-  </div>
+<label class="sr-only" for="newStudent">Student Number</label>
+<input type="text" class="form-control" id="newStudent" placeholder="Student Number"> 
+</div>
+<div class="form-group">
+<label class="sr-only" for="studentadd">Add Student Number</label>
+<input name="addoption" class="btn btn-default" type="button" id="addoption" name='option' value="Add Student" onClick="javaScript:AddOption();" />
+</div>
+</form>
 
 <div class="form-group">
-    <label for="classList">Class List</label>
-    <input type="file" id="classList" name="classList">
-    <p class="help-block"></p>
+</div>
+<div class="form-group">
+<form name= "classForm" action="viewclass.html" method="POST" id='classForm'>
+<input type='hidden' id= 'coursef' name='course' value='{{course}}'/>
+<select name="students" multiple size="8" id="selectMultipleStudents">
+{% for student in allEnrolledStudents %}
+<option value="{{student}}">{{student}}</option>
+{% endfor %}
+</select>
+</div>
+<div class="form-group">
+<input name="btnRemoveMultipleOptions" class="btn btn-default" type="button" id="btnRemoveMultipleOptions" value="Remove Student" onclick="javaScript:removeMultipleOptions();" />
   </div>  
 	</div>
-	<button type="submit" class="btn btn-default">Submit</button>
+	<button type="submit" class="btn btn-default" onClick="selectAll()">Save</button>
 </form>
     </div>
 	</div>
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Instructor's Module (Add a Course)</p>
+        <p class="text-muted">InPress - Instructor's Module ({{course}})</p>
       </div>
     </div>
 
@@ -106,6 +124,65 @@
           document.getElementById("courseForm").submit();
     }
     //--></script>
+    <script type="text/javaScript">
+    function removeMultipleOptions(){
+      var listBox=document.getElementById("selectMultipleStudents");
+      if(listBox.options.length==0){ 
+        return false; 
+      }
+      var removedOptionCount=0; 
+      var valuesToBeRemoved=Array();
+
+      for(var x=0;x<listBox.options.length;x++){
+        if(listBox.options[x].selected==true){ 
+          valuesToBeRemoved.push(listBox.options[x].value); 
+        }
+      }
+
+      for(var j=0;j<valuesToBeRemoved.length;j++){
+        removedOptionCount+=removeListItemOneByOne(listBox,valuesToBeRemoved[j]);
+      }
+
+      if(removedOptionCount==0){
+        listBox.focus();
+        return false;
+      }
+      else{
+          return true;
+        }
+      } 
+
+      function removeListItemOneByOne(listBox,valueToRemove){
+      var removed=0;
+      for(var i=0;i<listBox.options.length;i++){
+        if(listBox.options[i].value==valueToRemove){
+          listBox.remove(i);
+          removed=1;
+          break;
+        }
+      }
+      return removed; 
+      }
+
+      function AddOption(){
+          var optionValue=document.getElementById('newStudent');
+          if (optionValue.value.replace(/ +/g, "") != ""){
+            var x = document.getElementById("selectMultipleStudents");
+            var option = document.createElement("option");
+            option.text = optionValue.value;
+            x.add(option);
+          }
+          document.getElementById('newStudent').value = ""
+      }
+      function selectAll(){
+        selectBox = document.getElementById("selectMultipleStudents");
+        for (var i = 0; i < selectBox.options.length; i++) 
+        { 
+             selectBox.options[i].selected = true; 
+        } 
+      }
+
+</script>
   {% endblock %}
   </body>
 </html>
