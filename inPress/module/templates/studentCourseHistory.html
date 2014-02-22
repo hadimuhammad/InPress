@@ -148,29 +148,31 @@
   document.write ('<th>Number of Questions</th>');
   document.write ('<th>Check the Answer</th>');
   </script>
-  {% for i in assessments %}
-  <script type='text/javascript'>
-  var assessmentName = "{{i}}"
-  var numberOfQs = ParseData("",0,assessmentName);
-  var assessmentPK = ParseData("PK",0, assessmentName);
-  var course = "{{myCourse}}"
-  
+
+  <script type="text/javascript">
   var post = ParseData("isPosted", 0, assessmentName)
   var d = new Date();
   var curr_date = d.getDate();
-  if(curr_date <= 9)
+  if(curr_date <= 9){
     curr_date = "0"+curr_date;
+  }
   var curr_month = d.getMonth() + 1;
-  if(curr_month <= 9)
+  if(curr_month <= 9){
     curr_month = "0"+curr_month;
+  }
   var curr_year = d.getFullYear();
   var date = curr_year + "-" + curr_month + "-" +curr_date;
-  var date2 = curr_year + "-" + curr_month + "-" +curr_date;
+  //var date2 = curr_year + "-" + curr_month + "-" +curr_date;
+  {% for i in assessments %}
   var postdate = document.getElementById("dpn"+"{{forloop.counter0}}").value
   date = new Date(curr_year, curr_month-1, curr_date)
   dateparms = postdate.split('-');
   mypostdate = new Date (dateparms[0],dateparms[1]-1, dateparms[2])
-  if (mypostdate < date || mypostdate == date){
+  if (mypostdate <= date){
+  var assessmentName = "{{i}}"
+  var numberOfQs = ParseData("",0,assessmentName);
+  var assessmentPK = ParseData("PK",0, assessmentName);
+  var course = "{{myCourse}}"
   document.write('</tr>');
   document.write('<tr>');
   document.write('<td>{{i}}</td>');
@@ -179,8 +181,8 @@
   document.write('<input type=\'hidden\' id= \'course\' name=\'course\' value='+course+'/>');
   document.write("<input type='hidden' id= 'studentnumber5' name='studentnumber' value='{{studentnumber}}'/>")
   document.write('<a href="javascript:{}" onClick="TakeAssessment('+assessmentPK+');" class="btn btn-default btn-sm" role="button"> Answer </a>') ;
-  document.write ('<input type=\'hidden\' id= \'AssessmentPK\' name=\'AssessmentPK\' value=\'\'/>');
-  document.write ('<input type=\'hidden\' id= \'questionNum\' name=\'QuestionNum\' value=\'\'/>');
+  document.write('<input type=\'hidden\' id= \'AssessmentPK\' name=\'AssessmentPK\' value=\'\'/>');
+  document.write('<input type=\'hidden\' id= \'questionNum\' name=\'QuestionNum\' value=\'\'/>');
   document.write('</form></td></tr>')
   document.getElementById("course").value = course;
   document.getElementById("questionNum").value = 1;
