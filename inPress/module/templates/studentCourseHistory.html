@@ -170,10 +170,8 @@
   date = new Date(curr_year, curr_month-1, curr_date)
   dateparms = postdate.split('-');
   mypostdate = new Date (dateparms[0],dateparms[1]-1, dateparms[2])
-  if (mypostdate < date){
-
-
-  document.write ('</tr>');
+  if (mypostdate < date || mypostdate == date){
+  document.write('</tr>');
   document.write('<tr>');
   document.write('<td>{{i}}</td>');
   document.write('<td>'+ParseData("",0,assessmentName)+'</td>');
@@ -186,7 +184,7 @@
   document.write('</form></td></tr>')
   document.getElementById("course").value = course;
   document.getElementById("questionNum").value = 1;
-}
+  }
   </script>
   {% endfor %}
     </table>
