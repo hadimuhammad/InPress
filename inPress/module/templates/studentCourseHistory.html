@@ -131,64 +131,64 @@
 
       <!-- Begin page content -->
   <div class="container">
-  <div class="page-header">
-  <h1> {{myCourse}} </h1>
-{% for i in assessments %}
+    <div class="page-header">
+      <h1> {{myCourse}} </h1>
+      {% for i in assessments %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{forloop.counter0}}" href="#collapse{{forloop.counter0}}" >
+              <div class="row">
+                <div class="col-md-10" style="display:inline;">
+                   <label for="assessment" style="color: black;">{{i}}</label> 
+                </div>
+                <p style="padding-right:5mm;"align="right">
+                  <button type="button" class="btn btn-danger" id="status{{forloop.counter0}}"></button>
+                </p>
+              </div>
+            </a>
+          </h4>
+        </div>
+        <!-- Check to see if it should be collapse in or not -->
+        <div id="collapse{{forloop.counter0}}" class="panel-collapse collapse">
+          <div class="panel-body">
+            <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
+            <input type='hidden' id= 'ListOfAssessments' name='ListOfAssessments' value='{{ListOfAssessments}}'/>
+            <input type='hidden' id= 'NameOfAssessment' name='NameOfAssessment' value='{{i}}'/>
+            <table class="table">
+              <div class="input-group date" id="dp{{forloop.counter0}}" data-date="12-02-2012" data-date-format="yyyy-mm-dd">
+              </div>
+              <th>id</th>
+              <th>Question</th>
+              <th>Type</th>
+              <th>Answer</th>
+              </tr>
+              <script type="text/javascript">
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{forloop.counter0}}" href="#collapse{{forloop.counter0}}" >
-          <div class="row">
-            <div class="col-md-10" style="display:inline;">
-               <label for="assessment" style="color: black;">{{i}}</label> 
-            </div>
-            <p style="padding-right:5mm;"align="right">
-              <button type="button" class="btn btn-danger" id="status{{forloop.counter0}}"></button>
-            </p>
+              
+              var numberOfQs = ParseData("",0,"{{i}}");
+              for (i=1; i<=numberOfQs; i++){
+                var questionId = ParseData("id", i, "{{i}}");
+                document.write ('<form name= "removeQuestion" action="course.html" method="POST" id=\'removeQuestion\'>');
+                document.write('<input type='+'hidden'+' id='+'QuestionToRemove'+' name='+'QuestionToRemove'+' value='+''+'/>')
+                document.write("<input type='hidden' id= 'accordionNumber' name='accordionNumber' value=''/>")
+                document.write('<tr>');
+                document.write('<td>'+i+'</td>');
+                document.write('<td>'+ParseData("Question", i, "{{i}}")+'</td>');
+                document.write('<td>'+ParseData("Type", i, "{{i}}")+'</td>');
+                document.write('<td>'+ParseData("Answer", i, "{{i}}")+'</td>');
+                document.write('</tr>');
+                document.write('</form>');
+              }
+              </script>
+            </table>
           </div>
-        </a>
-      </h4>
-    </div>
-    <!-- Check to see if it should be collapse in or not -->
-    <div id="collapse{{forloop.counter0}}" class="panel-collapse collapse">
-      <div class="panel-body">
-        <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
-        <input type='hidden' id= 'ListOfAssessments' name='ListOfAssessments' value='{{ListOfAssessments}}'/>
-        <input type='hidden' id= 'NameOfAssessment' name='NameOfAssessment' value='{{i}}'/>
-        <table class="table">
-          <div class="input-group date" id="dp{{forloop.counter0}}" data-date="12-02-2012" data-date-format="yyyy-mm-dd">
-          </div>
-          <th>id</th>
-          <th>Question</th>
-          <th>Type</th>
-          <th>Answer</th>
-          </tr>
-          <script type="text/javascript">
-
-          
-          var numberOfQs = ParseData("",0,"{{i}}");
-          for (i=1; i<=numberOfQs; i++){
-            var questionId = ParseData("id", i, "{{i}}");
-            document.write ('<form name= "removeQuestion" action="course.html" method="POST" id=\'removeQuestion\'>');
-            document.write('<input type='+'hidden'+' id='+'QuestionToRemove'+' name='+'QuestionToRemove'+' value='+''+'/>')
-            document.write("<input type='hidden' id= 'accordionNumber' name='accordionNumber' value=''/>")
-            document.write('<tr>');
-            document.write('<td>'+i+'</td>');
-            document.write('<td>'+ParseData("Question", i, "{{i}}")+'</td>');
-            document.write('<td>'+ParseData("Type", i, "{{i}}")+'</td>');
-            document.write('<td>'+ParseData("Answer", i, "{{i}}")+'</td>');
-            document.write('</tr>');
-            document.write('</form>');
-          }
-          
-          </script>
-        </table>
+        </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-  <div>
+
+
     <br><br>
     <form name= "existingTests" action="course.html" method="get" id='existingTests'>
     <input type='hidden' id= 'course98' name='courseInfo' value='{{myCourse}}'/>
@@ -196,11 +196,13 @@
     <button class="btn btn-default btn-sm" role="button" type="submit" >Back to course page</button>
     </form>
   </div>
-    <div id="footer">
-      <div class="container">
-        <p class="text-muted">InPress - Student's Module ({{myCourse}})</p>
-      </div>
+  </div>
+  </div>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">InPress - Student's Module ({{myCourse}})</p>
     </div>
+  </div>
 
 
     <!-- Bootstrap core JavaScript
