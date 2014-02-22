@@ -227,8 +227,8 @@ def studentcoursehistory(request):
     courses = Courses.objects.filter (pk__in=mycourses)
     if (request.method == 'GET'):
         myCourse = request.GET['course']
-        courseName = Courses.objects.filter(CourseName=myCourse) 
-        assessments = Assessment.objects.filter(course = courseName, post = "true")
+        courseName = Courses.objects.filter(CourseName=myCourse)
+        assessments = Assessment.objects.filter(course = courseName, post = "true", post_date__lte = date.today())
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
     return render_to_response('studentCourseHistory.html', locals())
