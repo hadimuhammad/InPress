@@ -70,7 +70,6 @@
           return numberOfQuestions;
         }
   </script>
-
   <style type="text/css">
         form{display: inline;}
   </style>
@@ -139,7 +138,7 @@
   <input type='hidden' id= 'NameOfAssessment' name='NameOfAssessment' value='{{i}}'/>
   <table class="table table-bordered">
   <script type='text/javascript'>
-  var assessmentName = "{{i}}"
+  var assessmentName = "{{assessmentName}}"
   var numberOfQs = ParseData("",0,assessmentName);
   var assessmentPK = ParseData("PK",0, assessmentName);
   var course = "{{myCourse}}"
@@ -155,6 +154,25 @@
   var numberOfQs = ParseData("",0,assessmentName);
   var assessmentPK = ParseData("PK",0, assessmentName);
   var course = "{{myCourse}}"
+  
+  var post = ParseData("isPosted", 0, assessmentName)
+  var d = new Date();
+  var curr_date = d.getDate();
+  if(curr_date <= 9)
+    curr_date = "0"+curr_date;
+  var curr_month = d.getMonth() + 1;
+  if(curr_month <= 9)
+    curr_month = "0"+curr_month;
+  var curr_year = d.getFullYear();
+  var date = curr_year + "-" + curr_month + "-" +curr_date;
+  var date2 = curr_year + "-" + curr_month + "-" +curr_date;
+  var postdate = document.getElementById("dpn"+"{{forloop.counter0}}").value
+  date = new Date(curr_year, curr_month-1, curr_date)
+  dateparms = postdate.split('-');
+  mypostdate = new Date (dateparms[0],dateparms[1]-1, dateparms[2])
+  if (mypostdate < date){
+
+
   document.write ('</tr>');
   document.write('<tr>');
   document.write('<td>{{i}}</td>');
@@ -168,6 +186,7 @@
   document.write('</form></td></tr>')
   document.getElementById("course").value = course;
   document.getElementById("questionNum").value = 1;
+}
   </script>
   {% endfor %}
     </table>
