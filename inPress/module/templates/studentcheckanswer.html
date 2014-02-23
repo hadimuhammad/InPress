@@ -26,7 +26,6 @@
           var QuestionData = document.getElementById("QuestionData").value;
           var jsonData = JSON.parse(ListOfAssessments);
           var jsonData2 = JSON.parse(QuestionData);
-          //var mydate = document.getElementById("mydate").value;
           for (var i in jsonData) {
               if (jsonData[i].fields.name == assessmentName){
                 var assessmentPK = jsonData[i].pk;
@@ -70,6 +69,7 @@
           return numberOfQuestions;
         }
   </script>
+
   <style type="text/css">
         form{display: inline;}
   </style>
@@ -119,6 +119,7 @@
               <li><a href="javascript:{}" onClick="SubmitCourse('{{i}}');">{{i}}</a></li>
               {% endfor %}
               </form>
+
               </ul>
               </li>
             </ul>
@@ -129,129 +130,21 @@
         </div>
       </div>
 
-      <!-- Begin page content -->
-  <div class="container">
-    <div class="page-header">
-      <h1> {{myCourse}} </h1>
-      {% for i in assessments %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{forloop.counter0}}" href="#collapse{{forloop.counter0}}" >
-              <div class="row">
-                <div class="col-md-10" style="display:inline;">
-                   <label for="assessment" style="color: black;">{{i}}</label> 
-                </div>
-                <p style="padding-right:5mm;"align="right">
-                  <button type="button" class="btn btn-danger" id="status{{forloop.counter0}}"></button>
-                </p>
-              </div>
-            </a>
-          </h4>
-        </div>
-        <!-- Check to see if it should be collapse in or not -->
-        <div id="collapse{{forloop.counter0}}" class="panel-collapse collapse">
-          <div class="panel-body">
-            <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
-            <input type='hidden' id= 'ListOfAssessments' name='ListOfAssessments' value='{{ListOfAssessments}}'/>
-            <input type='hidden' id= 'NameOfAssessment' name='NameOfAssessment' value='{{i}}'/>
-            <table class="table">
-              <div class="input-group date" id="dp{{forloop.counter0}}" data-date="12-02-2012" data-date-format="yyyy-mm-dd">
-              </div>
-              <th>id</th>
-              <th>Question</th>
-              <th>Type</th>
-              <th>
-              <th>Answer</th>
-              </tr>
-              <script type="text/javascript">
 
-              
-              var numberOfQs = ParseData("",0,"{{i}}");
-              for (i=1; i<=numberOfQs; i++){
-                var questionId = ParseData("id", i, "{{i}}");
-                document.write ('<form name= "removeQuestion" action="course.html" method="POST" id=\'removeQuestion\'>');
-                document.write('<input type='+'hidden'+' id='+'QuestionToRemove'+' name='+'QuestionToRemove'+' value='+''+'/>')
-                document.write("<input type='hidden' id= 'accordionNumber' name='accordionNumber' value=''/>")
-                document.write('<tr>');
-                document.write('<td>'+i+'</td>');
-                document.write('<td>'+ParseData("Question", i, "{{i}}")+'</td>');
-                document.write('<td>'+ParseData("Type", i, "{{i}}")+'</td>');
-                document.write('<td>'+ParseData("Answer", i, "{{i}}")+'</td>');
-                document.write('</tr>');
-                document.write('</form>');
-              }
-              </script>
-            </table>
-          </div>
-        </div>
+
+
+      <br><br>
+      <br><br>
+      <form name= "existingTests" action="studentCourseHistory.html" method="get" id='existingTests'>
+      <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+      <input type='hidden' id= 'studentnumber3' name='studentnumber' value='{{studentnumber}}'/>
+      <a href="javascript:{}" onClick="ExistingTests('{{myCourses}}');" class="btn btn-default btn-sm" role="button"> Back to all the exisiting test(s) and quizz(es). </a>
+      </form>
       </div>
-      {% endfor %}
+          </div>
     </div>
-
-
-    <br><br>
-    <form name= "existingTests" action="course.html" method="get" id='existingTests'>
-    <input type='hidden' id= 'course98' name='courseInfo' value='{{myCourse}}'/>
-    <input type='hidden' id= 'studentnumber3' name='studentnumber' value='{{studentnumber}}'/>
-    <button class="btn btn-default btn-sm" role="button" type="submit" >Back to course page</button>
-    </form>
-  </div>
-  </div>
-  </div>
-  <div id="footer">
-    <div class="container">
-      <p class="text-muted">InPress - Student's Module ({{myCourse}})</p>
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted">InPress - Student's Module ({{myCourse}})</p>
+      </div>
     </div>
-  </div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function DoSubmission(index) {
-          document.getElementById("MyForm").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function DoSubmission2(index) {
-          document.getElementById("MyForm2").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function SubmitCourse(index) {
-          document.getElementById("courseInfo").value = index;
-          document.getElementById("courseForm").submit();
-    }
-    //--></script>
-     <script type="text/javascript" language="JavaScript"><!--
-    function ExistingTests(index) {
-          document.getElementById("course").value = index;
-          document.getElementById("existingTests").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function AddQuestion(index) {
-          document.getElementById("assessment").value = index;
-          document.getElementById("addQuestion").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function RemoveQuestion(index) {
-          document.getElementById("QuestionToRemove").value = index;
-          document.getElementById("removeQuestion").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function TakeAssessment(index) {
-          document.getElementById("AssessmentPK").value = index;
-          document.getElementById("takeAssessment").submit();
-    }
-    //--></script>
-    {% endblock %}
-  </body>
-</html>
-
