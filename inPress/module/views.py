@@ -273,7 +273,8 @@ def viewassessment(request):
     if (request.method == 'POST'):
         isEnd = request.POST.get('isEnd')
         answer = request.POST.get('FinalAnswer')
-        print('answer is: ', answer);
+        if (answer):
+            print request.POST['FinalAnswer']
         if (isEnd):
             if (isEnd == "true"):
                 return postAssessmentData(request, True);
