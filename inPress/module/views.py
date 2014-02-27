@@ -271,10 +271,15 @@ def postAssessmentData (request, isEnd):
 
 def viewassessment(request):
     if (request.method == 'POST'):
+        studentnumber = request.POST.get['studentnumber']
+        assessmentPK = request.POST.get['AssessmentPK']
+
         isEnd = request.POST.get('isEnd')
         answer = request.POST.get('FinalAnswer')
         if (answer):
-            print request.POST['FinalAnswer']
+            assessmentPK = AssessmentData.objects.filter(Assessment = request.POST['AssessmentPK'])
+            questionSA = StudentAnswers(Students = request.POST['studentnumber'], Assessment=request.POST['AssessmentPK'], Answer = request.POST['FinalAnswer'])
+            questionSA.save()
         if (isEnd):
             if (isEnd == "true"):
                 return postAssessmentData(request, True);
