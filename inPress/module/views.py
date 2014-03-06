@@ -167,7 +167,7 @@ def data_analysis(request):
     AssessmentDatas = AssessmentData.objects.filter(Assessment = assessmentName)
     numOfQuestions = AssessmentDatas.count()
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
-    numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData = AssessmentDatas).count()
+    numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData__in = AssessmentDatas).count()
     numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
     return render_to_response('data_analysis.html', locals()) 
 
@@ -271,15 +271,10 @@ def postAssessmentData (request, isEnd):
 
 def viewassessment(request):
     if (request.method == 'POST'):
-        studentnumber = request.POST.get['studentnumber']
-        assessmentPK = request.POST.get['AssessmentPK']
-
-        isEnd = request.POST.get('isEnd')
+	isEnd = request.POST.get('isEnd')
         answer = request.POST.get('FinalAnswer')
         if (answer):
-            assessmentPK = AssessmentData.objects.filter(Assessment = request.POST['AssessmentPK'])
-            questionSA = StudentAnswers(Students = request.POST['studentnumber'], Assessment=request.POST['AssessmentPK'], Answer = request.POST['FinalAnswer'])
-            questionSA.save()
+            print request.POST['FinalAnswer']
         if (isEnd):
             if (isEnd == "true"):
                 return postAssessmentData(request, True);
@@ -288,7 +283,6 @@ def viewassessment(request):
                 return getViewAssessment(request); 
         else:
             return getViewAssessment(request);
-
 def viewassessmentanswers(request):
     studentnumber = request.GET['studentnumber']
     mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
@@ -308,4 +302,7 @@ def viewassessmentanswers(request):
         assessmentToDelete.delete()
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     return render_to_response('viewassessmentanswers.html', locals()) 
+
+def studentcheckanswer (request):
+    return render_to_response('studentcheckanswer.html', locals())
 
