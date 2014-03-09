@@ -148,6 +148,7 @@
   document.write ('<th>Assessment(s) for today</th>');
   document.write ('<th>Number of Questions</th>');
   document.write ('<th>Start the Assessment</th>');
+  document.write ('<th>Check your Answer</th>');
   </script>
   {% for i in assessments %}
   <script type='text/javascript'>
@@ -165,7 +166,17 @@
   document.write('<a href="javascript:{}" onClick="TakeAssessment('+assessmentPK+');" class="btn btn-default btn-sm" role="button"> Start! </a>') ;
   document.write ('<input type=\'hidden\' id= \'AssessmentPK\' name=\'AssessmentPK\' value=\'\'/>');
   document.write ('<input type=\'hidden\' id= \'questionNum\' name=\'QuestionNum\' value=\'\'/>');
+  document.write('</form></td>')
+
+  document.write('<td><form name= "checkAnswer" action="viewassessmentanswers.html" method="post" id=\'checkAnswer\'>');
+  document.write('<input type=\'hidden\' id= \'course\' name=\'course\' value='+course+'/>');
+  document.write("<input type='hidden' id= 'studentnumber6' name='studentnumber' value='{{studentnumber}}'/>")
+  document.write('<a href="javascript:{}" onClick="checkAnswer('+assessmentPK+');" class="btn btn-default btn-sm" role="button"> Go to your Answer! </a>') ;
   document.write('</form></td></tr>')
+  document.write ('<input type=\'hidden\' id= \'AssessmentPK\' name=\'AssessmentPK\' value=\'\'/>');
+  document.write ('<input type=\'hidden\' id= \'questionNum\' name=\'QuestionNum\' value=\'\'/>');
+  
+
   document.getElementById("course").value = course;
   document.getElementById("questionNum").value = 1;
   </script>
@@ -232,6 +243,12 @@
     function TakeAssessment(index) {
           document.getElementById("AssessmentPK").value = index;
           document.getElementById("takeAssessment").submit();
+    }
+    //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function checkAnswer(index) {
+          document.getElementById("studentnumber6").value = index;
+          document.getElementById("checkAnswer").submit();
     }
     //--></script>
     {% endblock %}
