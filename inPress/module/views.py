@@ -7,7 +7,7 @@ from array import *
 from django.core import serializers
 from datetime import date
 from urlparse import urlparse
-
+from django.db.models import Count
  
 def studentsignin(request):
     if (request.method == 'POST'):
@@ -169,6 +169,17 @@ def data_analysis(request):
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
     numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData__in = AssessmentDatas).count()
     numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
+    AssessmentDataSA = AssessmentData.objects.filter(Assessment = assessmentName, Question_Type="SA")
+    AnswerGroups = StudentAnswers.objects.filter(AssessmentData__in=AssessmentDataSA).values('Answer', 'AssessmentData').annotate(numStudents=Count('Answer')).order_by('-numStudents')
+    print AnswerGroups	
+	
+
+
+
+
+
+
+
     return render_to_response('data_analysis.html', locals()) 
 
 def checkStudentInList (student, studentList):

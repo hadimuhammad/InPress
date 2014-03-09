@@ -112,7 +112,32 @@
           return numberOfQuestions;
         }
   </script>
+  <link rel="stylesheet" type="text/css" href="http://visapi-gadgets.googlecode.com/svn/trunk/termcloud/tc.css"/>
+  <script type="text/javascript" src="http://visapi-gadgets.googlecode.com/svn/trunk/termcloud/tc.js"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script type="text/javascript">
+      function drawIndividualSAGraph (id, popularAnswers, numStudents){
+    	google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        var data = google.visualization.arrayToDataTable([
+          ['Answer', 'Students'],
+          [popularAnswers[0],  parseInt(numStudents[0])],
+          [popularAnswers[1],  parseInt(numStudents[1])],
+          [popularAnswers[2],  parseInt(numStudents[2])],
+          [popularAnswers[3],  parseInt(numStudents[3])],
+          [popularAnswers[4],  parseInt(numStudents[4])]
+        ]);
+        var options = {
+          title: 'How did the Class respond?',
+          hAxis: {title: 'Short Answer', titleTextStyle: {color: 'black'}}
+        };
+        var myName = 'chart_div'+id
+        var chart = new google.visualization.ColumnChart(document.getElementById(myName));
+        chart.draw(data, options);
+
+
+
+   }
       function drawIndividualMCGraph(id, MCAnswers) {
         google.load("visualization", "1", {packages:["corechart"]});
         google.setOnLoadCallback(drawChart);
@@ -147,8 +172,6 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <!--<script src="/static/bootstrap/js/prettify.js"></script> -->
     <script src="/static/bootstrap/js/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
   </head>
 
   <body>
@@ -256,22 +279,48 @@
       var numberOfQs = ParseData("",0,"{{assessment}}");
       for (i=1; i<=numberOfQs; i++){
         var questionId = ParseData("id", i, "{{assessment}}");
-
-        //Figure out what are the answers associated with the question id
+        
+	//Figure out what are the answers associated with the question id
         if (ParseData("Type", i, "{{assessment}}") == "Multiple Choice"){
           var MCAnswers = ParseAnswers (questionId)
-        }
-        var myName = "chart_div"+i
-        document.write('<td>'+i+'</td>');
-        document.write('<td>'+ParseData("Question", i, "{{assessment}}")+'</td>');
-        document.write('<td>'+ParseData("Answer", i, "{{assessment}}")+'</td>');
-        document.write('<td><div id='+myName+'></div></td>');
-        document.write('<td></td>');
-        document.write('</tr>');
-        document.write('</form>');
-        drawIndividualMCGraph(i, MCAnswers)
-      }
+       	  var myName = "chart_div"+i
+          document.write('<td>'+i+'</td>');
+          document.write('<td>'+ParseData("Question", i, "{{assessment}}")+'</td>');
+          document.write('<td>'+ParseData("Answer", i, "{{assessment}}")+'</td>');
+          document.write('<td><div id='+myName+'></div></td>');
+          document.write('<td></td>');
+          document.write('</tr>');
+          document.write('</form>');
+          drawIndividualMCGraph(i, MCAnswers)
+     	 }
+	
+	else{
+		var popularAnswers = new Array ();
+		var numStudents = new Array ();
+		var counter = 0;
+		{% for answer in AnswerGroups %}
+			if ("{{answer.AssessmentData}}" == questionId){
+				popularAnswers[counter] = "{{answer.Answer}}"
+				numStudents[counter] = "{{answer.numStudents}}"
+			}
+		counter = counter +1
+		{% endfor %}
 
+		//draw the graph now
+		// popularAnswer[0] = ""   numStudents[0] = #
+		// popularAnswer [1] = ""  numStudents[1] = #
+		var myName = "chart_div"+i
+          	document.write('<td>'+i+'</td>');
+         	document.write('<td>'+ParseData("Question", i, "{{assessment}}")+'</td>');
+         	document.write('<td>'+ParseData("Answer", i, "{{assessment}}")+'</td>');
+          	document.write('<td><div id='+myName+'></div></td>');
+         	document.write('<td></td>');
+         	document.write('</tr>');
+          	document.write('</form>');
+		drawIndividualSAGraph(i, popularAnswers, numStudents)
+	}
+	
+      }
       </script>
     </table>
       </div>
