@@ -18,14 +18,16 @@
             }
           }
         } 
-        function ParseData(valueNeeded, questionNum, assessmentName)
+        function ParseData( , questionNum, assessmentName)
         {
           console.log(assessmentName);
           var numberOfQuestions = 0;
           var ListOfAssessments = document.getElementById("ListOfAssessments").value;
           var QuestionData = document.getElementById("QuestionData").value;
+          var StudentAnswer = document.getElementById("StudentAnswer").value;
           var jsonData = JSON.parse(ListOfAssessments);
           var jsonData2 = JSON.parse(QuestionData);
+          var jsonData3 = JSON.parse(StudentAnswer);
           
           //var mydate = document.getElementById("mydate").value;
           for (var i in jsonData) {

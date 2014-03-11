@@ -162,20 +162,20 @@
   document.write('<td>'+ParseData("",0,assessmentName)+'</td>');
   document.write('<td><form name= "takeAssessment" action="viewassessment.html" method="post" id=\'takeAssessment\'>');
   document.write('<input type=\'hidden\' id= \'course\' name=\'course\' value='+course+'/>');
-  document.write("<input type='hidden' id= 'studentnumber5' name='studentnumber' value='{{studentnumber}}'/>")
+  document.write("<input type='hidden' id= 'studentnumber5' name='studentnumber' value='{{studentnumber}}'/>");
   document.write('<a href="javascript:{}" onClick="TakeAssessment('+assessmentPK+');" class="btn btn-default btn-sm" role="button"> Start! </a>') ;
   document.write ('<input type=\'hidden\' id= \'AssessmentPK\' name=\'AssessmentPK\' value=\'\'/>');
   document.write ('<input type=\'hidden\' id= \'questionNum\' name=\'QuestionNum\' value=\'\'/>');
-  document.write('</form></td>')
+  document.write('</form></td>');
 
-  document.write('<td><form name= "checkAnswer" action="viewassessmentanswers.html" method="post" id=\'checkAnswer\'>');
-  document.write('<input type=\'hidden\' id= \'course\' name=\'course\' value='+course+'/>');
-  document.write("<input type='hidden' id= 'studentnumber6' name='studentnumber' value='{{studentnumber}}'/>")
-  document.write('<a href="javascript:{}" onClick="checkAnswer('+assessmentPK+');" class="btn btn-default btn-sm" role="button"> Go to your Answer! </a>') ;
-  document.write('</form></td></tr>')
-  document.write ('<input type=\'hidden\' id= \'AssessmentPK\' name=\'AssessmentPK\' value=\'\'/>');
-  document.write ('<input type=\'hidden\' id= \'questionNum\' name=\'QuestionNum\' value=\'\'/>');
-  
+  // document.write('<td><form name= "checkAnswer" action="viewassessmentanswers.html" method="post" id=\'checkAnswer\'>');
+  // document.write("<input type='hidden' id= 'studentnumber6' name='studentnumber' value='{{studentnumber}}'/>");
+  // document.write("<input type='hidden' id= 'assessmentData' name='assessmentData' value='{{studentnumber}}'/>");
+  // document.write('<a href="javascript:{}" onClick="CheckAnswer('+studentnumber6+');" class="btn btn-default btn-sm" role="button"> Go to your Answer! </a>') ;
+  // document.write('</form></td></tr>');
+  // document.write ('<input type=\'hidden\' id= \'AssessmentPK\' name=\'AssessmentPK\' value=\'\'/>');
+  // document.write ('<input type=\'hidden\' id= \'questionNum\' name=\'QuestionNum\' value=\'\'/>');
+  // document.write('</form></td></tr>');
 
   document.getElementById("course").value = course;
   document.getElementById("questionNum").value = 1;
@@ -246,8 +246,8 @@
     }
     //--></script>
     <script type="text/javascript" language="JavaScript"><!--
-    function checkAnswer(index) {
-          document.getElementById("studentnumber6").value = index;
+    function CheckAnswer(index) {
+          document.getElementById("studentnumber").value = index;
           document.getElementById("checkAnswer").submit();
     }
     //--></script>

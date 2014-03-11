@@ -307,6 +307,7 @@ def viewassessmentanswers(request):
         assessmentName = Assessment.objects.get(pk =assessmentPK)
         QuestionNum = request.GET['QuestionNum']
         ListOfAssessments = serializers.serialize("json", assessments)
+        StudentAnswer = serializers.serialize("json", StudentAnswers.objects.filter(Students__in=studentnumber))
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
     if (request.method == 'POST'):
         assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
