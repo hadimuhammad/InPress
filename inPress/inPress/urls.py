@@ -21,11 +21,13 @@ urlpatterns = patterns('',
     url(r'^instructor/course.html', 'module.views.course'),
     url(r'^instructor/addquestion.html', 'module.views.addquestion'),
     url(r'^instructor/data_analysis.html', 'module.views.data_analysis'),
+    url(r'^instructor/viewclass.html', 'module.views.viewclass'),
     url(r'^student/course.html', 'module.views.studentcourse'),
     url(r'^student/index.html','module.views.studentindex'),
     url(r'^student/viewassessment.html','module.views.viewassessment'),
     url(r'^student/viewassessmentanswers.html','module.views.viewassessmentanswers'),
     url(r'^student/studentCourseHistory.html','module.views.studentcoursehistory'),
+    url(r'^student/studentcheckanswer.html','module.views.studentcheckanswer'),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )

@@ -1,0 +1,19 @@
+def viewassessmentanswers(request):
+    studentnumber = request.GET['studentnumber']
+    mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
+    courses = Courses.objects.filter (pk__in=mycourses)
+    print request
+    if (request.method == 'GET'):
+        myCourse = request.GET['course']
+        courseName = Courses.objects.filter(CourseName=myCourse)
+        assessmentPK = request.GET ['AssessmentPK']
+        assessments = Assessment.objects.filter(pk = assessmentPK)
+        assessmentName = Assessment.objects.get(pk =assessmentPK)
+        QuestionNum = request.GET['QuestionNum']
+        ListOfAssessments = serializers.serialize("json", assessments)
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+    if (request.method == 'POST'):
+        assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
+        assessmentToDelete.delete()
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    return render_to_response('viewassessmentanswers.html', locals()) 

@@ -1,0 +1,5 @@
+In Order to add new code in the server run the following: 
+
+1) Make changes
+2) git commit -a -m "message of commit"
+3) git push

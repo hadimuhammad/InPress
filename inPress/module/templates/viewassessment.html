@@ -161,8 +161,8 @@
     </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-        <div class="row">
+  <div class="col-sm-offset-2 col-sm-10">
+  <div class="row">
   <div class="col-xs-12 col-md-8">
     <form name= "previousQuestion" action="viewassessment.html" method="post" id='previousQuestion'>
     <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
@@ -183,6 +183,7 @@
     <input type='hidden' id= 'FinalAnswer' name='FinalAnswer' value=''/>
     <input type='hidden' id= 'isEnd' name='isEnd' value=""/>
     <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="NextQuestion('{{QuestionNum}}');"> 
+
     <script> 
     var numberOfQuestions = parseInt(ParseData("",0));
     var currentQueston = document.getElementById("QuestionNum").value

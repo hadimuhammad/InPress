@@ -35,7 +35,7 @@
             <a class="navbar-brand" href="/instructor/index.html">InPress - Instructor's Module</a>
           </div>
           <form name= "courseForm" action="course.html" method="get" id='courseForm'>
-              <input type='hidden' id= 'courseInfo' name='courseInfo' value=''/>
+              <input type='hidden' id= 'courseInfo' name='courseInfo' value='{{course2}}'/>
   <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
               <li> <a href="/instructor/index.html">Home</a></li>
@@ -81,7 +81,7 @@
     </div>
   </div>
 </div>
-    <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
+    <input type='hidden' id= 'course' name='course' value="{{myCourse}}"/>
 	</div>
 	<button type="submit" class="btn btn-default">Submit</button>
 </form>
@@ -89,7 +89,7 @@
 	</div>
     <div id="footer">
       <div class="container">
-        <p class="text-muted">InPress - Instructor's Module ({{myCourse}})</p>
+        <p class="text-muted">InPress - Instructor's Module ('{{myCourse}}')</p>
       </div>
     </div>
 

@@ -156,7 +156,7 @@
       <h4 class="panel-title">
             <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{forloop.counter0}}" href="#collapse{{forloop.counter0}}" >
       <div class="row">
-      <div class="col-md-1" style="display:inline;">
+      <div class="col-md-10" style="display:inline;">
            <label for="assessment" style="color: black;">{{i}}</label> </div><p style="padding-right:5mm;"align="right">
   <button type="button" class="btn btn-danger" id="status{{forloop.counter0}}"></button></p></div>
   </a>
@@ -309,13 +309,17 @@
   {% endfor %}
 	</div>
         <form name= "MyForm" action="addassessment.html" method="get" id='MyForm'>
-        <input type='hidden' id= 'course1' name='course' value='{{myCourse}}'/>
+        <input type='hidden' id= 'course1' name='course' value="{{myCourse}}"/>
         <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="DoSubmission('{{i}}');"> <span class="glyphicon glyphicon-plus"></span> Add an Assessment </a>
         </form> 
         <form name= "MyForm2" action="removeassessment.html" method="get" id='MyForm2'>
         <input type='hidden' id= 'course2' name='course' value='{{myCourse}}'/>
 	       <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="DoSubmission2('{{i}}');"> <span class="glyphicon glyphicon-minus"></span> Remove an Assessment </a>
          </form>
+         <form name= "MyForm3" action="viewclass.html" method="get" id='MyForm3'>
+        <input type='hidden' id= 'course1' name='course' value='{{myCourse}}'/>
+        <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="DoSubmission3('{{i}}');"> <span class="glyphicon glyphicon-user"></span> Student Enrollment </a>
+        </form> 
     </div>
     </div>
     <div id="footer">
@@ -344,6 +348,11 @@ open.className="panel-collapse collapse in"
     <script type="text/javascript" language="JavaScript"><!--
     function DoSubmission2(index) {
           document.getElementById("MyForm2").submit();
+    }
+    //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function DoSubmission3(index) {
+          document.getElementById("MyForm3").submit();
     }
     //--></script>
     <script type="text/javascript" language="JavaScript"><!--

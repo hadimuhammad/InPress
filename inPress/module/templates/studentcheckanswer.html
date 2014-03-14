@@ -130,128 +130,21 @@
         </div>
       </div>
 
-      <!-- Begin page content -->
-  <div class="container">
-  <div class="page-header">
-  <h1> {{myCourse}} </h1>
-  <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
-  <input type='hidden' id= 'ListOfAssessments' name='ListOfAssessments' value='{{ListOfAssessments}}'/>
-  <input type='hidden' id= 'NameOfAssessment' name='NameOfAssessment' value='{{i}}'/>
-  <table class="table table-bordered">
-  <script type='text/javascript'>
-  var assessmentName = "{{i}}"
-  var numberOfQs = ParseData("",0,assessmentName);
-  var assessmentPK = ParseData("PK",0, assessmentName);
-  var course = "{{myCourse}}"
-  document.write ('');
-  document.write ('');
-  document.write ('<th>Assessment(s) for today</th>');
-  document.write ('<th>Number of Questions</th>');
-  document.write ('<th>Start the Assessment</th>');
-  document.write ('<th>Check your Answer</th>');
-  </script>
-  {% for i in assessments %}
-  <script type='text/javascript'>
-  var assessmentName = "{{i}}"
-  var numberOfQs = ParseData("",0,assessmentName);
-  var assessmentPK = ParseData("PK",0, assessmentName);
-  var course = "{{myCourse}}"
-  document.write ('</tr>');
-  document.write('<tr>');
-  document.write('<td>{{i}}</td>');
-  document.write('<td>'+ParseData("",0,assessmentName)+'</td>');
-  document.write('<td><form name= "takeAssessment" action="viewassessment.html" method="post" id=\'takeAssessment\'>');
-  document.write('<input type=\'hidden\' id= \'course\' name=\'course\' value='+course+'/>');
-  document.write("<input type='hidden' id= 'studentnumber5' name='studentnumber' value='{{studentnumber}}'/>");
-  document.write('<a href="javascript:{}" onClick="TakeAssessment('+assessmentPK+');" class="btn btn-default btn-sm" role="button"> Start! </a>') ;
-  document.write ('<input type=\'hidden\' id= \'AssessmentPK\' name=\'AssessmentPK\' value=\'\'/>');
-  document.write ('<input type=\'hidden\' id= \'questionNum\' name=\'QuestionNum\' value=\'\'/>');
-  document.write('</form></td>');
 
-  // document.write('<td><form name= "checkAnswer" action="viewassessmentanswers.html" method="post" id=\'checkAnswer\'>');
-  // document.write("<input type='hidden' id= 'studentnumber6' name='studentnumber' value='{{studentnumber}}'/>");
-  // document.write("<input type='hidden' id= 'assessmentData' name='assessmentData' value='{{studentnumber}}'/>");
-  // document.write('<a href="javascript:{}" onClick="CheckAnswer('+studentnumber6+');" class="btn btn-default btn-sm" role="button"> Go to your Answer! </a>') ;
-  // document.write('</form></td></tr>');
-  // document.write ('<input type=\'hidden\' id= \'AssessmentPK\' name=\'AssessmentPK\' value=\'\'/>');
-  // document.write ('<input type=\'hidden\' id= \'questionNum\' name=\'QuestionNum\' value=\'\'/>');
-  // document.write('</form></td></tr>');
 
-  document.getElementById("course").value = course;
-  document.getElementById("questionNum").value = 1;
-  </script>
 
-  {% endfor %}
-    </table>
-  </div>
+      <br><br>
       <br><br>
       <form name= "existingTests" action="studentCourseHistory.html" method="get" id='existingTests'>
       <input type='hidden' id= 'course' name='course' value='{{myCourse}}'/>
       <input type='hidden' id= 'studentnumber3' name='studentnumber' value='{{studentnumber}}'/>
-      <a href="javascript:{}" onClick="ExistingTests('{{myCourse}}');" class="btn btn-default btn-sm" role="button"> Go to all the exisiting test(s) and quizz(es). </a>
+      <a href="javascript:{}" onClick="ExistingTests('{{myCourses}}');" class="btn btn-default btn-sm" role="button"> Back to all the exisiting test(s) and quizz(es). </a>
       </form>
- 
-    </div>
+      </div>
+          </div>
     </div>
     <div id="footer">
       <div class="container">
         <p class="text-muted">InPress - Student's Module ({{myCourse}})</p>
       </div>
     </div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function DoSubmission(index) {
-          document.getElementById("MyForm").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function DoSubmission2(index) {
-          document.getElementById("MyForm2").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function SubmitCourse(index) {
-          document.getElementById("courseInfo").value = index;
-          document.getElementById("courseForm").submit();
-    }
-    //--></script>
-     <script type="text/javascript" language="JavaScript"><!--
-    function ExistingTests(index) {
-          document.getElementById("course").value = index;
-          document.getElementById("existingTests").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function AddQuestion(index) {
-          document.getElementById("assessment").value = index;
-          document.getElementById("addQuestion").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function RemoveQuestion(index) {
-          document.getElementById("QuestionToRemove").value = index;
-          document.getElementById("removeQuestion").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function TakeAssessment(index) {
-          document.getElementById("AssessmentPK").value = index;
-          document.getElementById("takeAssessment").submit();
-    }
-    //--></script>
-    <script type="text/javascript" language="JavaScript"><!--
-    function CheckAnswer(index) {
-          document.getElementById("studentnumber").value = index;
-          document.getElementById("checkAnswer").submit();
-    }
-    //--></script>
-    {% endblock %}
-  </body>
-</html>
-
