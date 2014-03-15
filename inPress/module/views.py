@@ -24,9 +24,15 @@ def instructorsignin(request):
     return render_to_response('instructorsignin.html', RequestContext(request, {}))
 
 def instructorindex(request):
-    courses = Courses.objects.all()
-    print courses
-    return render_to_response('instructorindex.html', locals()) 
+    #check the instructor credentials: 
+    instructor_user = Instructor.object.get(username = request.POST('username')).values ("username");
+    instructor_pass = Instructor.object.get(username = request.POST('username')).values ("password");
+    if (request.POST["password"] == instructor_pass):
+        courses = Courses.objects.all()
+        print courses
+        return render_to_response('instructorindex.html', locals()) 
+    else:
+        return HttpResponseRedirect(HTTP_REFERER)
 
 def removeclass(request):
     courses = Courses.objects.all()
