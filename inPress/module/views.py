@@ -25,14 +25,16 @@ def instructorsignin(request):
 
 def instructorindex(request):
     #check the instructor credentials: 
-    instructor_user = Instructor.object.get(username = request.POST('username')).values ("username");
-    instructor_pass = Instructor.object.get(username = request.POST('username')).values ("password");
+    name = request.POST['username']
+    instructor_user = Instructor.objects.values_list('username', flat=True)
+    instructor_pas = Instructor.objects.values_list('password', flat=True)
+    instructor_pass = '-'.join([str(i) for i in instructor_pas.order_by('?')[:4]])
     if (request.POST["password"] == instructor_pass):
         courses = Courses.objects.all()
         print courses
         return render_to_response('instructorindex.html', locals()) 
     else:
-        return HttpResponseRedirect(HTTP_REFERER)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def removeclass(request):
     courses = Courses.objects.all()
