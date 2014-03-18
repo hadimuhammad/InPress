@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-suite">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>.failed {color: red; background-color: #ffcccc;}.passed {color: black; background-color: #ccffcc;}.done {color: black; background-color: #eeffee;}</style>
+</head>
+<body>
+<table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
+<tr><td><b>Test Suite Results</b></td></tr>
+<tr class="passed"><td><a href="#test0">Student</a></td></tr>
+<tr class="passed"><td><a href="#test1">Instructor</a></td></tr>
+
+</tbody></table>
+<a name="test0" /><table cellpadding="1" cellspacing="1" border="1"><thead><tr><td rowspan="1" colspan="3">Student</td></tr></thead><tbody><!--Start Script - Login -->
+<tr class="done">
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>name=studentnumber</td>
+	<td>1</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>//button[@onclick='submit']</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Student's Module - My Courses</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'One')])[2]</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Student's Module - Course List</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Start!')])[2]</td>
+	<td></td>
+</tr>
+<!--Student Answering Questions-->
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Student's Module - My Courses</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=answer</td>
+	<td>A</td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=label.col-sm-2.control-label</td>
+	<td>exact:Question:</td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=h1</td>
+	<td>A1</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>link=Next Question</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=label.col-sm-2.control-label</td>
+	<td>exact:Question:</td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=h1</td>
+	<td>A1</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>id=optionsRadios2</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>link=Submit</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=th</td>
+	<td>Assessment(s) for today</td>
+</tr>
+<!--Existing Button-->
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Go to all the exisiting test(s) and quizz(es).</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=h1</td>
+	<td>One</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>//div[@id='wrap']/div[2]/div/div[2]/div/h4/a/div/div</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>css=div.col-md-10</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>//button[@type='submit']</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=th</td>
+	<td>Assessment(s) for today</td>
+</tr>
+<!--Home-->
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Home</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Student's Module - My Courses</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Student Login</td>
+	<td></td>
+</tr>
+<!--End Script-->
+
+</tbody></table>
+<a name="test1" /><table cellpadding="1" cellspacing="1" border="1"><thead><tr><td rowspan="1" colspan="3">Instructor</td></tr></thead><tbody><!--Start Script - Index-->
+<tr class="done">
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>open</td>
+	<td>/instructor/index.html</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - My Courses</td>
+	<td></td>
+</tr>
+<!--Add Class-->
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Add a Class</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - Add a Course</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=label</td>
+	<td>Course Name</td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=ClassName</td>
+	<td>Test01</td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=ClassCode</td>
+	<td>TT 101</td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=classList</td>
+	<td>C:\Users\jkvc48\Desktop\st200.txt</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-default</td>
+	<td></td>
+</tr>
+<!--Choose Class-->
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - My Courses</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Test01')])[2]</td>
+	<td></td>
+</tr>
+<!--Add Assessment-->
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Add an Assessment</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - Add an Assessment</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - Add an Assessment</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=AssessmentName</td>
+	<td>Assessment 1</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-default</td>
+	<td></td>
+</tr>
+<!--Student Enrollment-->
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=label</td>
+	<td>Assessment 1</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Student Enrollment</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - Manage Course Enrollment</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=newStudent</td>
+	<td>1</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>id=addoption</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=newStudent</td>
+	<td>2</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>id=addoption</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>addSelection</td>
+	<td>id=selectMultipleStudents</td>
+	<td>label=2</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>id=btnRemoveMultipleOptions</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-default</td>
+	<td></td>
+</tr>
+<!--Post-->
+<tr class="done">
+	<td>click</td>
+	<td>css=div.col-md-10</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>id=isPosted0</td>
+	<td>Assessment 1 is not posted</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>//a[@onclick=&quot;Posting('Assessment 1', '0');&quot;]</td>
+	<td></td>
+</tr>
+<!--Add Question-->
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Add a Question</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - Add a Question</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=question</td>
+	<td>Question One</td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=MC1</td>
+	<td>Answer 1</td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=MC2</td>
+	<td>Answer 2</td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=MC3</td>
+	<td>Answer 3</td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=MC4</td>
+	<td>Answer 4</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>name=MCRadio</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-default</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=label</td>
+	<td>Assessment 1</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Add a Question</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - Add a Question</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=question</td>
+	<td>Question Two</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>link=Short Answer</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=SAText</td>
+	<td>Answer to Q2</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-default</td>
+	<td></td>
+</tr>
+<!--Data Analysis-->
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - My Course</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=div.col-md-10</td>
+	<td>Assessment 1</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Data Analysis</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=h1</td>
+	<td>Data Anaylsis for Assessment 1</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>link=Individual Result</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>//div[@id='accordion']/div[2]/div</td>
+	<td>Individual Result</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>link=Summary</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=h4.panel-title</td>
+	<td>Summary</td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>link=My Courses</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Test01</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=h1</td>
+	<td>Test01</td>
+</tr>
+<!--Remove Question -->
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>css=span.glyphicon.glyphicon-remove</td>
+	<td></td>
+</tr>
+<!--Unpost-->
+<tr class="passed">
+	<td>assertText</td>
+	<td>id=isPosted0</td>
+	<td>Assessment 1 is posted</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>//a[@onclick=&quot;Posting('Assessment 1', '0');&quot;]</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>id=isPosted0</td>
+	<td>Assessment 1 is not posted</td>
+</tr>
+<!--Remove Assessment -->
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Remove an Assessment</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=h1</td>
+	<td>Remove an assessment</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Assessment 1</td>
+	<td></td>
+</tr>
+<!--Return - Home Page-->
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Home</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - My Courses</td>
+	<td></td>
+</tr>
+<!--Remove Class-->
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Remove a Class</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertText</td>
+	<td>css=h1</td>
+	<td>Remove a Course</td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Test01')])[2]</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor's Module - My Courses</td>
+	<td></td>
+</tr>
+<!--Loout-->
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>assertTitle</td>
+	<td>Instructor Login</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+
+</body></html>
