@@ -8,6 +8,7 @@ from django.core import serializers
 from datetime import date
 from urlparse import urlparse
 from django.db.models import Count
+from .forms import UploadFileForm
  
 def studentsignin(request):
     if (request.method == 'POST'):
@@ -56,15 +57,17 @@ def addclass(request):
     if (request.method == 'GET'):
         courses = Courses.objects.all()
     if (request.method == 'POST'):
+        print request
         try:
             a = Courses.objects.get(CourseName = request.POST['className'])
             return HttpResponseRedirect('/instructor/index.html')
         except Courses.DoesNotExist:
             b = Courses(CourseName=request.POST['className'], CourseCode=request.POST['classCode'])
             b.save()
-            dataFile = open(request.POST['classList'], 'r')
+            form = UploadFileForm(request.POST, request.FILES)
+            dataFile = request.FILES['classList']
             course = Courses.objects.get(CourseName = request.POST['className'])
-            for eachLine in dataFile:
+            for eachLine in dataFile.__iter__():
                 eachLine = eachLine.replace('\n', '')
                 a = Students(StudentNumber=eachLine, CourseName=course)
                 a.save()
