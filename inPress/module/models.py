@@ -28,6 +28,12 @@ class Students (models.Model):
 	def __unicode__(self):
 		return self.StudentNumber
 
+class Instructor (models.Model):
+	username = models.CharField(max_length=200)
+	password = models.CharField(max_length=200)
+	def __unicode__(self):
+		return self.username
+
 class AssessmentManager(models.Manager):
     def get_by_natural_key(self, name, course):
         return self.get(name=name, course=course)
