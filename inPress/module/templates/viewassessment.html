@@ -48,19 +48,19 @@
                   }
                   else{
                     if (checkEmpty(jsonData2[j].fields.ChoiceA, "a", jsonData2[j].fields.Question_Answer) != ""){
-                    answer1 ='<div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>'+checkEmpty(jsonData2[j].fields.ChoiceA, "a", jsonData2[j].fields.Question_Answer)+'</label></div>';
+                    answer1 ='<div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >'+checkEmpty(jsonData2[j].fields.ChoiceA, "a", jsonData2[j].fields.Question_Answer)+'</label></div>';
                   }
                   if (checkEmpty(jsonData2[j].fields.ChoiceB, "b", jsonData2[j].fields.Question_Answer) != ""){
-                   answer2 ='<div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked>'+checkEmpty(jsonData2[j].fields.ChoiceB, "b", jsonData2[j].fields.Question_Answer)+'</label></div>';
+                   answer2 ='<div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" >'+checkEmpty(jsonData2[j].fields.ChoiceB, "b", jsonData2[j].fields.Question_Answer)+'</label></div>';
                   }
                   if (checkEmpty(jsonData2[j].fields.ChoiceC, "c", jsonData2[j].fields.Question_Answer) != ""){
-                   answer3 ='<div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" checked>'+checkEmpty(jsonData2[j].fields.ChoiceC, "c", jsonData2[j].fields.Question_Answer)+'</label></div>';
+                   answer3 ='<div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" >'+checkEmpty(jsonData2[j].fields.ChoiceC, "c", jsonData2[j].fields.Question_Answer)+'</label></div>';
                  }
                  if (checkEmpty(jsonData2[j].fields.ChoiceD, "d", jsonData2[j].fields.Question_Answer) != ""){
-                   answer4 ='<div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios4" value="option4" checked>'+checkEmpty(jsonData2[j].fields.ChoiceD, "d", jsonData2[j].fields.Question_Answer)+'</label></div>';
+                   answer4 ='<div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios4" value="option4" >'+checkEmpty(jsonData2[j].fields.ChoiceD, "d", jsonData2[j].fields.Question_Answer)+'</label></div>';
                   }
                   if (checkEmpty(jsonData2[j].fields.ChoiceE, "e", jsonData2[j].fields.Question_Answer) != ""){
-                   answer5 ='<div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios5" value="option5" checked>'+checkEmpty(jsonData2[j].fields.ChoiceE, "e", jsonData2[j].fields.Question_Answer)+'</label></div>';
+                   answer5 ='<div class="radio"><label><input type="radio" name="optionsRadios" id="optionsRadios5" value="option5" >'+checkEmpty(jsonData2[j].fields.ChoiceE, "e", jsonData2[j].fields.Question_Answer)+'</label></div>';
                  }
                     return answer1 + answer2 + answer3 + answer4 + answer5;
                   }
