@@ -113,6 +113,23 @@
           document.getElementById("courseForm").submit();
     }
     //--></script>
+
+    <script type="text/javascript"><!--
+
+    function chkEmpty(event){
+      var courseName = document.getElementById("AssessmentName").value;
+
+      if (courseName == "")
+      {
+        alert("Assesment Name cannot be blank! Please fill in the name for the assesment!\n");
+        return false;
+      }
+    return true;
+    }
+
+    document.forms["MyForm"].onsubmit = chkEmpty;
+
+    //--></script>
     {% endblock %}
       </body>
 </html>

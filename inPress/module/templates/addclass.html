@@ -68,7 +68,7 @@
       <div class="container">
         <div class="page-header">
           <h1>Add a Course</h1>
-	  <form role="form" action="addclass.html" method="post" enctype="multipart/form-data">{% csrf_token %}
+	  <form name="courseForm2" role="form" action="addclass.html" method="post" enctype="multipart/form-data">{% csrf_token %}
   <div class="form-group">
     <label for="ClassName">Course Name</label>
     <input type="text" class="form-control" name="className" id="ClassName" placeholder="Name of Class">
@@ -105,6 +105,21 @@
           document.getElementById("courseInfo").value = index;
           document.getElementById("courseForm").submit();
     }
+
+    function chkCourse(event){
+      var courseName = document.getElementById("ClassName").value;
+      var courseCode = document.getElementById("ClassCode").value;
+
+      if (courseName == "" || courseCode == "")
+      {
+        alert("Course Name and Course Code cannot be left blank! Please fill out all information!\n");
+        return false;
+      }
+    return true;
+    }
+
+    document.forms["courseForm2"].onsubmit = chkCourse;
+
     //--></script>
   {% endblock %}
   </body>
