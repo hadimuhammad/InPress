@@ -75,6 +75,34 @@ def addclass(request):
             return HttpResponseRedirect('/instructor/index.html')
     return render_to_response('addclass.html', RequestContext(request, {}))
 
+def inclass (request):
+    print request
+    courses = Courses.objects.all()
+    myCourse = request.POST['course']
+    questNum = int(request.POST['questNum'])
+    if (questNum < 1):
+        questNum = 1
+    courseName = Courses.objects.filter(CourseName=myCourse)
+    assessment = Assessment.objects.filter(name=request.POST['assessment'], course=courseName)
+    assessments = Assessment.objects.filter(pk__in=assessment).order_by('created_time')
+    Assessmentdata = AssessmentData.objects.filter(Assessment__in=assessments)
+    numQuestions = Assessmentdata.count()
+    if (questNum > numQuestions):
+        questNum = numQuestions
+    ListOfAssessments = serializers.serialize("json", assessments)
+    QuestionData = serializers.serialize("json", Assessmentdata)
+    Answers = serializers.serialize("json", StudentAnswers.objects.filter(AssessmentData__in=Assessmentdata))
+    print QuestionData
+    AssessmentDatas = AssessmentData.objects.filter(Assessment = assessment)
+    numOfQuestions = AssessmentDatas.count()
+    numOfStudents = Students.objects.filter (CourseName=courseName).count()
+    numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData__in = AssessmentDatas).count()
+    numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
+    AssessmentDataSA = AssessmentData.objects.filter(Assessment = assessment, Question_Type="SA")
+    AnswerGroups = StudentAnswers.objects.filter(AssessmentData__in=AssessmentDataSA).values('Answer', 'AssessmentData').annotate(numStudents=Count('Answer')).order_by('-numStudents')
+    print AnswerGroups
+    return render_to_response('inclass.html', locals()) 
+    
 def course(request):
     courses = Courses.objects.all()
     if (request.method == 'GET'):

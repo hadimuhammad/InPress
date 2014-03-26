@@ -2545,6 +2545,10 @@ fieldset[disabled] .btn-success.active {
 }
 
 .btn-info {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
   color: #ffffff;
   background-color: #5bc0de;
   border-color: #46b8da;

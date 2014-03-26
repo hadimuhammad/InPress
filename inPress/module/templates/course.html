@@ -154,10 +154,11 @@
    <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{forloop.counter0}}" href="#collapse{{forloop.counter0}}" >
       <div class="row">
       <div class="col-md-10" style="display:inline;">
            <label for="assessment" style="color: black;">{{i}}</label> </div><p style="padding-right:5mm;"align="right">
+          <a href="javascript:{}" onClick="post_to_url('/instructor/inclass.html', {course: '{{myCourse}}', assessment: '{{i}}', questNum:1});"><button type="button" class="btn btn-info" id="InClass{{forloop.counter0}}" style="visibility:hidden;">InClass</button></a>
+<a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{forloop.counter0}}" href="#collapse{{forloop.counter0}}" >
   <button type="button" class="btn btn-danger" id="status{{forloop.counter0}}"></button></p></div>
   </a>
       </h4>
@@ -201,11 +202,11 @@
        </script>
        <!-- Posting and UnPosting -->
 
-
+    <tr>
        <th>id</th>
        <th>Question</th>
-       <th>Type</th>
        <th>Answer</th>
+        <th></th>
        </tr>
        <script type="text/javascript">
       var numberOfQs = ParseData("",0,"{{i}}");
@@ -217,11 +218,10 @@
         document.write('<tr>');
         document.write('<td>'+i+'</td>');
         document.write('<td>'+ParseData("Question", i, "{{i}}")+'</td>');
-        document.write('<td>'+ParseData("Type", i, "{{i}}")+'</td>');
         document.write('<td>'+ParseData("Answer", i, "{{i}}")+'</td>');
         document.write('<td> <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="RemoveQuestion('+questionId+','+"{{forloop.counter0}}"+');"> <span class="glyphicon glyphicon-remove"></span></a></td>');
-        document.write('</tr>');
         document.write('</form>');
+        document.write('</tr>');
       }
 
       </script>
@@ -265,16 +265,19 @@
       if (mypostdate < date){
         document.getElementById("status"+"{{forloop.counter0}}").innerHTML = "Post Date Passed"
         document.getElementById("status"+"{{forloop.counter0}}").className = "btn btn-warning"
+        document.getElementById("InClass"+"{{forloop.counter0}}").style.visibility='hidden'
       }
       else{
         document.getElementById("status"+"{{forloop.counter0}}").innerHTML = "Offline"
         document.getElementById("status"+"{{forloop.counter0}}").className = "btn btn-danger"
+        document.getElementById("InClass"+"{{forloop.counter0}}").style.visibility='hidden'
       }
       document.write ("<span class=\"glyphicon glyphicon-open\" id=\"postBar\"></span> Post </a>")
     }
     else{
       if (postdate == date2){
         document.getElementById("status"+"{{forloop.counter0}}").innerHTML = "Online"
+        document.getElementById("InClass"+"{{forloop.counter0}}").style.visibility='visible'
         document.getElementById("status"+"{{forloop.counter0}}").className = "btn btn-success"
       }
       else{
@@ -283,10 +286,12 @@
         if (mypostdate > date){
           document.getElementById("status"+"{{forloop.counter0}}").innerHTML = "Offline Until "+postdate
           document.getElementById("status"+"{{forloop.counter0}}").className = "btn btn-danger"
+          document.getElementById("InClass"+"{{forloop.counter0}}").style.visibility='hidden'
         }
         else{
           document.getElementById("status"+"{{forloop.counter0}}").innerHTML = "Post Date Passed"
           document.getElementById("status"+"{{forloop.counter0}}").className = "btn btn-warning"
+          document.getElementById("InClass"+"{{forloop.counter0}}").style.visibility='hidden'
         }
       }
       document.write ("<span class=\"glyphicon glyphicon-save\" id=\"postBar\"></span> Unpost </a>")
@@ -426,6 +431,31 @@ open.className="panel-collapse collapse in"
           document.getElementById("posting").submit();
     }
     //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+      function post_to_url(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+//--></script>
     {% endblock %}
   </body>
 </html>
