@@ -2,10 +2,25 @@
 <html lang="en">
   <head>
   <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
-
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
   <script type="text/javascript">
         function checkEmpty (value, letter, answer){
+          if (value == ""){
+              return "";
+          }
+          else{
+            if (letter == answer){
+              var string = '<b>'+letter + ") "+ value + '</b>';
+              return string;
+            }
+            else{
+              var string = letter + ") "+ value;
+              return string;
+            }
+          }
+        } 
+      function checkEmpty1 (value, letter, answer){
           if (value == ""){
               return "";
           }
@@ -109,6 +124,17 @@
                   }
                 
                 }
+                if (valueNeeded == "Answer1" && numberOfQuestions==questionNum){
+                  //console.log ("Returning Answer");
+                  if (jsonData2[j].fields.Question_Type == "SA"){
+                    return jsonData2[j].fields.Question_Answer;
+                  }
+                  else{
+                    var answer = checkEmpty1(jsonData2[j].fields.ChoiceA, "a", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty1(jsonData2[j].fields.ChoiceB, "b", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty1(jsonData2[j].fields.ChoiceC, "c", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty1(jsonData2[j].fields.ChoiceD, "d", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty1(jsonData2[j].fields.ChoiceE, "e", jsonData2[j].fields.Question_Answer);
+                    return answer;
+                  }
+                
+                }
                 
               }
           }
@@ -118,48 +144,7 @@
 <link rel="stylesheet" type="text/css" href="http://visapi-gadgets.googlecode.com/svn/trunk/termcloud/tc.css"/>
   <script type="text/javascript" src="http://visapi-gadgets.googlecode.com/svn/trunk/termcloud/tc.js"></script>
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-  <script type="text/javascript">
-      function drawIndividualSAGraph (id, popularAnswers, numStudents){
-    	google.load("visualization", "1", {packages:["corechart"]});
-        google.setOnLoadCallback(drawChart);
-        var data = google.visualization.arrayToDataTable([
-          ['Answer', 'Students'],
-          [popularAnswers[0],  parseInt(numStudents[0])],
-          [popularAnswers[1],  parseInt(numStudents[1])],
-          [popularAnswers[2],  parseInt(numStudents[2])],
-          [popularAnswers[3],  parseInt(numStudents[3])],
-          [popularAnswers[4],  parseInt(numStudents[4])]
-        ]);
-        var options = {
-          title: 'How did the Class respond?',
-          hAxis: {title: 'Short Answer', titleTextStyle: {color: 'black'}}
-        };
-        var myName = 'chart_div'
-        var chart = new google.visualization.ColumnChart(document.getElementById(myName));
-        chart.draw(data, options);
-    }
-      function drawIndividualMCGraph(id, MCAnswers) {
-        google.load("visualization", "1", {packages:["corechart"]});
-        google.setOnLoadCallback(drawChart);
-        var data = google.visualization.arrayToDataTable([
-          ['Option', 'Students'],
-          ['A',  MCAnswers[0]],
-          ['B',  MCAnswers[1]],
-          ['C',  MCAnswers[2]],
-          ['D',  MCAnswers[3]],
-          ['E',  MCAnswers[4]]
-        ]);
-        var options = {
-          title: 'How did the Class respond?',
-          hAxis: {title: 'Option', titleTextStyle: {color: 'black'}}
-        };
-        var myName = 'chart_div'
-        var chart = new google.visualization.ColumnChart(document.getElementById(myName));
-        chart.draw(data, options);
-      }
-      
-     //--></script>
-       <script type="text/javascript">
+      <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -179,13 +164,51 @@
         chart.draw(data, options);
       }
     </script>
+  <script type="text/javascript">
+      function drawIndividualSAGraph (id, popularAnswers, numStudents){
+    	google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        var data = google.visualization.arrayToDataTable([
+          ['Answer', 'Students'],
+          [popularAnswers[0],  parseInt(numStudents[0])],
+          [popularAnswers[1],  parseInt(numStudents[1])],
+          [popularAnswers[2],  parseInt(numStudents[2])],
+          [popularAnswers[3],  parseInt(numStudents[3])],
+          [popularAnswers[4],  parseInt(numStudents[4])]
+        ]);
+        var options = {
+          title: 'How did the Class respond?',
+          hAxis: {title: 'Short Answer', titleTextStyle: {color: 'black'}}
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
+        chart.draw(data, options);
+    }
+      function drawIndividualMCGraph(id, MCAnswers) {
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        var data = google.visualization.arrayToDataTable([
+          ['Option', 'Students'],
+          ['A',  MCAnswers[0]],
+          ['B',  MCAnswers[1]],
+          ['C',  MCAnswers[2]],
+          ['D',  MCAnswers[3]],
+          ['E',  MCAnswers[4]]
+        ]);
+        var options = {
+          title: 'How did the Class respond?',
+          hAxis: {title: 'Option', titleTextStyle: {color: 'black'}}
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
+        chart.draw(data, options);
+      }
+      
+     //--></script>
   <style type="text/css">
         form{display: inline;}
   </style>
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
     <title>Instructor's Module - My Course</title>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -262,10 +285,11 @@
        <th id='thecell'>Choices</th>
     <th>Answer</th>
        </tr>
+       <tr> 
+       <td></td><td>{{questNum}}</td>
+        
        <script type="text/javascript">
         var questionId = ParseData("id", '{{questNum}}', "{{i}}");
-        document.write('<tr>');
-        document.write('<td></td><td>'+'{{questNum}}'+'</td>');
         document.write('<td>'+ParseData("Question", '{{questNum}}', "{{i}}")+'</td>');
         if (ParseData("Type", '{{questNum}}',"{{i}}") == "Short Answer"){
             document.write('<td></td>');
@@ -280,23 +304,34 @@
 			}
              counter = counter +1
             {% endfor %}
+            document.write('<td id="myanswer">'+ParseData("Answer1", '{{questNum}}', '{{i}}')+'</td>');
+            document.write ("<td><a href='javascript:{}' class='btn btn-default btn-sm' id='showMe' role='button' onClick='ShowHide()'>Show Answer </a><div id='chart_div1'></div></td>")
 		    drawIndividualSAGraph('{{questNum}}', popularAnswers, numStudents)
+            var char = document.getElementById("chart_div1")
+            var ans = document.getElementById("myanswer")
+            $(ans).toggle(); 
+            $(char).toggle(); 
         }
         else{
-            document.write('<td>'+ParseData("Answer", '{{questNum}}', '{{i}}')+'</td>');
+            document.write('<td id="myanswer">'+ParseData("Answer", '{{questNum}}', '{{i}}')+'</td>');
+            document.write('<td id="myanswer1">'+ParseData("Answer1", '{{questNum}}', '{{i}}')+'</td>');
+            document.write ("<td><a href='javascript:{}' class='btn btn-default btn-sm' id='showMe' role='button' onClick='ShowHide()'>Show Answer </a><div id='chart_div1'></div></td>")
             var MCAnswers = ParseAnswers ('{{questNum}}')
             drawIndividualMCGraph('{{questNum}}', MCAnswers)
+            var char = document.getElementById("chart_div1")
+            var ans = document.getElementById("myanswer")
+            $(ans).toggle(); 
+            $(char).toggle(); 
+            
         }
       </script>
-    </form>  
+          
     </tr>
     </table>
-
     </div>
      <div class="col-md-10" style="display:inline;">
         <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="post_to_url1('/instructor/inclass.html', {course: '{{myCourse}}', assessment: '{{i}}'});"> <span class="glyphicon glyphicon-arrow-left"></span> Previous Question </a> 
       </div>
-        
         <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="post_to_url('/instructor/inclass.html', {course: '{{myCourse}}', assessment: '{{i}}'});"> <span class="glyphicon glyphicon-arrow-right"></span> Next Question </a>
     </div>
   </div>
@@ -309,7 +344,6 @@
       <div class="container">
         <p class="text-muted">InPress - Instructor's Module ({{myCourse}})</p>
       </div>
-    </div>
 </body>
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -340,6 +374,19 @@
     function DataAnalysis(index) {
           document.getElementById("assessment31").value = index;
           document.getElementById("dataAnalysis").submit();
+    }
+    //--></script>
+    <script type="text/javascript" language="JavaScript"><!--
+    function ShowHide(index) {
+    var chart  = document.getElementById("chart_div1")
+    var a = document.getElementById("chart_div1")
+    var showBtn = document.getElementById("showMe")
+    var ans = document.getElementById("myanswer")
+    var ans1 = document.getElementById("myanswer1")
+    $(ans).toggle();
+    $(ans1).toggle(); 
+    $(showBtn).toggle(); 
+    $(a).toggle(); 
     }
     //--></script>
 
