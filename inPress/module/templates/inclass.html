@@ -305,7 +305,7 @@
              counter = counter +1
             {% endfor %}
             document.write('<td id="myanswer">'+ParseData("Answer1", '{{questNum}}', '{{i}}')+'</td>');
-            document.write ("<td><a href='javascript:{}' class='btn btn-default btn-sm' id='showMe' role='button' onClick='ShowHide()'>Show Answer </a><div id='chart_div1'></div></td>")
+            document.write ("<td><a href='javascript:{}' class='btn btn-default btn-sm' id='showMe' role='button' onClick='ShowHide()'>Show Answer </a></td></tr></table><div id='chart_div1'></div>")
 		    drawIndividualSAGraph('{{questNum}}', popularAnswers, numStudents)
             var char = document.getElementById("chart_div1")
             var ans = document.getElementById("myanswer")
@@ -315,7 +315,7 @@
         else{
             document.write('<td id="myanswer">'+ParseData("Answer", '{{questNum}}', '{{i}}')+'</td>');
             document.write('<td id="myanswer1">'+ParseData("Answer1", '{{questNum}}', '{{i}}')+'</td>');
-            document.write ("<td><a href='javascript:{}' class='btn btn-default btn-sm' id='showMe' role='button' onClick='ShowHide()'>Show Answer </a><div id='chart_div1'></div></td>")
+            document.write ("<td> <a href='javascript:{}' class='btn btn-default btn-sm' id='showMe' role='button' onClick='ShowHide()'>Show Answer </a></td> </tr></table><div id='chart_div1'></div>")
             var MCAnswers = ParseAnswers ('{{questNum}}')
             drawIndividualMCGraph('{{questNum}}', MCAnswers)
             var char = document.getElementById("chart_div1")
@@ -325,9 +325,6 @@
             
         }
       </script>
-          
-    </tr>
-    </table>
     </div>
      <div class="col-md-10" style="display:inline;">
         <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="post_to_url1('/instructor/inclass.html', {course: '{{myCourse}}', assessment: '{{i}}'});"> <span class="glyphicon glyphicon-arrow-left"></span> Previous Question </a> 
