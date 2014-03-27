@@ -77,6 +77,7 @@ def addclass(request):
 
 def inclass (request):
     print request
+    last = "false"
     courses = Courses.objects.all()
     myCourse = request.POST['course']
     questNum = int(request.POST['questNum'])
@@ -89,6 +90,7 @@ def inclass (request):
     numQuestions = Assessmentdata.count()
     if (questNum > numQuestions):
         questNum = numQuestions
+        last = "true"
     ListOfAssessments = serializers.serialize("json", assessments)
     QuestionData = serializers.serialize("json", Assessmentdata)
     Answers = serializers.serialize("json", StudentAnswers.objects.filter(AssessmentData__in=Assessmentdata))

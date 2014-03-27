@@ -329,7 +329,9 @@
      <div class="col-md-10" style="display:inline;">
         <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="post_to_url1('/instructor/inclass.html', {course: '{{myCourse}}', assessment: '{{i}}'});"> <span class="glyphicon glyphicon-arrow-left"></span> Previous Question </a> 
       </div>
+          {% if last == "false" %}
         <a href="javascript:{}" class="btn btn-default btn-sm" role="button" onClick="post_to_url('/instructor/inclass.html', {course: '{{myCourse}}', assessment: '{{i}}'});"> <span class="glyphicon glyphicon-arrow-right"></span> Next Question </a>
+          {% endif %}
     </div>
   </div>
 
