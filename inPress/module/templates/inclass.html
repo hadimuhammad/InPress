@@ -46,7 +46,6 @@
           var numE =0
           for (var i in jsonData){
             if (jsonData[i].fields.AssessmentData == AssessmentDataId){
-              alert ("hi")
               if (jsonData[i].fields.Answer == "optionsRadios1"){
                 numA = numA + 1;
               }
@@ -318,7 +317,6 @@
             document.write('<td id="myanswer1">'+ParseData("Answer1", '{{questNum}}', '{{i}}')+'</td>');
             document.write ("<td> <a href='javascript:{}' class='btn btn-default btn-sm' id='showMe' role='button' onClick='ShowHide()'>Show Answer </a></td> </tr></table><div id='chart_div1'></div>")
             var MCAnswers = ParseAnswers (questionId)
-            alert (MCAnswers)
             drawIndividualMCGraph('{{questNum}}', MCAnswers)
             var char = document.getElementById("chart_div1")
             var ans = document.getElementById("myanswer")
