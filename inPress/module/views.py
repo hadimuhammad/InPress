@@ -113,7 +113,7 @@ def course(request):
         assessments = Assessment.objects.filter(course = courseName).order_by('created_time')
         posting = Assessment.objects.filter(course=courseName).values("post")
         ListOfAssessments = serializers.serialize("json", assessments)
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time'))
     if (request.method == 'POST'):
         my_param = request.POST.get('postIT')
         if (my_param):
