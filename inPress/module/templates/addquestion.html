@@ -86,23 +86,23 @@
         <div class="row">
         <div class="col-lg-11">
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="MCRadio" value="a"></span>
+          <span class="input-group-addon"><input type="radio" id="mcRadio1" name="MCRadio" value="a"></span>
           <input type="text" class="form-control" id="MC1" name="MC1Ans" placeholder="Type Multiple Choice #1">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="MCRadio" value="b"></span>
+          <span class="input-group-addon"><input type="radio" id="mcRadio2" name="MCRadio" value="b"></span>
           <input type="text" class="form-control" id="MC2" name="MC2Ans" placeholder="Type Multiple Choice #2">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="MCRadio" value="c"></span>
+          <span class="input-group-addon"><input type="radio" id="mcRadio3" name="MCRadio" value="c"></span>
           <input type="text" class="form-control" id="MC3" name="MC3Ans" placeholder="Type Multiple Choice #3">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="MCRadio" value="d"></span>
+          <span class="input-group-addon"><input type="radio" id="mcRadio4" name="MCRadio" value="d"></span>
           <input type="text" class="form-control" id="MC4" name="MC4Ans" placeholder="Type Multiple Choice #4">
         </div><!-- /input-group -->
         <div class="input-group">
-          <span class="input-group-addon"><input type="radio" name="MCRadio" value="e"></span>
+          <span class="input-group-addon"><input type="radio" id="mcRadio5" name="MCRadio" value="e"></span>
           <input type="text" class="form-control" id="MC5" name="MC5Ans" placeholder="Type Multiple Choice #5">
         </div><!-- /input-group -->
       </div><!-- /.col-lg-6 -->
@@ -140,19 +140,104 @@
           document.getElementById("courseForm").submit();
     }
 
-    // function chkCourse(event){
-    //   var courseName = document.getElementById("ClassName").value;
-    //   var courseCode = document.getElementById("ClassCode").value;
+    function chkQuestion(event){
+      var q = document.getElementById("question").value;
 
-    //   if (courseName == "" || courseCode == "")
-    //   {
-    //     alert("Nothing can be left blank! Please fill out all information!\n");
-    //     return false;
-    //   }
-    // return true;
-    // }
+      if (q == "")
+      {
+        alert("QUESTION not filled in!");
+        return false;
+      }
 
-    // document.forms["courseForm2"].onsubmit = chkCourse;
+      // Mutliple choice and Radio Buttons Values
+      var mc1 = document.getElementById("MC1").value;
+      var mc2 = document.getElementById("MC2").value;
+      var mc3 = document.getElementById("MC3").value;
+      var mc4 = document.getElementById("MC4").value;
+      var mc5 = document.getElementById("MC5").value;
+      var count = 0;
+      var radioFlag = false;
+      // var mcFlag = false;
+
+      var mcr1 = document.getElementById("mcRadio1").checked;
+      var mcr2 = document.getElementById("mcRadio2").checked;
+      var mcr3 = document.getElementById("mcRadio3").checked;
+      var mcr4 = document.getElementById("mcRadio4").checked;
+      var mcr5 = document.getElementById("mcRadio5").checked;
+
+      // Short Answers 
+
+      var sa = document.getElementById("SAText").value;
+      // var saFlag = false;
+
+      // SA Check
+
+      if (sa !== ""){
+
+        radioFlag = true; 
+        // saFlag = true;
+
+      }
+
+      // Multiple choice Check
+      // If Adds count everytime we see there is no empty string in each text box, once it reaches above two it will pass. 
+        if (mc1 !== "")
+        {
+          count++;
+        }
+        if(mc2 !== "")
+        {
+          count++;
+        }
+        if(mc3 !== "")
+        {
+          count++;
+        }
+        if(mc4 !== "")
+        {
+          count++;
+        }
+        if(mc5 !== "")
+        {
+          count++;
+        }
+        if (count >= 2)
+        {
+          mcFlag = true;
+          return true;
+        }
+        else if( count == 1)
+        {
+          alert("You need to fill in more than ONE answer for multiple choice!");
+          return false;
+        }
+
+        // Checks for no-clicked radio buttons
+        if (radioFlag == false)
+        {
+          if (mcr1 == false && mcr2 == false && mcr3 == false && mcr4 == false && mcr5 == false)
+          {
+            alert("Please Select A Radio button");
+            return false;
+          } 
+        }
+
+      // // Cases needed to be considered:
+      // // 1) Only Short Answers or MC can be used per Question CANNOT be both
+      // // 2) If both or not Answered msut return Alert 
+      // // 3) If MC has One answer must alert user (this should be done in chkMC)
+
+    if (count == 0 && sa == "")
+    {
+      alert("You must FILL OUT answers for either MULTIPLE CHOICE or SHORT ANSWER!");
+      return false;
+    }
+
+    
+
+    return true;
+    }
+    document.forms["addquestionForm"].onsubmit = chkQuestion;
     //--></script>
   </body>
 </html>

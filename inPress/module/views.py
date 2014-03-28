@@ -75,6 +75,36 @@ def addclass(request):
             return HttpResponseRedirect('/instructor/index.html')
     return render_to_response('addclass.html', RequestContext(request, {}))
 
+def inclass (request):
+    print request
+    last = "false"
+    courses = Courses.objects.all()
+    myCourse = request.POST['course']
+    questNum = int(request.POST['questNum'])
+    if (questNum < 1):
+        questNum = 1
+    courseName = Courses.objects.filter(CourseName=myCourse)
+    assessment = Assessment.objects.filter(name=request.POST['assessment'], course=courseName)
+    assessments = Assessment.objects.filter(pk__in=assessment).order_by('created_time')
+    Assessmentdata = AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time')
+    numQuestions = Assessmentdata.count()
+    if (questNum > numQuestions):
+        questNum = numQuestions
+        last = "true"
+    ListOfAssessments = serializers.serialize("json", assessments)
+    QuestionData = serializers.serialize("json", Assessmentdata)
+    Answers = serializers.serialize("json", StudentAnswers.objects.filter(AssessmentData__in=Assessmentdata))
+    print QuestionData
+    AssessmentDatas = AssessmentData.objects.filter(Assessment = assessment)
+    numOfQuestions = AssessmentDatas.count()
+    numOfStudents = Students.objects.filter (CourseName=courseName).count()
+    numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData__in = AssessmentDatas).count()
+    numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
+    AssessmentDataSA = AssessmentData.objects.filter(Assessment = assessment, Question_Type="SA")
+    AnswerGroups = StudentAnswers.objects.filter(AssessmentData__in=AssessmentDataSA).values('Answer', 'AssessmentData').annotate(numStudents=Count('Answer')).order_by('-numStudents')
+    print AnswerGroups
+    return render_to_response('inclass.html', locals()) 
+    
 def course(request):
     courses = Courses.objects.all()
     if (request.method == 'GET'):
@@ -83,7 +113,7 @@ def course(request):
         assessments = Assessment.objects.filter(course = courseName).order_by('created_time')
         posting = Assessment.objects.filter(course=courseName).values("post")
         ListOfAssessments = serializers.serialize("json", assessments)
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time'))
     if (request.method == 'POST'):
         my_param = request.POST.get('postIT')
         if (my_param):
@@ -176,7 +206,7 @@ def data_analysis(request):
     assessment = request.GET['assessment']
     assessmentName = Assessment.objects.filter(name = assessment, course=courseName)
     ListOfAssessments = serializers.serialize("json", assessmentName)
-    Assessmentdata = AssessmentData.objects.filter(Assessment__in=assessmentName)
+    Assessmentdata = AssessmentData.objects.filter(Assessment__in=assessmentName).order_by('created_time')
     QuestionData = serializers.serialize("json", Assessmentdata)
     Answers = serializers.serialize("json", StudentAnswers.objects.filter(AssessmentData__in=Assessmentdata))
     print QuestionData
@@ -237,7 +267,7 @@ def studentcourse(request):
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessments = Assessment.objects.filter(course = courseName, post = "true", post_date = date.today())
         ListOfAssessments = serializers.serialize("json", assessments)
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time'))
     return render_to_response('studentcourse.html', locals()) 
 
 def studentcoursehistory(request):
@@ -264,7 +294,7 @@ def getViewAssessment (request):
     assessmentName = Assessment.objects.get(pk =assessmentPK)
     QuestionNum = request.POST['QuestionNum']
     assessments = Assessment.objects.filter(pk =assessmentPK)
-    QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+    QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time'))
     studentnumber = request.POST['studentnumber']
     mycourses = Students.objects.filter (StudentNumber = request.POST['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
@@ -317,7 +347,7 @@ def viewassessmentanswers(request):
         QuestionNum = request.GET['QuestionNum']
         ListOfAssessments = serializers.serialize("json", assessments)
         StudentAnswer = serializers.serialize("json", StudentAnswers.objects.filter(Students__in=studentnumber))
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time'))
     if (request.method == 'POST'):
         assessmentToDelete = AssessmentData.objects.get(pk=request.POST['QuestionToRemove'])
         assessmentToDelete.delete()
