@@ -12,7 +12,6 @@ from .forms import UploadFileForm
  
 def studentsignin(request):
     if (request.method == 'POST'):
-        print request.POST['studentnumber']
         course = Students.objects.filter (StudentNumber = request.POST['studentnumber']).values("CourseName")
         if (course.count() < 1):
             return HttpResponseRedirect('/')
@@ -33,22 +32,17 @@ def instructorindex(request):
         instructor_pass = '-'.join([str(i) for i in instructor_pas.order_by('?')[:4]])
         if (request.POST["password"] == instructor_pass):
             courses = Courses.objects.all()
-            print courses
             return render_to_response('instructorindex.html', locals()) 
         else:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
         courses = Courses.objects.all()
-        print courses
         return render_to_response('instructorindex.html', locals()) 
 
 def removeclass(request):
     courses = Courses.objects.all()
-    print courses
     if (request.method == 'POST'):
-        print request.POST['courseToDelete']
         courseToDelete = Courses.objects.filter(CourseName=request.POST['courseToDelete'])
-        print courseToDelete
         courseToDelete.delete()
         return HttpResponseRedirect('index.html')
     return render_to_response('removeclass.html', locals()) 
@@ -57,7 +51,6 @@ def addclass(request):
     if (request.method == 'GET'):
         courses = Courses.objects.all()
     if (request.method == 'POST'):
-        print request
         try:
             a = Courses.objects.get(CourseName = request.POST['className'])
             return HttpResponseRedirect('/instructor/index.html')
@@ -76,7 +69,6 @@ def addclass(request):
     return render_to_response('addclass.html', RequestContext(request, {}))
 
 def inclass (request):
-    print request
     last = "false"
     courses = Courses.objects.all()
     myCourse = request.POST['course']
@@ -94,7 +86,6 @@ def inclass (request):
     ListOfAssessments = serializers.serialize("json", assessments)
     QuestionData = serializers.serialize("json", Assessmentdata)
     Answers = serializers.serialize("json", StudentAnswers.objects.filter(AssessmentData__in=Assessmentdata))
-    print QuestionData
     AssessmentDatas = AssessmentData.objects.filter(Assessment = assessment)
     numOfQuestions = AssessmentDatas.count()
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
@@ -102,7 +93,6 @@ def inclass (request):
     numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
     AssessmentDataSA = AssessmentData.objects.filter(Assessment = assessment, Question_Type="SA")
     AnswerGroups = StudentAnswers.objects.filter(AssessmentData__in=AssessmentDataSA).values('Answer', 'AssessmentData').annotate(numStudents=Count('Answer')).order_by('-numStudents')
-    print AnswerGroups
     return render_to_response('inclass.html', locals()) 
     
 def course(request):
@@ -113,7 +103,7 @@ def course(request):
         assessments = Assessment.objects.filter(course = courseName).order_by('created_time')
         posting = Assessment.objects.filter(course=courseName).values("post")
         ListOfAssessments = serializers.serialize("json", assessments)
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time'))
     if (request.method == 'POST'):
         my_param = request.POST.get('postIT')
         if (my_param):
@@ -141,7 +131,6 @@ def addassessment(request):
         myCourse = request.GET['course']
         courses = Courses.objects.all()
     if (request.method == 'POST'):
-        print request
         myCourse = request.POST['course']
         accordion = request.POST.get('accordionNumber')
         if (accordion is None):
@@ -181,12 +170,10 @@ def addquestion(request):
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessment = Assessment.objects.get(name=myAssessment, course = courseName)
         accordion = request.GET['accordionNumber']
-        print accordion
     if (request.method == 'POST'):
         courseName = Courses.objects.filter(CourseName=request.POST['course'])
         assessment = Assessment.objects.get(name = request.POST['assessment'], course=courseName)
         accordion = request.POST['accordionNumber']
-        print request.POST
         if (request.POST['SAAns'] != ''):
             questionSA = AssessmentData(Assessment = assessment, Question_Type="SA", Question_Data=request.POST['questionText'], Question_Answer=request.POST['SAAns'])
             questionSA.save()
@@ -209,7 +196,6 @@ def data_analysis(request):
     Assessmentdata = AssessmentData.objects.filter(Assessment__in=assessmentName)
     QuestionData = serializers.serialize("json", Assessmentdata)
     Answers = serializers.serialize("json", StudentAnswers.objects.filter(AssessmentData__in=Assessmentdata))
-    print QuestionData
     AssessmentDatas = AssessmentData.objects.filter(Assessment = assessmentName)
     numOfQuestions = AssessmentDatas.count()
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
@@ -217,7 +203,6 @@ def data_analysis(request):
     numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
     AssessmentDataSA = AssessmentData.objects.filter(Assessment = assessmentName, Question_Type="SA")
     AnswerGroups = StudentAnswers.objects.filter(AssessmentData__in=AssessmentDataSA).values('Answer', 'AssessmentData').annotate(numStudents=Count('Answer')).order_by('-numStudents')
-    print AnswerGroups
     return render_to_response('data_analysis.html', locals()) 
 
 def checkStudentInList (student, studentList):
@@ -232,7 +217,6 @@ def viewclass (request):
         courses = Courses.objects.all()
         courseName = Courses.objects.filter(CourseName=course)
         allEnrolledStudents = Students.objects.filter (CourseName=courseName)
-        print allEnrolledStudents
         return render_to_response('viewclass.html', locals()) 
     if (request.method == 'POST'):
         course = request.POST ['course']
@@ -244,7 +228,6 @@ def viewclass (request):
         for eachStudent in AllEnrolledStudents:
             isStudentInClass = checkStudentInList (eachStudent, studentlist)
             if (not (isStudentInClass)):
-                print "Deleting Student Number: "+str(eachStudent)
                 studentToDelete = Students.objects.filter(StudentNumber=eachStudent, CourseName=courseName)
                 studentToDelete.delete()
 
@@ -253,7 +236,6 @@ def viewclass (request):
             try:
                 entry = Students.objects.get(StudentNumber = student, CourseName=courseName)
             except Students.DoesNotExist:
-                print "Adding Student Number: "+str(student)
                 add = Students(StudentNumber = student, CourseName=courseName)
                 add.save()
         return HttpResponseRedirect('/instructor/course.html?courseInfo='+course)
@@ -323,8 +305,6 @@ def viewassessment(request):
     if (request.method == 'POST'):
 	isEnd = request.POST.get('isEnd')
         answer = request.POST.get('FinalAnswer')
-        if (answer):
-            print request.POST['FinalAnswer']
         if (isEnd):
             if (isEnd == "true"):
                 return postAssessmentData(request, True);
@@ -337,7 +317,6 @@ def viewassessmentanswers(request):
     studentnumber = request.GET['studentnumber']
     mycourses = Students.objects.filter (StudentNumber = request.GET['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
-    print request
     if (request.method == 'GET'):
         myCourse = request.GET['course']
         courseName = Courses.objects.filter(CourseName=myCourse)
