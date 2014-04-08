@@ -24,9 +24,10 @@
           var numberOfQuestions = 0;
           var ListOfAssessments = document.getElementById("ListOfAssessments").value;
           var QuestionData = document.getElementById("QuestionData").value;
+          var StudentAnswer = document.getElementById("studentanswer").value;
           var jsonData = JSON.parse(ListOfAssessments);
           var jsonData2 = JSON.parse(QuestionData);
-          
+          var jsonData3 = JSON.parse(StudentAnswer);
           //var mydate = document.getElementById("mydate").value;
           for (var i in jsonData) {
               if (jsonData[i].fields.name == assessmentName){
@@ -36,40 +37,75 @@
                 }
               }
           }
-          for (var j in jsonData2){
-              if (jsonData2[j].fields.Assessment == assessmentPK){
-                numberOfQuestions = numberOfQuestions + 1;
-                if (valueNeeded == "id" && numberOfQuestions==questionNum){
-                  //console.log ("Returning id");
-                  return jsonData2[j].pk;
-                }
-                if (valueNeeded == "Question" && numberOfQuestions==questionNum){
-                  //console.log ("Returning Question");
-                  return jsonData2[j].fields.Question_Data;
-                }
-                if (valueNeeded == "Type" && numberOfQuestions==questionNum){
-                  //console.log ("Returning type");
-                  if (jsonData2[j].fields.Question_Type == "SA")
-                    return "Short Answer";
-                  else
-                    return "Multiple Choice";
-                }
-                if (valueNeeded == "Answer" && numberOfQuestions==questionNum){
-                  //console.log ("Returning Answer");
-                  if (jsonData2[j].fields.Question_Type == "SA"){
-                    return jsonData2[j].fields.Question_Answer;
+          if (valueNeeded != "StudentAnswer"){
+            for (var j in jsonData2){
+                if (jsonData2[j].fields.Assessment == assessmentPK){
+                  numberOfQuestions = numberOfQuestions + 1;
+                  if (valueNeeded == "id" && numberOfQuestions==questionNum){
+                    //console.log ("Returning id");
+                    return jsonData2[j].pk;
                   }
-                  else{
-                    var answer = checkEmpty(jsonData2[j].fields.ChoiceA, "a", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceB, "b", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceC, "c", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceD, "d", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceE, "e", jsonData2[j].fields.Question_Answer);
-                    return answer;
+                  if (valueNeeded == "Question" && numberOfQuestions==questionNum){
+                    //console.log ("Returning Question");
+                    return jsonData2[j].fields.Question_Data;
                   }
-                
+                  if (valueNeeded == "Type" && numberOfQuestions==questionNum){
+                    //console.log ("Returning type");
+                    if (jsonData2[j].fields.Question_Type == "SA")
+                      return "Short Answer";
+                    else
+                      return "Multiple Choice";
+                  }
+                  if (valueNeeded == "Answer" && numberOfQuestions==questionNum){
+                    //console.log ("Returning Answer");
+                    if (jsonData2[j].fields.Question_Type == "SA"){
+                      return jsonData2[j].fields.Question_Answer;
+                    }
+                    else{
+                      var answer = checkEmpty(jsonData2[j].fields.ChoiceA, "a", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceB, "b", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceC, "c", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceD, "d", jsonData2[j].fields.Question_Answer) + '<br>' + checkEmpty(jsonData2[j].fields.ChoiceE, "e", jsonData2[j].fields.Question_Answer);
+                      return answer;
+                    }
+                  
+                  }
+                  
                 }
-                
-              }
+            }
+            return numberOfQuestions;
           }
-          return numberOfQuestions;
-        }
+          else{
+            var assessmentDataId = ParseData ("id", questionNum, assessmentName)
+            for (var j in jsonData3){
+              console.log (jsonData3)
+               if (jsonData3[j].fields.AssessmentData == assessmentDataId){
+                  numberOfQuestions = numberOfQuestions + 1;
+                      if (ParseData ("Type", questionNum, assessmentName) == "Short Answer"){
+                        var answer = jsonData3[j].fields.Answer
+                        console.log ("outputing the answer: "+answer)
+                        return answer
+                      }
+                      else{
+                        if (jsonData3[j].fields.Answer == "optionsRadios1"){
+                          return "a"
+                        }
+                        else if (jsonData3[j].fields.Answer == "optionsRadios2"){
+                          return "b"
+                        }
+                        else if (jsonData3[j].fields.Answer == "optionsRadios3"){
+                          return "c"
+                        }
+                        else if (jsonData3[j].fields.Answer == "optionsRadios4"){
+                          return "d"
+                        } 
+                        else if (jsonData3[j].fields.Answer == "optionsRadios5"){
+                          return "e"
+                        }
+                      }
+                  }
+               }
+
+            }
+
+          }
   </script>
   <style type="text/css">
         form{display: inline;}
@@ -151,6 +187,7 @@
             <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
             <input type='hidden' id= 'ListOfAssessments' name='ListOfAssessments' value='{{ListOfAssessments}}'/>
             <input type='hidden' id= 'NameOfAssessment' name='NameOfAssessment' value='{{i}}'/>
+            <input type='hidden' id= 'studentanswer' name='studentanswer' value='{{StudentAnswer}}'>
             <table class="table">
               <div class="input-group date" id="dp{{forloop.counter0}}" data-date="12-02-2012" data-date-format="yyyy-mm-dd">
               </div>
@@ -166,6 +203,9 @@
               var numberOfQs = ParseData("",0,"{{i}}");
               for (i=1; i<=numberOfQs; i++){
                 var questionId = ParseData("id", i, "{{i}}");
+                var YourAnswer = ParseData("StudentAnswer", i, "{{i}}")
+                if (typeof YourAnswer == 'undefined')
+                  YourAnswer = ""
                 document.write ('<form name= "removeQuestion" action="course.html" method="POST" id=\'removeQuestion\'>');
                 document.write('<input type='+'hidden'+' id='+'QuestionToRemove'+' name='+'QuestionToRemove'+' value='+''+'/>')
                 document.write("<input type='hidden' id= 'accordionNumber' name='accordionNumber' value=''/>")
@@ -174,6 +214,7 @@
                 document.write('<td>'+ParseData("Question", i, "{{i}}")+'</td>');
                 document.write('<td>'+ParseData("Type", i, "{{i}}")+'</td>');
                 document.write('<td>'+ParseData("Answer", i, "{{i}}")+'</td>');
+                document.write('<td>'+YourAnswer+'</td>');
                 document.write('</tr>');
                 document.write('</form>');
               }

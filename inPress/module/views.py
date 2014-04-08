@@ -9,6 +9,8 @@ from datetime import date
 from urlparse import urlparse
 from django.db.models import Count
 from .forms import UploadFileForm
+import datetime
+from django.utils import timezone
  
 def studentsignin(request):
     if (request.method == 'POST'):
@@ -247,7 +249,7 @@ def studentcourse(request):
         courses = Courses.objects.filter (pk__in=mycourses)
         myCourse = request.POST['course']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName, post = "true", post_date = date.today())
+        assessments = Assessment.objects.filter(course = courseName, post = True, post_date = date.today())
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time'))
     return render_to_response('studentcourse.html', locals()) 
@@ -259,9 +261,11 @@ def studentcoursehistory(request):
         courses = Courses.objects.filter (pk__in=mycourses)
         myCourse = request.POST['course']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName, post = "true", post_date__lte = date.today())
+        assessments = Assessment.objects.filter(course = courseName, post = True, post_date__lte = (timezone.now() - datetime.timedelta(days=1)))
+        assessmentData = AssessmentData.objects.filter(Assessment__in=assessments)
+        StudentAnswer = serializers.serialize("json", StudentAnswers.objects.filter(Students__in=studentnumber, AssessmentData__in=assessmentData))
         ListOfAssessments = serializers.serialize("json", assessments)
-        QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments))
+        QuestionData = serializers.serialize("json", assessmentData)
     return render_to_response('studentCourseHistory.html', locals())
 
 def studentindex(request):
