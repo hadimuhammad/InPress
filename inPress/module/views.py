@@ -265,7 +265,7 @@ def studentcoursehistory(request):
         assessments = Assessment.objects.filter(course = courseName, post = True, post_date__lte = (timezone.now() - datetime.timedelta(days=1)))
         assessmentData = AssessmentData.objects.filter(Assessment__in=assessments)
         StudentAnswer = serializers.serialize("json", StudentAnswers.objects.filter(Students = studen))
-	    ListOfAssessments = serializers.serialize("json", assessments)
+	ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", assessmentData)
     return render_to_response('studentCourseHistory.html', locals())
 
