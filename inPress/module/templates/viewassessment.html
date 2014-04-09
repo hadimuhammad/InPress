@@ -22,7 +22,10 @@
         {
           var numberOfQuestions = 0;
           var QuestionData = document.getElementById("QuestionData").value;
+          var StudentAnswer = document.getElementById("studentanswer").value;
           var jsonData2 = JSON.parse(QuestionData);
+          var jsonData3 = JSON.parse(StudentAnswer);
+          if (valueNeeded != "StudentAnswer"){
           for (var j in jsonData2){
                 numberOfQuestions = numberOfQuestions + 1;
                 if (valueNeeded == "id" && numberOfQuestions==questionNum){
@@ -69,6 +72,51 @@
           }
           return numberOfQuestions;
         }
+        else{
+          var assessmentDataId = ParseData ("id", questionNum)
+          for (var j in jsonData3){
+               if (jsonData3[j].fields.AssessmentData == assessmentDataId){
+                if (ParseData ("Type", questionNum) == "true"){ //short answer
+                      var answer = jsonData3[j].fields.Answer
+                      document.getElementById("answer").value = answer
+                }
+                else{
+                      if (jsonData3[j].fields.Answer == "optionsRadios1"){
+                        var element = document.getElementById("optionsRadios1")
+                        if (element != null){
+                          element.checked = true
+                        }
+                      }
+                      if (jsonData3[j].fields.Answer == "optionsRadios2"){
+                        var element = document.getElementById("optionsRadios2")
+                         if (element != null){
+                          element.checked = true
+                        }
+                      }
+                      if (jsonData3[j].fields.Answer == "optionsRadios3"){
+                         var element = document.getElementById("optionsRadios3")
+                         if (element != null){
+                          element.checked = true
+                        }
+                      }
+                      if (jsonData3[j].fields.Answer == "optionsRadios4"){
+                         var element = document.getElementById("optionsRadios4")
+                         if (element != null){
+                          element.checked = true
+                        }
+                      } 
+                      if (jsonData3[j].fields.Answer == "optionsRadios5"){
+                         var element = document.getElementById("optionsRadios5")
+                         if (element != null){
+                          element.checked = true
+                        }
+                      }
+
+                }
+               }
+          }
+        }
+      }
   </script>
   <style type="text/css">
         form{display: inline;}
@@ -111,6 +159,7 @@
               <input type='hidden' id= 'studentnumber5' name='studentnumber' value='{{studentnumber}}'/>
               <input type='hidden' id= 'QuestionData' name='QuestionData' value='{{QuestionData}}'/>
               <input type='hidden' id= 'questionNum' name='questionNum' value='{{QuestionNum}}'/>
+              <input type='hidden' id= 'studentanswer' name='studentanswer' value='{{StudentAnswer}}'>
   <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
               <li> <a href="javascript:{}" onClick="post_to_url('/student/index.html', {studentnumber: '{{studentnumber}}'});">Home</a></li>
@@ -153,9 +202,12 @@
       var isShortAnswer = ParseData("Type", document.getElementById("questionNum").value);
       if (isShortAnswer == "true"){
         document.write('<input type="text" class="form-control" id="answer" placeholder="Answer">')
+        ParseData("StudentAnswer", document.getElementById("questionNum").value)
+        ParseData("Answer", document.getElementById("questionNum").value);
       }
       else{
         ParseData("Answer", document.getElementById("questionNum").value);
+        ParseData("StudentAnswer", document.getElementById("questionNum").value)
       }
       </script>
     </div>

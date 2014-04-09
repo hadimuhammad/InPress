@@ -263,7 +263,7 @@ def studentcoursehistory(request):
         courseName = Courses.objects.filter(CourseName=myCourse)
         assessments = Assessment.objects.filter(course = courseName, post = True, post_date__lte = (timezone.now() - datetime.timedelta(days=1)))
         assessmentData = AssessmentData.objects.filter(Assessment__in=assessments)
-        StudentAnswer = serializers.serialize("json", StudentAnswers.objects.filter(Students__in=studentnumber, AssessmentData__in=assessmentData))
+        StudentAnswer = serializers.serialize("json", StudentAnswers.objects.filter(Students__in=studentnumber))
         ListOfAssessments = serializers.serialize("json", assessments)
         QuestionData = serializers.serialize("json", assessmentData)
     return render_to_response('studentCourseHistory.html', locals())
@@ -280,8 +280,10 @@ def getViewAssessment (request):
     assessmentName = Assessment.objects.get(pk =assessmentPK)
     QuestionNum = request.POST['QuestionNum']
     assessments = Assessment.objects.filter(pk =assessmentPK)
-    QuestionData = serializers.serialize("json", AssessmentData.objects.filter(Assessment__in=assessments).order_by('created_time'))
+    assessmentData = AssessmentData.objects.filter(Assessment__in=assessments)
+    QuestionData = serializers.serialize("json",assessmentData.order_by('created_time'))
     studentnumber = request.POST['studentnumber']
+    StudentAnswer = serializers.serialize("json", StudentAnswers.objects.filter(Students__in=studentnumber, AssessmentData__in=assessmentData))
     mycourses = Students.objects.filter (StudentNumber = request.POST['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
     return render_to_response('viewassessment.html', locals()) 
