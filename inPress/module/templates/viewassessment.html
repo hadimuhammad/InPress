@@ -74,7 +74,7 @@
         }
         else{
           var assessmentDataId = ParseData ("id", questionNum)
-          for (var j in jsonData3){
+	  for (var j in jsonData3){
                if (jsonData3[j].fields.AssessmentData == assessmentDataId){
                 if (ParseData ("Type", questionNum) == "true"){ //short answer
                       var answer = jsonData3[j].fields.Answer

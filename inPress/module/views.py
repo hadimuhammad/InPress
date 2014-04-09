@@ -284,7 +284,8 @@ def getViewAssessment (request):
     assessmentData = AssessmentData.objects.filter(Assessment__in=assessments)
     QuestionData = serializers.serialize("json",assessmentData.order_by('created_time'))
     studentnumber = request.POST['studentnumber']
-    StudentAnswer = serializers.serialize("json", StudentAnswers.objects.filter(Students__in=studentnumber, AssessmentData__in=assessmentData))
+    studen = Students.objects.filter (StudentNumber = request.POST['studentnumber'])
+    StudentAnswer = serializers.serialize("json", StudentAnswers.objects.filter(Students__in=studen, AssessmentData__in=assessmentData))
     mycourses = Students.objects.filter (StudentNumber = request.POST['studentnumber']).values("CourseName")
     courses = Courses.objects.filter (pk__in=mycourses)
     return render_to_response('viewassessment.html', locals()) 
