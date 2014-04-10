@@ -25,6 +25,7 @@ $(document).ready(function() {
           console.log (response)
             document.getElementById("numStudentComplete").innerHTML = response.numOfStudentsComplete
             document.getElementById("Answers").value = response.Answer
+	    console.log (document.getElementById("Answers").value)
             {% for i in assessments %}
                 var questionId = ParseData("id", '{{questNum}}', "{{i}}");
                 if (ParseData("Type", '{{questNum}}',"{{i}}") == "Short Answer"){
@@ -320,8 +321,8 @@ $(document).ready(function() {
        <th></th>
        <th>id</th>
        <th>Question</th>
+	<th>Number of Student Responded</th>
        <th id='thecell'>Choices</th>
-        <th>Number of Student Responded</th>
     <th>Answer</th>
        </tr>
        <tr> 

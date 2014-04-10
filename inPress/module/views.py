@@ -94,7 +94,7 @@ def inclass (request):
     numOfQuestions = AssessmentDatas.count()
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
     numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData__in = AssessmentDatas).count()
-    numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
+    numOfStudentsComplete  = numOfQuestionsComplete 
     AssessmentDataSA = AssessmentData.objects.filter(Assessment = assessment, Question_Type="SA")
     AnswerGroups = StudentAnswers.objects.filter(AssessmentData__in=AssessmentDataSA).values('Answer', 'AssessmentData').annotate(numStudents=Count('Answer')).order_by('-numStudents')
     return render_to_response('inclass.html', locals())
@@ -125,13 +125,13 @@ def getnumofstudentscomplete(request):
     numOfQuestions = AssessmentDatas.count()
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
     numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData__in = AssessmentDatas).count()
-    numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
+    numOfStudentsComplete  = numOfQuestionsComplete
     AssessmentDataSA = AssessmentData.objects.filter(Assessment = assessment, Question_Type="SA")
     AnswerGroups = StudentAnswers.objects.filter(AssessmentData__in=AssessmentDataSA).values('Answer', 'AssessmentData').annotate(numStudents=Count('Answer')).order_by('-numStudents')
     response_data = {}
-    response_data['Answer'] = list(AnswerGroups)
     response_data['numOfStudentsComplete'] = numOfStudentsComplete
     response_data['AnswerGroups'] = list(AnswerGroups)
+    response_data['Answer'] = Answers
     return HttpResponse(json.dumps([response_data]), content_type="application/json")
     # return render_to_response('inclass.html', locals())
 
