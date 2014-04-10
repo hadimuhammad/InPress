@@ -90,10 +90,9 @@ def inclass (request):
     ListOfAssessments = serializers.serialize("json", assessments)
     QuestionData = serializers.serialize("json", Assessmentdata)
     Answers = serializers.serialize("json", StudentAnswers.objects.filter(AssessmentData__in=Assessmentdata))
-    AssessmentDatas = AssessmentData.objects.filter(Assessment = assessment)
-    numOfQuestions = AssessmentDatas.count()
+    AssessmentDatas = AssessmentData.objects.filter(Assessment = assessment)[questNum-1]
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
-    numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData__in = AssessmentDatas).count()
+    numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData = AssessmentDatas).count()
     numOfStudentsComplete  = numOfQuestionsComplete 
     AssessmentDataSA = AssessmentData.objects.filter(Assessment = assessment, Question_Type="SA")
     AnswerGroups = StudentAnswers.objects.filter(AssessmentData__in=AssessmentDataSA).values('Answer', 'AssessmentData').annotate(numStudents=Count('Answer')).order_by('-numStudents')
@@ -102,7 +101,6 @@ def inclass (request):
 def getnumofstudentscomplete(request):
     # if (request.method == 'GET'):
     import json
-    print request
     last = "false"
     courses = Courses.objects.all()
     myCourse = request.POST['course']
@@ -121,10 +119,9 @@ def getnumofstudentscomplete(request):
     ListOfAssessments = serializers.serialize("json", assessments)
     QuestionData = serializers.serialize("json", Assessmentdata)
     Answers = serializers.serialize("json", StudentAnswers.objects.filter(AssessmentData__in=Assessmentdata))
-    AssessmentDatas = AssessmentData.objects.filter(Assessment = assessment)
-    numOfQuestions = AssessmentDatas.count()
+    AssessmentDatas = AssessmentData.objects.filter(Assessment = assessment)[questNum-1]
     numOfStudents = Students.objects.filter (CourseName=courseName).count()
-    numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData__in = AssessmentDatas).count()
+    numOfQuestionsComplete = StudentAnswers.objects.filter(AssessmentData = AssessmentDatas).count()
     numOfStudentsComplete  = numOfQuestionsComplete
     AssessmentDataSA = AssessmentData.objects.filter(Assessment = assessment, Question_Type="SA")
     AnswerGroups = StudentAnswers.objects.filter(AssessmentData__in=AssessmentDataSA).values('Answer', 'AssessmentData').annotate(numStudents=Count('Answer')).order_by('-numStudents')
