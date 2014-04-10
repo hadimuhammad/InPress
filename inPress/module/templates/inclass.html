@@ -8,8 +8,7 @@
 function refresh(assessment) {
   $.ajax({
       success: function(response) {
-        console.log (response)
-        document.getElementById("numStudentComplete").innerHTML = response.numOfStudentsComplete
+        updateGraphs(response[0]);
       },
       url: "inclass/refresh",
       type: "POST",
@@ -22,6 +21,28 @@ $(document).ready(function() {
 });
 </script>
   <script type="text/javascript">
+        function updateGraphs (response){
+          console.log (response)
+            document.getElementById("numStudentComplete").innerHTML = response.numOfStudentsComplete
+            document.getElementById("Answers").value = response.Answer
+            {% for i in assessments %}
+                var questionId = ParseData("id", '{{questNum}}', "{{i}}");
+                if (ParseData("Type", '{{questNum}}',"{{i}}") == "Short Answer"){
+                  {% for answer in response.AnswerGroups %}
+                  if ("{{answer.AssessmentData}}" == questionId){
+                    popularAnswers[counter] = "{{answer.Answer}}"
+                    numStudents[counter] = "{{answer.numStudents}}"
+                   }
+                  counter = counter +1
+                  {% endfor %}
+                  drawIndividualSAGraph('{{questNum}}', popularAnswers, numStudents)
+                }
+                else{
+                  var MCAnswers = ParseAnswers (questionId)
+                  drawIndividualMCGraph('{{questNum}}', MCAnswers)            
+                }
+           {% endfor %}
+        }
         function checkEmpty (value, letter, answer){
           if (value == ""){
               return "";

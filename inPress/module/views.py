@@ -11,6 +11,7 @@ from django.db.models import Count
 from .forms import UploadFileForm
 import datetime
 from django.utils import timezone
+from django.utils import simplejson
  
 def studentsignin(request):
     if (request.method == 'POST'):
@@ -127,11 +128,11 @@ def getnumofstudentscomplete(request):
     numOfStudentsComplete  = numOfQuestionsComplete // numOfQuestions
     AssessmentDataSA = AssessmentData.objects.filter(Assessment = assessment, Question_Type="SA")
     AnswerGroups = StudentAnswers.objects.filter(AssessmentData__in=AssessmentDataSA).values('Answer', 'AssessmentData').annotate(numStudents=Count('Answer')).order_by('-numStudents')
-    numOfStudentsComplete = 5;
     response_data = {}
+    response_data['Answer'] = list(AnswerGroups)
     response_data['numOfStudentsComplete'] = numOfStudentsComplete
-    response_data['answers'] = Answers
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+    response_data['AnswerGroups'] = list(AnswerGroups)
+    return HttpResponse(json.dumps([response_data]), content_type="application/json")
     # return render_to_response('inclass.html', locals())
 
 def course(request):
