@@ -1,9 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
   <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
   <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+function refresh(assessment) {
+  $.ajax({
+      success: function(response) {
+        console.log (response)
+        document.getElementById("numStudentComplete").innerHTML = response.numOfStudentsComplete
+      },
+      url: "inclass/refresh",
+      type: "POST",
+      data: { "course" : '{{myCourse}}', "assessment" : '{{assessmentName}}', "questNum" : '{{questNum}}' }
+  });
+};
 
+$(document).ready(function() {
+  setInterval(refresh, 5000);
+});
+</script>
   <script type="text/javascript">
         function checkEmpty (value, letter, answer){
           if (value == ""){
@@ -283,6 +300,7 @@
        <th>id</th>
        <th>Question</th>
        <th id='thecell'>Choices</th>
+        <th>Number of Student Responded</th>
     <th>Answer</th>
        </tr>
        <tr> 
@@ -304,7 +322,7 @@
 			}
              counter = counter +1
             {% endfor %}
-            document.write('<td id="myanswer">'+ParseData("Answer1", '{{questNum}}', '{{i}}')+'</td>');
+            document.write('<td id="numStudentComplete">{{numOfStudentsComplete}}</td><td id="myanswer">'+ParseData("Answer1", '{{questNum}}', '{{i}}')+'</td>');
             document.write ("<td><a href='javascript:{}' class='btn btn-default btn-sm' id='showMe' role='button' onClick='ShowHide()'>Show Answer </a></td></tr></table><div id='chart_div1'></div>")
 		    drawIndividualSAGraph('{{questNum}}', popularAnswers, numStudents)
             var char = document.getElementById("chart_div1")
@@ -313,7 +331,7 @@
             $(char).toggle(); 
         }
         else{
-            document.write('<td id="myanswer">'+ParseData("Answer", '{{questNum}}', '{{i}}')+'</td>');
+            document.write('<td id="numStudentComplete">{{numOfStudentsComplete}}</td><td id="myanswer">'+ParseData("Answer", '{{questNum}}', '{{i}}')+'</td>');
             document.write('<td id="myanswer1">'+ParseData("Answer1", '{{questNum}}', '{{i}}')+'</td>');
             document.write ("<td> <a href='javascript:{}' class='btn btn-default btn-sm' id='showMe' role='button' onClick='ShowHide()'>Show Answer </a></td> </tr></table><div id='chart_div1'></div>")
             var MCAnswers = ParseAnswers (questionId)
