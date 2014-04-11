@@ -22,20 +22,23 @@ $(document).ready(function() {
 </script>
   <script type="text/javascript">
         function updateGraphs (response){
-          console.log (response)
             document.getElementById("numStudentComplete").innerHTML = response.numOfStudentsComplete
             document.getElementById("Answers").value = response.Answer
-	    console.log (document.getElementById("Answers").value)
             {% for i in assessments %}
                 var questionId = ParseData("id", '{{questNum}}', "{{i}}");
                 if (ParseData("Type", '{{questNum}}',"{{i}}") == "Short Answer"){
-                  {% for answer in response.AnswerGroups %}
-                  if ("{{answer.AssessmentData}}" == questionId){
-                    popularAnswers[counter] = "{{answer.Answer}}"
-                    numStudents[counter] = "{{answer.numStudents}}"
+		  var AnswerGroup = response.AnswerGroups
+		  console.log (AnswerGroup)
+		  var counter = 0
+		  for (var i in AnswerGroup){
+                  if (AnswerGroup[i].AssessmentData == questionId){
+                    console.log ("counter: "+counter+", AnswerGroupIndex: "+i+", Answer: "+AnswerGroup[i].Answer+", numStudents: "+AnswerGroup[i].numStudents)
+		    popularAnswers[counter] = AnswerGroup[i].Answer
+                    numStudents[counter] = AnswerGroup[i].numStudents
                    }
                   counter = counter +1
-                  {% endfor %}
+                  }
+		  console.log ("drawing chart: popularAnswer: "+popularAnswers[4]+", numStudents: "+numStudents[4])
                   drawIndividualSAGraph('{{questNum}}', popularAnswers, numStudents)
                 }
                 else{
@@ -332,7 +335,6 @@ $(document).ready(function() {
         var questionId = ParseData("id", '{{questNum}}', "{{i}}");
         document.write('<td>'+ParseData("Question", '{{questNum}}', "{{i}}")+'</td>');
         if (ParseData("Type", '{{questNum}}',"{{i}}") == "Short Answer"){
-            document.write('<td></td>');
             document.getElementById("thecell").innerHTML = ""
             var popularAnswers = new Array ();
 		    var numStudents = new Array ();
@@ -344,7 +346,7 @@ $(document).ready(function() {
 			}
              counter = counter +1
             {% endfor %}
-            document.write('<td id="numStudentComplete">{{numOfStudentsComplete}}</td><td id="myanswer">'+ParseData("Answer1", '{{questNum}}', '{{i}}')+'</td>');
+            document.write('<td id="numStudentComplete">{{numOfStudentsComplete}}</td><td></td><td id="myanswer">'+ParseData("Answer1", '{{questNum}}', '{{i}}')+'</td>');
             document.write ("<td><a href='javascript:{}' class='btn btn-default btn-sm' id='showMe' role='button' onClick='ShowHide()'>Show Answer </a></td></tr></table><div id='chart_div1'></div>")
 		    drawIndividualSAGraph('{{questNum}}', popularAnswers, numStudents)
             var char = document.getElementById("chart_div1")
