@@ -292,12 +292,12 @@ def studentcourse(request):
 def studentcoursehistory(request):
     if (request.method == 'POST'):
         studentnumber = request.POST['studentnumber']
-        studen = Students.objects.filter (StudentNumber = request.POST['studentnumber'])
 	mycourses = Students.objects.filter (StudentNumber = request.POST['studentnumber']).values("CourseName")
         courses = Courses.objects.filter (pk__in=mycourses)
         myCourse = request.POST['course']
         courseName = Courses.objects.filter(CourseName=myCourse)
-        assessments = Assessment.objects.filter(course = courseName, post = True, post_date__lte = (timezone.now() - datetime.timedelta(days=1)))
+        studen = Students.objects.filter (StudentNumber = request.POST['studentnumber'], CourseName=courseName)
+	assessments = Assessment.objects.filter(course = courseName, post = True, post_date__lte = (timezone.now() - datetime.timedelta(days=1)))
         assessmentData = AssessmentData.objects.filter(Assessment__in=assessments)
         StudentAnswer = serializers.serialize("json", StudentAnswers.objects.filter(Students = studen))
 	ListOfAssessments = serializers.serialize("json", assessments)
