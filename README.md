@@ -2,7 +2,10 @@
 InPress is a web-based application, which allows students in universities and colleges to respond in real time to questions posted by their instructor. It is supported on any internet-enabled device including tablets and mobile devices. The goal is to improve student engagement in the classroom through the use of the latest technologies.
 
 ### Technologies Used
-![](http://imgur.com/72THO8U)
+![](http://i.imgur.com/72THO8U.png)
+
+### Screenshot
+![](http://i.imgur.com/MILRIGI.png)
 
 ### Configuring the Server
 1. InPress requires a physical or virtual machine to act as a server. The minimum requirements are below:
