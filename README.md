@@ -3,7 +3,6 @@ InPress is a web-based application, which allows students in universities and co
 
 ### Screenshot
 ![](http://i.imgur.com/oH1QCto.png)
-![](http://i.imgur.com/79i6ezL.png)
 
 ### Configuring the Server
 1. InPress requires a physical or virtual machine to act as a server. The minimum requirements are below:
